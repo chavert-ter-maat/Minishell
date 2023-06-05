@@ -6,11 +6,11 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 17:03:18 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/06/05 17:03:55 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/06/05 17:09:17 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(int argc, char *argv[], char **envp)
+int	main(int argc, char *argv[], char *envp[])
 {
 	
 }
