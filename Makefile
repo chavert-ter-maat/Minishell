@@ -6,7 +6,7 @@
 #    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/07 14:03:24 by cter-maa      ########   odam.nl          #
+#    Updated: 2023/06/07 14:13:50 by cter-maa      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,9 +50,9 @@ BLUE 		= \033[0;94m
 MAGENTA		= \033[0;95m
 CYAN 		= \033[0;96m
 WHITE 		= \033[0;97m
-
+	
 # RULES
-$(NAME): $(OBJ)
+$(NAME): submodule $(OBJ)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./libft/ft_printf
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
@@ -60,9 +60,15 @@ $(NAME): $(OBJ)
 
 # RECIPES
 all: submodule $(NAME)
-
+	
 submodule:
-	git submodule update --init --recursive 
+	@if [ ! -d "libft" ]; then \
+		echo "$(GREEN)Adding libft submodule$(DEF_COLOR)"; \
+		git submodule add git@github.com:Chavert-ter-Maat/libft.git libft; \
+	else \
+		echo "$(GREEN)Updating libft submodule$(DEF_COLOR)"; \
+		git submodule update --remote --merge libft; \
+	fi
 
 make comp: all clean
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
