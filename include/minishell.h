@@ -8,16 +8,10 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-# include <sys/types.h>
-# include <sys/stat.h>
 # include <sys/ioctl.h>
 # include <signal.h>
-# include <dirent.h>
 # include <string.h>
 # include <termios.h>
-# include <curses.h>
-# include <term.h>
-# include <assert.h>
 # include <errno.h>
 # include <stdbool.h>
 
