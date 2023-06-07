@@ -6,7 +6,7 @@
 #    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/07 13:11:56 by cter-maa      ########   odam.nl          #
+#    Updated: 2023/06/07 14:03:24 by cter-maa      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@
 NAME 	= minishell
 CC 		= gcc
 CFLAGS 	= -Wall -Wextra -Werror
+LDFLAGS = -lreadline
 ifdef DEBUG
 	CFLAGS += -g
 endif
@@ -54,7 +55,7 @@ WHITE 		= \033[0;97m
 $(NAME): $(OBJ)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./libft/ft_printf
-	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 
 # RECIPES
