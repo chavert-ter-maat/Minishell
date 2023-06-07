@@ -6,7 +6,7 @@
 #    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/07 14:51:59 by fhuisman      ########   odam.nl          #
+#    Updated: 2023/06/07 15:11:54 by cter-maa      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,10 +65,12 @@ libft:
 		$(RM) libft; \
 		echo "$(YELLOW)Removing existing libft$(DEF_COLOR)"; \
 	fi
-	git clone https://github.com/Chavert-ter-Maat/libft.git
+	git clone git@github.com:Chavert-ter-Maat/libft.git
 	echo "$(GREEN)Downloading libft$(DEF_COLOR)"
 
-make comp: re clean
+make comp: $(OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
+	$(RM) $(OBJ)
 	@echo "$(GREEN)SHELL YEAH! $(DEF_COLOR)"
 
 debug:
@@ -80,7 +82,7 @@ fsan:
 	$(MAKE) DEBUG=1 FSAN=1
 
 resan: fclean fsan
-
+	
 clean:
 	$(MAKE) clean -C ./libft
 	$(MAKE) clean -C ./libft/ft_printf
