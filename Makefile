@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
+#                                                    +#+                       #
+#    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
+#    Updated: 2023/06/07 13:11:56 by cter-maa      ########   odam.nl          #
+#                                                                              #
+# **************************************************************************** #
 
 # VARIABLES
 NAME 	= minishell
@@ -24,6 +35,7 @@ LIBFT = ./libft/libft.a
 # SOURCES
 SRC = 	SRC/main.c \
 
+
 # OBJECTS
 OBJ			= $(SRC:.c=.o)
 
@@ -43,14 +55,16 @@ $(NAME): $(OBJ)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./libft/ft_printf
 	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
-	@echo "$(GREEN)philo compiled $(DEF_COLOR)"
+	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 
 # RECIPES
 all: submodule $(NAME)
 
+submodule:
+	git submodule update --init --recursive 
 
 make comp: all clean
-	@echo "$(GREEN)minishell compiled & object files removed $(DEF_COLOR)"
+	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 
 debug:
 	$(MAKE) DEBUG=1
@@ -74,4 +88,4 @@ fclean: clean
 	$(RM) $(NAME)
 	@echo "$(YELLOW)minishell executable is removed $(DEF_COLOR)"
 
-re: fclean all
+re: fclean all	
