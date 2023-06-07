@@ -6,7 +6,7 @@
 #    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/07 14:13:50 by cter-maa      ########   odam.nl          #
+#    Updated: 2023/06/07 14:41:15 by cter-maa      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ ifdef FSAN
 	CFLAGS +=-fsanitize=address,undefined
 endif
 
-RM 		= rm -f
+RM 		= rm -rf
 SANITIZE = -fsanitize=address
 
 # INCLUDES
@@ -52,26 +52,24 @@ CYAN 		= \033[0;96m
 WHITE 		= \033[0;97m
 	
 # RULES
-$(NAME): submodule $(OBJ)
+all: libft $(NAME)
+
+$(NAME): $(OBJ)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./libft/ft_printf
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 
-# RECIPES
-all: submodule $(NAME)
-	
-submodule:
-	@if [ ! -d "libft" ]; then \
-		echo "$(GREEN)Adding libft submodule$(DEF_COLOR)"; \
-		git submodule add git@github.com:Chavert-ter-Maat/libft.git libft; \
-	else \
-		echo "$(GREEN)Updating libft submodule$(DEF_COLOR)"; \
-		git submodule update --remote --merge libft; \
+libft:
+	@if [ -d "libft" ]; then \
+		$(RM) libft; \
+		echo "$(YELLOW)Removing existing libft$(DEF_COLOR)"; \
 	fi
+	git clone git@github.com:Chavert-ter-Maat/libft.git
+	echo "$(GREEN)Downloading libft$(DEF_COLOR)"
 
-make comp: all clean
-	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
+make comp: re clean
+	@echo "$(GREEN)SHELL YEAH! $(DEF_COLOR)"
 
 debug:
 	$(MAKE) DEBUG=1
@@ -87,12 +85,14 @@ clean:
 	$(MAKE) clean -C ./libft
 	$(MAKE) clean -C ./libft/ft_printf
 	$(RM) $(OBJ)
-	@echo "$(YELLOW)minishell object files are removed $(DEF_COLOR)"
+	@echo "$(YELLOW)minishell object files removed $(DEF_COLOR)"
 
 fclean: clean
 	$(MAKE) fclean -C ./libft
 	$(MAKE) fclean -C ./libft/ft_printf
+	$(RM) ./libft
 	$(RM) $(NAME)
-	@echo "$(YELLOW)minishell executable is removed $(DEF_COLOR)"
+	@echo "$(YELLOW)minishell executable removed $(DEF_COLOR)"
+	@echo "$(YELLOW)libft removed $(DEF_COLOR)"
 
 re: fclean all	
