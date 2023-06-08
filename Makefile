@@ -6,7 +6,7 @@
 #    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/07 15:11:54 by cter-maa      ########   odam.nl          #
+#    Updated: 2023/06/08 17:15:26 by fhuisman      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,8 @@ LIBFT = ./libft/libft.a
 
 # SOURCES
 SRC = 	SRC/main.c \
+		SRC/lexer.c \
+		SRC/lexer_jumptable.c \
 
 
 # OBJECTS
@@ -65,7 +67,7 @@ libft:
 		$(RM) libft; \
 		echo "$(YELLOW)Removing existing libft$(DEF_COLOR)"; \
 	fi
-	git clone git@github.com:Chavert-ter-Maat/libft.git
+	git clone https://github.com/Chavert-ter-Maat/libft.git
 	echo "$(GREEN)Downloading libft$(DEF_COLOR)"
 
 make comp: $(OBJ)

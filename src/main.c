@@ -2,19 +2,17 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	argv[0][0] = '\0';
-	envp[0][0] = '\0';
+	t_shell	shell;
+
+	(void) argv;
+	(void) envp;
 	if (argc > 1)
-		{}//exit
-	
-
-	char *line;
-
-    while ((line = readline("Enter a line: ")) != NULL) {
-        add_history(line);
-        printf("You entered: %s\n", line);
-        free(line);
-    }
-
-		
+		;//exit
+	while (1)
+	{
+		shell.cmd_line = readline("shellyeah$ ");
+		add_history(shell.cmd_line);
+		shell.tokens = lexer(&shell);
+		free(shell.cmd_line);
+	}
 }
