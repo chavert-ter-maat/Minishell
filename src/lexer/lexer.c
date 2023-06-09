@@ -48,7 +48,7 @@ void	get_token_info(t_token *token, char *cmd_line, size_t *pos)
 	save_pos = *pos;
 	token->type = get_char_type(cmd_line[*pos]);
 	func[token->type](cmd_line, pos, token->type);
-	token->str = strndup(&(cmd_line[save_pos]), *pos - save_pos); //libft strndup gebruiken
+	token->str = ft_strndup(&(cmd_line[save_pos]), *pos - save_pos);
 }
 
 // for testing puropses
