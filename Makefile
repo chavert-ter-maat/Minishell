@@ -6,7 +6,7 @@
 #    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/07 15:11:54 by cter-maa      ########   odam.nl          #
+#    Updated: 2023/06/09 11:45:10 by cter-maa      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,21 +52,13 @@ CYAN 		= \033[0;96m
 WHITE 		= \033[0;97m
 	
 # RULES
-all: libft $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./libft/ft_printf
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
-
-libft:
-	@if [ -d "libft" ]; then \
-		$(RM) libft; \
-		echo "$(YELLOW)Removing existing libft$(DEF_COLOR)"; \
-	fi
-	git clone git@github.com:Chavert-ter-Maat/libft.git
-	echo "$(GREEN)Downloading libft$(DEF_COLOR)"
 
 make comp: $(OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
@@ -87,14 +79,12 @@ clean:
 	$(MAKE) clean -C ./libft
 	$(MAKE) clean -C ./libft/ft_printf
 	$(RM) $(OBJ)
-	@echo "$(YELLOW)minishell object files removed $(DEF_COLOR)"
+	@echo "$(YELLOW)minishell object files cleaned $(DEF_COLOR)"
 
 fclean: clean
 	$(MAKE) fclean -C ./libft
 	$(MAKE) fclean -C ./libft/ft_printf
-	$(RM) ./libft
 	$(RM) $(NAME)
 	@echo "$(YELLOW)minishell executable removed $(DEF_COLOR)"
-	@echo "$(YELLOW)libft removed $(DEF_COLOR)"
 
 re: fclean all	
