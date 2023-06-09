@@ -16,8 +16,6 @@
 # include <stdbool.h>
 # include "../libft/libft.h"
 
-# define NULL (void*)0
-
 typedef enum e_token_type {
 	TOKEN = 0,
 	PIPE,
