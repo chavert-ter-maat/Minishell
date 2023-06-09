@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_token	*list_add_token(t_token *top, t_token *new)
 {

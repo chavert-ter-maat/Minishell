@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	tok_type_pipe(char *cmd_line, size_t *pos, t_token_type type)
 {

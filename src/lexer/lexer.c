@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 typedef void	(*t_token_type_func)(char *, size_t *, t_token_type);
 

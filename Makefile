@@ -6,7 +6,7 @@
 #    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/08 17:15:26 by fhuisman      ########   odam.nl          #
+#    Updated: 2023/06/09 11:34:34 by fhuisman      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,9 @@ LIBFT = ./libft/libft.a
 
 # SOURCES
 SRC = 	SRC/main.c \
-		SRC/lexer.c \
-		SRC/lexer_jumptable.c \
+		SRC/lexer/lexer.c \
+		SRC/lexer/lexer_jumptable.c \
+		SRC/utils/lexer_utils.c \
 
 
 # OBJECTS
