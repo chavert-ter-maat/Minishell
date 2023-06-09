@@ -3,34 +3,30 @@
 /*                                                        ::::::::            */
 /*   ft_bzero.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/05 12:17:48 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/11 12:49:07 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/08 15:13:35 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 09:42:07 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+/* ************************************************************************** */
+/* ft_bzero() function writes n zeroed bytes to the string s.				  */
+/* If amount is zero, bzero() does nothing.									  */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-void	ft_bzero(void *src, size_t n)
+void	ft_bzero(void *s, size_t amount)
 {
-	ft_memset(src, 0, n);
-}
-/*
-#include <strings.h>
-#include <stdio.h>
-int	main(void)
-{
-	char str1[14] = "Hello, world!";
-	char str2[14] = "Hello, world!";
+	char	*zeroed_string;
+	size_t	index;
 
-	bzero(str1 + 4, 3);
-	printf("%s\n", str1);
-	printf("%s\n", str1 + 7);
-	ft_bzero(str2 + 4, 3);
-	printf("%s\n", str2);
-	printf("%s\n", str2 + 7);
-	return(0);
+	zeroed_string = (char *)s;
+	index = 0;
+	while (index < amount)
+	{
+		zeroed_string[index] = '\0';
+		index++;
+	}
 }
-*/

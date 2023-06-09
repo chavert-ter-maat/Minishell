@@ -3,38 +3,35 @@
 /*                                                        ::::::::            */
 /*   ft_strdup.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/10 15:26:08 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/11 18:30:27 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/14 15:05:02 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/04/30 14:49:40 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+/* ************************************************************************** */
+/* ft_strdup allocates sufficient memory for a copy of the string s1,		  */
+/* and returns a pointer to it.												  */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strdup(const char *s1)
 {
-	size_t	len;
-	char	*s2;
+	size_t	index;
+	char	*new_string;
 
-	len = ft_strlen(s1);
-	s2 = malloc(len + 1);
-	if (!s2)
-		return (0);
-	ft_strlcpy(s2, s1, len + 1);
-	return (s2);
+	index = 0;
+	new_string = malloc (sizeof(char) * ft_strlen(s1) + 1);
+	if (!new_string)
+		return (NULL);
+	while (s1[index])
+	{
+		new_string[index] = s1[index];
+		index++;
+	}
+		new_string[index] = '\0';
+	return (new_string);
+	free (new_string);
 }
-/*
-#include <stdio.h>
-int	main(void)
-{
-	char	s1[14] = "Hello, world!";
-	char	*s2;
-
-	s2 = ft_strdup(s1);
-	printf("%s\n", s2);
-	free(s2);
-	return (0);
-}
-*/

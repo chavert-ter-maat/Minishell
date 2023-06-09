@@ -3,40 +3,43 @@
 /*                                                        ::::::::            */
 /*   ft_strjoin.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/11 18:02:16 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/16 17:19:08 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/17 17:47:15 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 10:26:16 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+/* ************************************************************************** */
+/* ft_strjoin allocates with malloc and returns a new string,				  */
+/* which is the result of the concatenation of ’s1’ and ’s2’.				  */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	len;
-	char	*re;
+	size_t	index1;
+	size_t	index2;
+	size_t	lenght;
+	char	*new_string;
 
-	len = ft_strlen(s1) + ft_strlen(s2);
-	re = malloc(len + 1);
-	if (!re)
-		return (0);
-	ft_strlcpy(re, s1, len + 1);
-	ft_strlcat(re, s2, len + 1);
-	return (re);
+	lenght = ft_strlen(s1) + ft_strlen(s2);
+	new_string = malloc(sizeof(char) * (lenght + 1));
+	if (!new_string)
+		return (NULL);
+	index1 = 0;
+	while (s1[index1])
+	{
+		new_string[index1] = s1[index1];
+		index1++;
+	}
+	index2 = 0;
+	while (s2[index2])
+	{
+		new_string[index1 + index2] = s2[index2];
+		index2++;
+	}
+	new_string[index1 + index2] = '\0';
+	return (new_string);
 }
-/*
-#include <stdio.h>
-int	main(void)
-{
-	char	s1[] = "Hello, ";
-	char	s2[] = "world!";
-	char	*s3;
-
-	s3 = ft_strjoin(s1, s2);
-	printf("%s\n", s3);
-	free(s3);
-	return (0);
-}
-*/

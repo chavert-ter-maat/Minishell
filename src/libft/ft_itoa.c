@@ -3,85 +3,59 @@
 /*                                                        ::::::::            */
 /*   ft_itoa.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/14 15:57:11 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/16 16:23:51 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/11/02 09:53:48 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 10:02:51 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+/* ************************************************************************** */
+/* ft_itoa converts integer to string. Returns NULL if the allocation fails.  */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-static char	*ft_minvalue(void)
+static int	getlen(int number)
 {
-	char	*a;
+	int	lenght;
 
-	a = malloc(12);
-	if (!a)
-		return (0);
-	ft_strlcpy(a, "-2147483648", 12);
-	return (a);
-}
-
-static char	*ft_zero(void)
-{
-	char	*a;
-
-	a = malloc(2);
-	if (!a)
-		return (0);
-	a[0] = '0';
-	a[1] = '\0';
-	return (a);
-}
-
-static int	ft_findlen(int n)
-{
-	int	len;
-
-	len = 0;
-	while (n != 0)
+	lenght = 0;
+	if (number == 0)
+		return (1);
+	if (number < 0)
+		lenght++;
+	while (number != 0)
 	{
-		n = n / 10;
-		len ++;
+		number /= 10;
+		lenght++;
 	}
-	return (len);
-}
-
-static char	*ft_makestring(int n, int len, int neg)
-{
-	char	*a;
-
-	a = malloc(len + 1 + neg);
-	if (!a)
-		return (0);
-	a[len-- + neg] = '\0';
-	if (neg == 1)
-	{
-		n *= -1;
-		a[0] = '-';
-	}
-	while (len >= 0)
-	{
-		a[len-- + neg] = n % 10 + '0';
-		n = n / 10;
-	}
-	return (a);
+	return (lenght);
 }
 
 char	*ft_itoa(int n)
 {
-	int	len;
-	int	neg;
+	int			lenght;
+	long int	l_number;
+	char		*string;
 
-	if (n == -2147483648)
-		return (ft_minvalue());
-	if (n == 0)
-		return (ft_zero());
-	neg = 0;
-	if (n < 0)
-		neg = 1;
-	len = ft_findlen(n);
-	return (ft_makestring(n, len, neg));
+	l_number = (long int) n;
+	lenght = getlen(l_number);
+	string = ft_calloc((lenght + 1), sizeof(char));
+	if (!string)
+		return (NULL);
+	if (l_number == 0)
+		string[0] = '0';
+	if (l_number < 0)
+	{
+		string[0] = '-';
+		l_number *= -1;
+	}
+	while (l_number > 0)
+	{
+		string[lenght - 1] = (l_number % 10) + '0';
+		l_number /= 10;
+		lenght--;
+	}
+	return (string);
 }

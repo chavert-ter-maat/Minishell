@@ -3,29 +3,22 @@
 /*                                                        ::::::::            */
 /*   ft_toupper.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/08 14:41:41 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/08 14:50:48 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/14 14:30:13 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 10:53:55 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+/* ************************************************************************** */
+/* ft_toupper() converts a lower-case to the corresponding upper-case letter. */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_toupper(int c)
 {
 	if (c >= 'a' && c <= 'z')
-		c -= ('a' - 'A');
+		return (c - 32);
 	return (c);
 }
-/*
-#include <stdio.h>
-#include <ctype.h>
-int	main(void)
-{
-	char c1 = 'b';
-	char c2 = 'b';
-
-	printf("%c\n", toupper(c1));
-	printf("%c\n", ft_toupper(c2));
-	return (0);
-}
-*/

@@ -3,39 +3,31 @@
 /*                                                        ::::::::            */
 /*   ft_memset.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/04 20:05:01 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/11 16:51:24 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/08 13:55:27 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 10:08:44 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+/* ************************************************************************** */
+/* ft_memset writes len bytes of value c to the string b.					  */
+/* ft_memset returns its first argument.									  */
+/* ************************************************************************** */
 
-void	*ft_memset(void *dst, int c, size_t len)
+#include "libft.h"
+
+void	*ft_memset(void *b, int c, size_t len)
 {
-	unsigned char	*i;
+	unsigned char	*string;
+	size_t			index;
 
-	i = dst;
-	while (len > 0)
+	index = 0;
+	string = (unsigned char *)b;
+	while (index < len)
 	{
-		*i++ = c;
-		len --;
+		string[index] = (unsigned char)c;
+		index++;
 	}
-	return (dst);
+	return (b);
 }
-/*
-#include <stdio.h>
-#include <string.h>
-int	main(void)
-{
-	char str1[] = "Hello";
-	char str2[] = "Hello";
-
-	memset(str1, '!', 8);
-	printf("%s\n", str1);
-	ft_memset(str2, '!', 8);
-	printf("%s\n", str2);
-	return (0);
-}
-*/

@@ -3,122 +3,86 @@
 /*                                                        ::::::::            */
 /*   ft_split.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/13 14:50:53 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/16 16:55:55 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/11/02 11:57:54 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/05/23 14:51:23 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+/* ************************************************************************** */
+/* ft_split allocates with malloc and returns an array of strings 			  */
+/* obtained by splitting ’s’ using the character ’c’ as a delimiter. 		  */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-static char	**ft_returnoriginalstring(const char *s)
+static int	count_words(char const *string, char separator)
 {
-	char	**re;
+	int	count;
 
-	re = malloc(2 * sizeof(char *));
-	if (!re)
-		return (0);
-	re[0] = ft_strdup(s);
-	if (!re[0])
+	count = 0;
+	while (*string)
 	{
-		free(re);
-		return (0);
-	}
-	re[1] = 0;
-	return (re);
-}
-
-static char	**ft_returnnullpointer(void)
-{
-	char	**re;
-
-	re = malloc(sizeof(char *));
-	if (!re)
-		return (0);
-	re[0] = 0;
-	return (re);
-}
-
-static char	**ft_makeparts(char **split, const char *s, char c, int parts)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	while (i < parts)
-	{
-		while (*s && *s == c)
-			s++;
-		len = 0;
-		while (s[len] && s[len] != c)
-			len++;
-		split[i] = malloc(len + 1);
-		if (!split[i])
+		if (*string != separator)
 		{
-			while (i-- > 0)
-				free(split[i]);
-			free(split);
-			return (0);
+			while (*string != separator && *string)
+				string++;
+			count++;
 		}
-		ft_memcpy(split[i], s, len);
-		split[i][len] = '\0';
-		s += len;
-		i++;
+		else if (*string == separator && *string)
+			string++;
 	}
-	return (split);
+	return (count);
 }
 
-static int	ft_countparts(const char *s, char c)
+static int	free_split(char **split, int index)
 {
-	int	parts;
+	while (index-- > 0)
+		free(split[index]);
+	free(split);
+	return (1);
+}
 
-	parts = 0;
-	while (*s)
+static int	create_split(const char *string, char separator, char **split)
+{
+	size_t	start;
+	size_t	end;
+	int		index;
+
+	start = 0;
+	end = 0;
+	index = 0;
+	while (string[start])
 	{
-		while (*s && *s == c)
-			s++;
-		if (*s && *s != c)
-			parts++;
-		while (*s && *s != c)
-			s++;
+		if (string[start] != separator)
+		{
+			end = start;
+			while (string[end] != separator && string[end])
+				end++;
+			split[index] = ft_substr(string, start, (end - start));
+			if (!split[index])
+				return (free_split(split, index));
+			index++;
+			start = end;
+		}
+		if (string[start] == separator && string[start])
+			start++;
 	}
-	return (parts);
+	split[index] = NULL;
+	return (0);
 }
 
 char	**ft_split(char const *s, char c)
 {
 	char	**split;
-	int		parts;
 
-	if (!ft_strlen(s))
-		return (ft_returnnullpointer());
-	if (!c)
-		return (ft_returnoriginalstring(s));
-	parts = ft_countparts(s, c);
-	if (parts == 0)
-		return (ft_returnnullpointer());
-	split = malloc((parts + 1) * sizeof(char *));
+	if (!s)
+		return (NULL);
+	split = malloc((count_words(s, c) + 1) * sizeof(char *));
 	if (!split)
-		return (0);
-	split = ft_makeparts(split, s, c, parts);
-	split[parts] = 0;
+		return (NULL);
+	if (create_split(s, c, split) == 1)
+		return (NULL);
 	return (split);
 }
-/*
-#include <stdio.h>
-int	main(void)
-{
-	char str[] = "";
-	char c = ' ';
-	char	**split;
-	
-	split = ft_split(str, c);
-	printf("%s\n, split[0]);
-	free(split[0]);
-	free(split);
-	return (0);
-	
-}
-*/

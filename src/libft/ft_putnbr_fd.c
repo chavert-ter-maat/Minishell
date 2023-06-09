@@ -3,11 +3,15 @@
 /*                                                        ::::::::            */
 /*   ft_putnbr_fd.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/14 17:58:16 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/16 15:47:56 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/17 17:47:15 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 10:12:31 by cter-maa      ########   odam.nl         */
 /*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/* Outputs the integer ’n’ to the given file descriptor.					  */
 /* ************************************************************************** */
 
 #include "libft.h"
@@ -15,8 +19,11 @@
 void	ft_putnbr_fd(int n, int fd)
 {
 	if (n == -2147483648)
+	{
 		ft_putstr_fd("-2147483648", fd);
-	else if (n < 0)
+		return ;
+	}
+	if (n < 0)
 	{
 		ft_putchar_fd('-', fd);
 		n *= -1;
@@ -24,8 +31,8 @@ void	ft_putnbr_fd(int n, int fd)
 	if (n > 9)
 	{
 		ft_putnbr_fd(n / 10, fd);
-		n = n % 10;
+		ft_putchar_fd((n % 10) + '0', fd);
 	}
-	if (n < 10 && n != -2147483648)
+	if (n <= 9)
 		ft_putchar_fd(n + '0', fd);
 }

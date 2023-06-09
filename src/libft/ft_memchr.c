@@ -3,40 +3,36 @@
 /*                                                        ::::::::            */
 /*   ft_memchr.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/08 16:00:42 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/16 16:36:24 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/14 18:24:51 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/02/01 15:36:01 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+/* ************************************************************************** */
+/* ft_memchr locates the first occurrence of 								  */
+/* c (converted to an unsigned char) in string.								  */
+/* ft_memchr returns a pointer to the byte located, 						  */
+/* or NULL if no such byte exists within n amount bytes.					  */
+/* ************************************************************************** */
 
-void	*ft_memchr(const void *s, int c, size_t n)
+#include "libft.h"
+
+void	*ft_memchr(const void *str, int c, size_t n)
 {
-	unsigned char	*cs;
-	size_t			i;
+	unsigned char	*string;
+	unsigned char	character;
+	size_t			index;
 
-	cs = (unsigned char *) s;
-	i = 0;
-	while (i < n)
+	string = (unsigned char *)str;
+	character = (unsigned char)c;
+	index = 0;
+	while (index < n)
 	{
-		if (cs[i] == (unsigned char) c)
-			return (&cs[i]);
-		i++;
+		if (string[index] == character)
+			return ((void *)&string[index]);
+		index++;
 	}
-	return (0);
+	return (NULL);
 }
-/*
-#include <string.h>
-#include <stdio.h>
-int	main(void)
-{
-	char s1[14] = "Hello, world!";
-	char s2[14] = "Hello, world!";
-
-	printf("%s\n", memchr(s1, 'o', 14));
-	printf("%s\n", ft_memchr(s2, 'o', 14));
-	return (0);
-}
-*/

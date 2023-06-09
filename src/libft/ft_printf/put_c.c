@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_isprint.c                                       :+:    :+:            */
+/*   put_c.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/08 13:11:08 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/01/11 17:28:37 by cter-maa      ########   odam.nl         */
+/*   Created: 2022/11/19 12:31:26 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/05/02 12:27:33 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ************************************************************************** */
-/* ft_ispint function tests for any printing character, including space.  	  */
-/* ************************************************************************** */
+#include "ft_printf.h"
 
-#include "libft.h"
-
-int	ft_isprint(int a)
+int	put_c(int c)
 {
-	return ((a >= 32 && a <= 126));
+	return (write(1, &c, 1));
 }

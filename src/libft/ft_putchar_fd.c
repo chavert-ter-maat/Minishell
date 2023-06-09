@@ -3,16 +3,20 @@
 /*                                                        ::::::::            */
 /*   ft_putchar_fd.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/14 17:43:28 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/31 16:37:56 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/17 17:47:15 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 10:11:11 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+/* ************************************************************************** */
+/* Outputs the character ’c’ to the given file descriptor.					  */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 void	ft_putchar_fd(char c, int fd)
 {
-	write(fd, &c, 1);
+	write (fd, &c, 1);
 }

@@ -3,30 +3,22 @@
 /*                                                        ::::::::            */
 /*   ft_isalnum.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/04 19:33:37 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/11 10:50:00 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/08 11:46:47 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/11 17:29:35 by cter-maa      ########   odam.nl         */
 /*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/* ft_isalnum() function returns zero if the character tests false and 	  	  */
+/* returns non-zero if the character tests true.							  */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalnum(int c)
+int	ft_isalnum(int a)
 {
-	if (ft_isdigit(c))
-		return (1);
-	if (ft_isalpha(c))
-		return (1);
-	return (0);
+	return ((a >= '0' && a <= '9') || (a >= 'A' && a <= 'Z')
+		|| (a >= 'a' && a <= 'z'));
 }
-/*
-#include <ctype.h>
-#include <stdio.h>
-int	main(void)
-{
-	printf("%d\n", isalnum('!'));
-	printf("%d", ft_isalnum('!'));
-	return (0);
-}
-*/

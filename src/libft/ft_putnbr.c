@@ -1,22 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_isprint.c                                       :+:    :+:            */
+/*   ft_putnbr.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/08 13:11:08 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/01/11 17:28:37 by cter-maa      ########   odam.nl         */
+/*   Created: 2023/06/05 10:02:55 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/06/05 10:03:18 by cter-maa      ########   odam.nl         */
 /*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/* ft_ispint function tests for any printing character, including space.  	  */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isprint(int a)
+void putnbr(int nb)
 {
-	return ((a >= 32 && a <= 126));
+	char c;
+	
+	if (nb == INT_MIN)
+	{
+		write(1, "-2147483648", 11);
+		return;
+	}
+	else if (nb < 0)
+	{
+		write(1, "-", 1);
+		nb *= -1;
+	}	
+	if (nb > 9)
+		putnbr(nb /10);
+	c = (nb % 10) + '0';
+	write(1, &c, 1);
+
 }

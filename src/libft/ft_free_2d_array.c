@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strchr.c                                        :+:    :+:            */
+/*   ft_free_2d_array.c                                 :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/14 15:05:02 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/01/13 10:18:23 by cter-maa      ########   odam.nl         */
+/*   Created: 2023/05/23 09:39:05 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/05/23 09:43:59 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.a"
+
 /* ************************************************************************** */
-/* ft_strchr() locates the first occurrence of c in string pointed to by s.   */
-/* ft_strchr() return a pointer to the located character,					  */
-/* or NULL if the character does not appear in the string.					  */
+/* ft_free_2d_array(char ***cmd) frees a two dimentional array				  */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char	*ft_strchr(const char *s, int c)
+void ft_free_2d_array(char ***cmd)
 {
-	char	*string;
-	size_t	index;
+    int index = 0;
 
-	string = (char *)s;
-	index = 0;
-	while (string[index] != (char)c)
-	{
-		if (string[index] == '\0')
-			return (NULL);
-		index++;
-	}	
-	return (&string[index]);
+    while ((*cmd)[index])
+    {
+        free((*cmd)[index]);
+        index++;
+    }
+    free(*cmd);
+    *cmd = NULL;
 }

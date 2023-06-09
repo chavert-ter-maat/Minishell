@@ -3,41 +3,40 @@
 /*                                                        ::::::::            */
 /*   ft_substr.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/10 16:07:30 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/12 10:56:15 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/10 15:50:29 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/04/30 14:48:09 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+/* ************************************************************************** */
+/* ft_substr() creates a new string from s.									  */
+/* The substring begins at index ’start’ and is of maximum size ’len’.		  */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*sub;
+	char				*sub_string;
+	const unsigned int	string_length = ft_strlen(s);
+	size_t				index;
 
-	if (start >= ft_strlen(s) || ft_strlen(s) == 0)
-		len = 0;
-	if (len != 0 && ft_strlen(s + start) < len)
-		len = ft_strlen(s + start);
-	sub = malloc(len + 1);
-	if (!sub)
-		return (0);
-	sub = ft_memcpy(sub, s + start, len);
-	sub[len] = '\0';
-	return (sub);
+	index = 0;
+	if (start > string_length || len == 0)
+		return (ft_strdup(""));
+	if (start + len >= string_length)
+		len = string_length - start;
+	sub_string = malloc (sizeof(char) * (len + 1));
+	if (!sub_string)
+		return (NULL);
+	while (index < len && s[start + index])
+	{
+		sub_string[index] = s[start + index];
+		index++;
+	}		
+	sub_string[index] = '\0';
+	return (sub_string);
+	free (sub_string);
 }
-/*
-#include <stdio.h>
-int	main(void)
-{
-	const char s1[14] = "Hello, world!";
-	char *sub;
-
-	sub = ft_substr(s1, 7, 6);
-	printf("%s\n", sub);
-	free(sub);
-	return (0);
-}
-*/

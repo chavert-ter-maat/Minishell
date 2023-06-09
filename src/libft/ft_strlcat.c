@@ -3,52 +3,43 @@
 /*                                                        ::::::::            */
 /*   ft_strlcat.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/06 12:14:23 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/16 17:21:22 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/10 15:50:29 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 10:25:34 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+/* ************************************************************************** */
+/* ft_strlcat() appends string src to the end of dst.  It will append at most */
+/* dstsize - strlen(dst) - 1 characters.  It will then NUL-terminate,		  */
+/* unless dstsize is 0 or the original dst string was longer than			  */
+/* dstsize. If the src and dst strings overlap, the behavior is undefined.	  */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	size_t	dstlen;
-	size_t	srclen;
+	size_t	index;
+	size_t	len_dst;
+	size_t	len_src;
+	char	*string;
 
-	dstlen = ft_strlen(dst);
-	srclen = ft_strlen(src);
-	if (dstsize < dstlen)
-		dstlen = dstsize;
-	if (dstsize == dstlen)
-		return (dstlen + srclen);
-	if (srclen < dstsize - dstlen)
-		ft_memcpy(dst + dstlen, src, srclen + 1);
-	else
+	string = (char *)src;
+	len_dst = ft_strlen(dst);
+	len_src = ft_strlen(src);
+	index = 0;
+	if (dstsize < len_dst + 1)
+		return (dstsize + len_src);
+	if (dstsize - 1 > len_dst)
 	{
-		ft_memcpy(dst + dstlen, src, dstsize - dstlen - 1);
-		dst[dstsize - 1] = '\0';
+		while (dstsize - 1 > (index + len_dst) && string[index])
+		{
+			dst[len_dst + index] = string[index];
+			index++;
+		}
+		dst[len_dst + index] = '\0';
 	}
-	return (dstlen + srclen);
+	return (len_dst + len_src);
 }
-/*
-//if the dstsize is (incorrectly) smaller then the original dst, the return
-//value behaves differently then the manual describes
-#include <string.h>
-#include <stdio.h>
-int	main(void)
-{
-	char dst1[20] = "pqrstuvwxyz";
-	char src1[20] = ", world!";
-	char dst2[20] = "Hello";
-	char src2[20] = ", world!";
-
-	printf("%lu\n", strlcat(dst1, src1, 9));
-	printf("%s\n", dst1);
-	printf("%lu\n", ft_strlcat(dst2, src2, 9));
-	printf("%s\n", dst2);
-	return (0);
-}
-*/

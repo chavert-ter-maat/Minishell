@@ -3,31 +3,29 @@
 /*                                                        ::::::::            */
 /*   ft_strlen.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/04 19:55:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/11 12:50:35 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/08 13:25:48 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/05/23 09:48:42 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+/* ************************************************************************** */
+/* ft_strlen() function computes the length of the string s.				  */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 size_t	ft_strlen(const char *s)
 {
-	size_t	i;
+	size_t	lenght;
+	char	*string;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	lenght = 0;
+	string = (char *)s;
+	if (s == NULL)
+		return (0);
+	while (string[lenght])
+		lenght++;
+	return (lenght);
 }
-/*
-#include <stdio.h>
-#include <string.h>
-int	main(void)
-{
-	printf("%lu\n", strlen("Hello, World!"));
-	printf("%lu", ft_strlen("Hello, World!"));
-	return (0);
-}
-*/

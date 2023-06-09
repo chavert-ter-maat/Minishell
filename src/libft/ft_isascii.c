@@ -3,26 +3,20 @@
 /*                                                        ::::::::            */
 /*   ft_isascii.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/04 19:47:02 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/04 19:50:58 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/08 12:54:14 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/11 17:29:13 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isascii(int c)
+/* ************************************************************************** */
+/* ft_isascii() function tests for an ASCII character.						  */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_isascii(int a)
 {
-	if (c >= 0 && c <= 127)
-		return (1);
-	return (0);
+	return ((a >= 0 && a <= 127));
 }
-/*
-#include <ctype.h>
-#include <stdio.h>
-int	main(void)
-{
-	printf("%d\n", isascii(127));
-	printf("%d", ft_isascii(127));
-	return (0);
-}
-*/

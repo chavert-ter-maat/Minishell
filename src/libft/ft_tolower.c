@@ -3,29 +3,22 @@
 /*                                                        ::::::::            */
 /*   ft_tolower.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/08 14:53:42 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/10 14:06:12 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/14 15:01:13 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 10:53:09 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+/* ************************************************************************** */
+/* ft_tolower() converts an upper-case to the corresponding lower-case letter */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_tolower(int c)
 {
 	if (c >= 'A' && c <= 'Z')
-		c += ('a' - 'A');
+		return (c + 32);
 	return (c);
 }
-/*
-#include <ctype.h>
-#include <stdio.h>
-int	main(void)
-{
-	char c1 = 'A';
-	char c2 = 'A';
-	
-	printf("%c\n", tolower(c1));
-	printf("%c\n", ft_tolower(c2));
-	return (0);
-}
-*/

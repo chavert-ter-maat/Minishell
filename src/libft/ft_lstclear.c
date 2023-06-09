@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strlcpy.c                                       :+:    :+:            */
+/*   ft_lstclear.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/10 15:50:29 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/01/13 10:55:47 by cter-maa      ########   odam.nl         */
+/*   Created: 2023/02/16 12:11:27 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/05/23 09:45:08 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* ft_strlcpy() takes the full size of the 									  */
-/* destination buffer and guarantee NUL-termination if there is room.		  */
-/* ft_strlcpy() copies up to dstsize - 1 characters from the string src 	  */
-/* to dst, NULL-terminating the result if dstsize is not 0.					  */
+/* Deletes and frees the given node and every successor of that node.		  */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+void ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	size_t	index;
+	t_list *current;
+	t_list *next;
 
-	index = 0;
-	if (dstsize == 0)
-		return (ft_strlen(src));
-	if (dstsize > 0)
+	if (lst && *lst)
 	{
-		while ((dstsize - 1) > index && src[index])
+		current = *lst;
+		while (current)
 		{
-			dst[index] = src[index];
-			index++;
+			next = current->next;
+			if (del)
+				del(current->content);
+			free(current);
+			current = next;
 		}
+		*lst = NULL;
 	}
-	dst[index] = '\0';
-	return (ft_strlen(src));
 }

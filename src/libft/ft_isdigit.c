@@ -3,26 +3,21 @@
 /*                                                        ::::::::            */
 /*   ft_isdigit.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/04 19:21:23 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/10 18:58:58 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/04 16:26:40 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/11 17:29:01 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+/* ************************************************************************** */
+/* ft_isdigit() returns zero if the character tests false and				  */
+/* return non-zero if the character tests true.								  */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_isdigit(int b)
+{	
+	return ((b >= '0' && b <= '9'));
 }
-/*
-#include <ctype.h>
-#include <stdio.h>
-int	main(void)
-{
-	printf("%d\n", isdigit('6'));
-	printf("%d", ft_isdigit('6'));
-	return (0);
-}
-*/

@@ -3,11 +3,15 @@
 /*                                                        ::::::::            */
 /*   ft_putendl_fd.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/14 17:54:42 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/14 17:56:38 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/17 17:47:15 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 10:12:03 by cter-maa      ########   odam.nl         */
 /*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/* Outputs the string ’s’ to the given file descriptor followed by a newline. */
 /* ************************************************************************** */
 
 #include "libft.h"

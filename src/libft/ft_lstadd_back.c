@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strlcpy.c                                       :+:    :+:            */
+/*   ft_lstadd_back.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/10 15:50:29 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/01/13 10:55:47 by cter-maa      ########   odam.nl         */
+/*   Created: 2023/02/02 15:20:34 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/04/30 14:03:35 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* ft_strlcpy() takes the full size of the 									  */
-/* destination buffer and guarantee NUL-termination if there is room.		  */
-/* ft_strlcpy() copies up to dstsize - 1 characters from the string src 	  */
-/* to dst, NULL-terminating the result if dstsize is not 0.					  */
+/* Adds the node ’new’ at the end of the list.								  */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	size_t	index;
+	t_list	*last_node;
 
-	index = 0;
-	if (dstsize == 0)
-		return (ft_strlen(src));
-	if (dstsize > 0)
+	if (!*lst)
 	{
-		while ((dstsize - 1) > index && src[index])
-		{
-			dst[index] = src[index];
-			index++;
-		}
+		*lst = new;
+		return ;
 	}
-	dst[index] = '\0';
-	return (ft_strlen(src));
+	last_node = ft_lstlast(*lst);
+	last_node->next = new;
 }

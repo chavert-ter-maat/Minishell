@@ -3,57 +3,31 @@
 /*                                                        ::::::::            */
 /*   ft_strrchr.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/08 15:13:59 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/12 10:06:07 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/14 17:06:50 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 10:43:10 by cter-maa      ########   odam.nl         */
 /*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/* ft_strrchr() locates the last occurrence of c in string pointed to by s.	  */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int		i;
-	char	ch;
+	size_t	lenght;
+	char	*string;
 
-	ch = c;
-	i = ft_strlen(s);
-	while (i >= 0 && s[i] != ch)
-		i--;
-	if (i < 0)
-		return (0);
-	s += i;
-	return ((char *) s);
+	string = (char *)s;
+	lenght = ft_strlen(string);
+	while (string[lenght] != (char)c)
+	{
+		if (lenght == 0)
+			return (NULL);
+		lenght--;
+	}
+	return (&string[lenght]);
 }
-/*
-#include <string.h>
-#include <stdio.h>
-int	main(void)
-{
-	char str1[14] = "Hello, world!";
-	char str2[14] = "Hello, world!";
-	
-	printf("%s\n", strrchr(str1, 'o'));
-	printf("%s\n", ft_strrchr(str2, 'o'));
-	return (0);
-}
-*/
-/*
-#include <stdio.h>
-#include <stdio.h>
-int	main(void)
-{ 
-	char    str3[] = "";
-	
-    if (!(str = ft_strrchr(str3, '\0')))
-        printf("NULL");
-    else
-    {
-        printf("%s\n", str);
-        if (str != str3)
-            printf("Return value is false\n");
-    }
-	return (0);
-}
-*/

@@ -3,25 +3,21 @@
 /*                                                        ::::::::            */
 /*   ft_isalpha.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/03 15:18:13 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/04 19:36:31 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/04 15:18:58 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/11 17:29:22 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* ************************************************************************** */
+/* ft_isalpha() function returns zero if the character tests false and		  */
+/* returns non-zero if the character tests true.							  */
+/* ************************************************************************** */
+
+#include "libft.h"
+
 int	ft_isalpha(int c)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		return (1);
-	return (0);
+	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
-/*
-#include <stdio.h>
-int main(void)
-{
-	printf("%d", ft_isalpha('N'));
-
-return (0);
-}
-*/

@@ -3,48 +3,42 @@
 /*                                                        ::::::::            */
 /*   ft_atoi.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/10 10:30:22 by fhuisman      #+#    #+#                 */
-/*   Updated: 2022/10/16 16:15:34 by fhuisman      ########   odam.nl         */
+/*   Created: 2022/10/17 17:47:15 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/01/13 10:03:32 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* ************************************************************************** */
+/* The atoi() function converts the initial portion of the string 			  */
+/* pointed to by str to int representation. 								  */
+/* ************************************************************************** */
+
+#include "libft.h"
+
 int	ft_atoi(const char *str)
 {
-	int	neg;
-	int	i;
-	int	x;
+	int	index;
+	int	result;
+	int	sign;
 
-	i = 0;
-	neg = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
+	index = 0;
+	sign = 1;
+	result = 0;
+	while ((str[index] >= 9 && str[index] <= 13) || (str[index] == 32))
+		index++;
+	if (str[index] == '-' || str[index] == '+')
 	{
-		if (str[i] == '-')
-			neg = -1;
-		i++;
+		if (str[index] == '-')
+			(sign *= -1);
+		index++;
 	}
-	x = 0;
-	while (str[i] >= '0' && str[i] <= '9')
+	while ((str[index] >= '0' && str[index] <= '9') && str[index])
 	{
-		x *= 10;
-		x += (str[i] - '0');
-		i++;
+		result = result * 10;
+		result = (result + (str[index] - '0'));
+		index++;
 	}
-	x *= neg;
-	return (x);
+	return (sign * result);
 }
-/*
-#include <stdlib.h>
-#include <stdio.h>
-int	main(void)
-{
-	const char str[100] = "\n\n  \t \f \v+00014356a83";
-
-	printf("%d\n", atoi(str));
-	printf("%d\n", ft_atoi(str));
-	return (0);
-}
-*/
