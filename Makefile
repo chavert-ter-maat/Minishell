@@ -35,6 +35,9 @@ LIBFT = ./libft/libft.a
 
 # SOURCES
 SRC = 	SRC/main.c \
+		SRC/lexer/lexer.c \
+		SRC/lexer/lexer_jumptable.c \
+		SRC/utils/lexer_utils.c \
 
 
 # OBJECTS
