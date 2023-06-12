@@ -6,7 +6,7 @@
 #    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/09 11:45:10 by cter-maa      ########   odam.nl          #
+#    Updated: 2023/06/12 15:39:27 by cter-maa      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,13 @@ LIBFT = ./libft/libft.a
 SRC = 	SRC/main.c \
 		SRC/lexer/lexer.c \
 		SRC/lexer/lexer_jumptable.c \
+		src/utils/handle_errors.c \
 		SRC/utils/lexer_utils.c \
-
+		SRC/executor/utils_executor.c \
+		src/executor/handle_single_command.c \
+		src/executor/input_handling.c \
+		src/executor/run_commands.c \
+		
 
 # OBJECTS
 OBJ			= $(SRC:.c=.o)
@@ -63,7 +68,7 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 
-make comp: $(OBJ)
+make go: $(OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
 	$(RM) $(OBJ)
 	@echo "$(GREEN)SHELL YEAH! $(DEF_COLOR)"
