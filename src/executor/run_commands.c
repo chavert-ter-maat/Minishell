@@ -2,7 +2,7 @@
 
 // find_path_to_executable looks if the executable can be found
 // and if the there is permission to run the executable
-static char	*find_path_to_executable(char **split_path, char **cmd)
+static char	*get_path_executable(char **split_path, char **cmd)
 {
 	size_t	index;
 	char	*tmp_path;
@@ -29,8 +29,8 @@ static char	*find_path_to_executable(char **split_path, char **cmd)
 // get_path() looks for the path in the environment
 // where command executables can found
 
-// !!check for no path in environment!!
-static char	**get_path_from_environment(t_shell *shell)
+// !!unset PATH works, but doesnt give the same error message as bash for 100% 
+static char	**get_path_environment(t_shell *shell)
 {
 	char	*path;
 	char	**split_path;
@@ -53,24 +53,24 @@ static char	**get_path_from_environment(t_shell *shell)
 // run_commands() finds path in environment, splits it and looks then looks if
 // command is present in the folder or a path is given as a command.
 // if not the path for the command is searched for
-void	run_commands(t_shell *shell)
+void	run_command(t_shell *shell, char *cmd)
 {
-	char	**cmds;
-	char	*cmd_path;
+	char	**splitted_cmd;
+	char	*command_path;
 	char	**split_path;
 
-	cmd_path = NULL;
-	split_path = get_path_from_environment(shell);
-	cmds = ft_split(shell->argv[2], ' ');
-	if (!cmds)
-		error_exit("split cmds failed\n");
-	if (cmds[0] && (ft_strncmp(cmds[0], "/", 1) 
-		|| ft_strncmp(cmds[0], "./", 2)))
+	command_path = NULL;
+	split_path = get_path_environment(shell);
+	splitted_cmd = ft_split(cmd, ' ');
+	if (!splitted_cmd)
+		error_exit("split splitted_cmd failed\n");
+	if (splitted_cmd[0] && (ft_strncmp(splitted_cmd[0], "/", 1) 
+		|| ft_strncmp(splitted_cmd[0], "./", 2)))
 	{
-		cmd_path = find_path_to_executable(split_path, cmds);
-		if (execve(cmd_path, cmds, shell->envp) == FAILED)
-			error_no_command(cmds[0]);
+		command_path = get_path_executable(split_path, splitted_cmd);
+		if (execve(command_path, splitted_cmd, shell->envp) == FAILED)
+			error_no_command(splitted_cmd[0]);
 	}
-	if (execve(cmds[0], cmds, shell->envp) == FAILED)
-		error_no_command(cmds[0]);
+	if (execve(splitted_cmd[0], splitted_cmd, shell->envp) == FAILED)
+		error_no_command(splitted_cmd[0]);
 }

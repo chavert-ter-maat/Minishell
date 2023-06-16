@@ -6,7 +6,7 @@
 #    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/12 15:39:27 by cter-maa      ########   odam.nl          #
+#    Updated: 2023/06/16 16:42:13 by cter-maa      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC = 	SRC/main.c \
 		SRC/utils/lexer_utils.c \
 		SRC/executor/utils_executor.c \
 		src/executor/handle_single_command.c \
+		src/executor/handle_multiple_commands.c \
 		src/executor/input_handling.c \
 		src/executor/run_commands.c \
 		

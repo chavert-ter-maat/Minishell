@@ -19,11 +19,11 @@
 # include "../libft/ft_printf/ft_printf.h"
 
 // defines
-# define PIPE_WRITE_END	1
-# define PIPE_READ_END	0
-# define SUCCES			0
-# define NOT_FOUND		0
-# define FAILED			-1
+# define WRITE_END	1
+# define READ_END	0
+# define SUCCES		0
+# define NOT_FOUND	0
+# define FAILED		-1
 
 // struckts
 typedef enum e_token_type {
@@ -45,16 +45,23 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_executor
+{
+	int temp_stdin;
+	int temp_stdout;
+}	t_executor;
+
 typedef struct s_shell
 {
-	char	*cmd_line;
-	int		argc;
-	char	**argv;
-	char	**envp;
-	char	*infile;
-	char	*outfile;
-	int		pipe_infile[2];
-	t_token	*tokens;
+	char		*cmd_line;
+	int			argc;
+	char		**argv;
+	char		**envp;
+	char		*infile;
+	char		*outfile;
+	int			pipe_infile[2];
+	t_token		*tokens;
+	t_executor *executor;
 }	t_shell;
 
 // lexer
@@ -71,10 +78,11 @@ t_token			*free_list(t_token *list);
 t_token			*lexer(t_shell *shell);
 
 // executor
-void	run_commands(t_shell *shell);
+void	run_command(t_shell *shell, char *argv);
 void	create_single_child(t_shell *shell);
+void	handle_multiple_commands(t_shell *shell, int nb_commands);
 void	input_handling(t_shell *shell, int argc, char **argv, char **envp);
-// static void	print_exit_status_paidpid(pid_t pid, int options);
+void	print_status_waidpid(pid_t pid, int options);
 void	infile_as_stdin(t_shell *shell);
 void	outfile_as_stdout(t_shell *shell);
 void	input_error(void);

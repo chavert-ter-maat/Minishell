@@ -22,15 +22,16 @@ int main(int argc, char **argv, char **envp)
 {
 	t_shell shell;
 
-	if(argc != 4)
+	if(argc != 5)
 	{
-		ft_putstr_fd("wrong argyment input", 1);
+		ft_putstr_fd("wrong argument input", 1);
 		exit(EXIT_FAILURE);
 	}
 	input_handling(&shell, argc, argv, envp);
 	infile_as_stdin(&shell);
 	outfile_as_stdout(&shell);
-	create_single_child(&shell);
+	// create_single_child(&shell);
+	handle_multiple_commands(&shell, (argc - 3)); // ittereren door de cmds
 
 	// if(argc > 3)
 	// 	handle_multiple_commands(&shell);

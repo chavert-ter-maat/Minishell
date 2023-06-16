@@ -9,7 +9,8 @@ void	create_single_child(t_shell *shell)
 	if (pid == FAILED)
 		perror_exit("fork");
 	if (pid == SUCCES)
-		run_commands(shell);
+		run_command(shell, shell->argv[2]);
 	if (waitpid(pid, &status, 0) == FAILED)
 		perror_exit("waitpid");
+	print_status_waidpid(pid, status);
 }
