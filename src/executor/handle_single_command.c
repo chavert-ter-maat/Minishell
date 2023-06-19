@@ -1,29 +1,40 @@
 #include "../../include/minishell.h"
-#include "../../include/execute.h"
 
-static void	execute_single_child(t_pipex *generate)
+// static void	save_std(t_executor *executor)
+// {
+// 	ft_printf("hoi");
+// 	executor->temp_stdin = dup(STDIN_FILENO);
+// 	if(executor->temp_stdin == FAILED)
+// 		{
+// 			printf("failed");
+// 			exit(1);
+// 		}
+// 	ft_printf("%i\n", executor->temp_stdin);
+// 	executor->temp_stdout = dup(STDOUT_FILENO);
+// 	ft_printf("%i\n", executor->temp_stdout);
+// }
+
+// static void	restore_std(t_executor *executor)
+// {
+// 	dup2(executor->temp_stdin, 0);
+// 	dup2(executor->temp_stdout, 1);
+//     close(executor->temp_stdin);
+//     close(executor->temp_stdout);
+// }
+
+void	create_single_child(t_shell *shell)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
-	if (pid < 0)
-		exit("error");
-	if (pid == 0)
-	{
-		run_commands(generate, generate->argv2, generate->cmd1);
-	}
-	else
-		exit(error);
-}
-
-void	execute_single_command(t_minishell *mini)
-{
-	t_cmd	*current_cmd;
-
-	current_cmd = mini->cmd_list;
-	if (current_cmd->args[0] == NULL)
-		exit(error);
-	if (current_cmd->args[0] == NULL)
-		handle_redirect(current_cmd->redir, mini_error_test);
-	execute_single_child(current_cmd, mini);
+	if (pid == FAILED)
+		perror_exit("fork");
+	// save_std(shell->executor);
+	if (pid == SUCCES)
+		run_command(shell, shell->argv[2]);
+	// restore_std(shell->executor);
+	if (waitpid(pid, &status, 0) == FAILED)
+		perror_exit("waitpid");
+	// print_status_waidpid(pid, status);
 }
