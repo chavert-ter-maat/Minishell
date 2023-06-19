@@ -25,7 +25,7 @@
 # define NOT_FOUND	0
 # define FAILED		-1
 
-// struckts
+// structs
 typedef enum e_token_type {
 	TOKEN = 0,
 	PIPE,
