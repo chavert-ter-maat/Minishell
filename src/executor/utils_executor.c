@@ -1,5 +1,6 @@
 #include "../../include/minishell.h"
 
+
 void infile_as_stdin(t_shell *shell)
 {
 	int	infile_fd;

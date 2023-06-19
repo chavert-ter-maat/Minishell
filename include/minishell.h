@@ -80,7 +80,7 @@ t_token			*lexer(t_shell *shell);
 // executor
 void	run_command(t_shell *shell, char *argv);
 void	create_single_child(t_shell *shell);
-void	handle_multiple_commands(t_shell *shell, int nb_commands);
+void	handle_multiple_commands(t_shell *shell, int nb_commands, char **argv);
 void	input_handling(t_shell *shell, int argc, char **argv, char **envp);
 void	print_status_waidpid(pid_t pid, int options);
 void	infile_as_stdin(t_shell *shell);
