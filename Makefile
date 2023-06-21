@@ -6,7 +6,7 @@
 #    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/09 13:30:50 by fhuisman      ########   odam.nl          #
+#    Updated: 2023/06/21 13:47:51 by fhuisman      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,9 @@ SRC = 	SRC/main.c \
 		SRC/lexer/lexer.c \
 		SRC/lexer/lexer_jumptable.c \
 		SRC/utils/lexer_utils.c \
+		SRC/expander/expander.c \
+		SRC/utils/expander_utils.c \
+		SRC/utils/error.c
 
 
 # OBJECTS
