@@ -1,14 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
-#                                                    +#+                       #
-#    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/16 16:42:13 by cter-maa      ########   odam.nl          #
-#                                                                              #
-# **************************************************************************** #
 
 # VARIABLES
 NAME 	= minishell
@@ -39,12 +28,14 @@ SRC = 	SRC/main.c \
 		SRC/lexer/lexer_jumptable.c \
 		src/utils/handle_errors.c \
 		SRC/utils/lexer_utils.c \
+		SRC/expander/expander.c \
+		SRC/utils/expander_utils.c \
+		SRC/utils/error.c
 		SRC/executor/utils_executor.c \
 		src/executor/handle_single_command.c \
 		src/executor/handle_multiple_commands.c \
 		src/executor/input_handling.c \
 		src/executor/run_commands.c \
-		
 
 # OBJECTS
 OBJ			= $(SRC:.c=.o)
