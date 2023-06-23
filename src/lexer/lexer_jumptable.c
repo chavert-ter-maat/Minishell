@@ -1,46 +1,59 @@
 #include "../../include/minishell.h"
 
-void	tok_type_pipe(char *cmd_line, size_t *pos, t_token_type type)
+/* increments i by one */
+
+void	tok_type_pipe(char *cmd_line, size_t *i, t_token_type type)
 {
 	(void) cmd_line;
 	(void) type;
-	(*pos)++;
+	(*i)++;
 }
 
-void	tok_type_quote(char *cmd_line, size_t *pos, t_token_type type)
+/* changes i to the end of the quotes or end of line */
+
+void	tok_type_quote(char *cmd_line, size_t *i, t_token_type type)
 {
-	(*pos)++;
-	while (cmd_line[*pos] && get_char_type(cmd_line[*pos]) != type)
-		(*pos)++;
-	(*pos)++;
+	(*i)++;
+	while (cmd_line[*i] && find_metachar(cmd_line[*i]) != type)
+		(*i)++;
+	(*i)++;
 }
 
-void	tok_type_redir(char *cmd_line, size_t *pos, t_token_type type)
+/* changes i to the end of a redirecting operator */
+
+void	tok_type_redir(char *cmd_line, size_t *i, t_token_type type)
 {
-	(*pos)++;
-	if (cmd_line[*pos] && get_char_type(cmd_line[*pos]) == type)
-		(*pos)++;
+	(*i)++;
+	if (cmd_line[*i] && find_metachar(cmd_line[*i]) == type)
+		(*i)++;
 }
 
-void	tok_type_var(char *cmd_line, size_t *pos, t_token_type type)
+/* changes i to the end of a variable or the end of "$?".
+A variable name starts with an underscore or alphabetical character and
+consists of underscores alphabetical characters and numbers */
+
+void	tok_type_var(char *cmd_line, size_t *i, t_token_type type)
 {
 	(void) type;
-	(*pos)++;
-	if (cmd_line[*pos] == '?')
+	(*i)++;
+	if (cmd_line[*i] == '?')
 	{
-		(*pos)++;
+		(*i)++;
 		return ;
 	}
-	if (cmd_line[*pos] && (ft_isalpha(cmd_line[*pos]) || cmd_line[*pos] == '_'))
-		(*pos)++;
-	while (cmd_line[*pos] && (ft_isalnum(cmd_line[*pos]) \
-	|| cmd_line[*pos] == '_'))
-		(*pos)++;
+	if (cmd_line[*i] && (ft_isalpha(cmd_line[*i]) || cmd_line[*i] == '_'))
+		(*i)++;
+	while (cmd_line[*i] && (ft_isalnum(cmd_line[*i]) \
+	|| cmd_line[*i] == '_'))
+		(*i)++;
 }
 
-void	tok_type_consec(char *cmd_line, size_t *pos, t_token_type type)
+/* changes i to the end of consecutive white space 
+or consecutive 'word characters' */
+
+void	tok_type_consec(char *cmd_line, size_t *i, t_token_type type)
 {
-	(*pos)++;
-	while (cmd_line[*pos] && get_char_type(cmd_line[*pos]) == type)
-		(*pos)++;
+	(*i)++;
+	while (cmd_line[*i] && find_metachar(cmd_line[*i]) == type)
+		(*i)++;
 }

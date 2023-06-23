@@ -1,14 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
-#                                                    +#+                       #
-#    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/16 16:42:13 by cter-maa      ########   odam.nl          #
-#                                                                              #
-# **************************************************************************** #
 
 # VARIABLES
 NAME 	= minishell
@@ -27,7 +16,7 @@ RM 		= rm -rf
 SANITIZE = -fsanitize=address
 
 # INCLUDES
-INCLUDES	= -I ./libft -I ./libft/ft_printf
+INCLUDES	= -I ./libft -I ./libft/ft_printf -I ./include
 
 # LIBRARIES
 PRINTF = ./libft/ft_printf/libftprintf.a
@@ -35,17 +24,36 @@ LIBFT = ./libft/libft.a
 
 # SOURCES
 SRC = 	SRC/main.c \
-		SRC/lexer/lexer.c \
-		SRC/lexer/lexer_jumptable.c \
-		src/utils/handle_errors.c \
-		SRC/utils/lexer_utils.c \
+		SRC/environment/init_envp.c \
+		SRC/executor/handle_builtins.c \
+		SRC/executor/handle_single_command.c \
+		SRC/executor/handle_single_command.c \
+		SRC/executor/handle_multiple_commands.c \
+		SRC/executor/input_handling.c \
+		SRC/executor/run_commands.c \
 		SRC/executor/utils_executor.c \
-		src/executor/handle_single_command.c \
-		src/executor/handle_multiple_commands.c \
-		src/executor/input_handling.c \
-		src/executor/run_commands.c \
-		
+		SRC/expander/expander.c \
+		SRC/lexer/lexer_jumptable.c \
+		SRC/lexer/lexer.c \
+		SRC/utils/error.c \
+		SRC/utils/expander_utils.c \
+		SRC/utils/handle_errors.c \
+		SRC/utils/lexer_utils.c \
 
+# OBJECTS
+OBJ			= $(SRC:.c=.o)
+
+# COLORS
+DEF_COLOR 	= \033[0;39m
+GRAY 		= \033[0;90m
+RED 		= \033[0;91m
+GREEN 		= \033[0;92m
+YELLOW 		= \033[0;93m
+BLUE 		= \033[0;94m
+MAGENTA		= \033[0;95m
+CYAN 		= \033[0;96m
+WHITE 		= \033[0;97m
+	
 # OBJECTS
 OBJ			= $(SRC:.c=.o)
 
