@@ -1,26 +1,28 @@
 #include "../../include/minishell.h"
 
-t_token	*expand_var(t_shell *shell, t_token *top, char *var_name)
+void	expand_var(t_shell *shell, char *var_name)
 {
 	t_token *new;
 	char	*value;
 
+	new_token(shell, &new);
+	if (!new)
+		return ;
+	list_add_token(&(shell->expander), new);
 	value = find_var_value(shell->var_list, var_name);
 	if (!value)
-		return (top);
-	new = new_token(shell);
+		return ;
 	new->type = WORD;
 	new->str = ft_strdup(value);
 	if (!new->str)
-		error_free_exit(shell);
-	top = list_add_token(top, new);
-	return (top);
+		return (shell_error(malloc_error, "expand_var() @ ft_strdup"), free_shell(shell));
 }
 
-/* splits the string in WORDS and VAR tokens, adds them
-to the list and also expands the VARs to their value */
+/* splits the string in WORDS and VAR tokens,
+expands the VARs to their value and adds them
+to the expander list */
 
-t_token	*split_str_in_tokens(t_shell *shell, t_token *top, char *str)
+void	split_str_in_tokens(t_shell *shell, char *str)
 {
 	size_t	i;
 	size_t	save_i;
@@ -29,10 +31,9 @@ t_token	*split_str_in_tokens(t_shell *shell, t_token *top, char *str)
 	i = 0;
 	while(str[i])
 	{
-		print_list(shell->expander);
 		save_i = i;
 		if (str[i] != '$')
-			top = list_new_word(shell, top, str, &i);
+			list_new_word(shell, str, &i);
 		else
 		{
 			i = 0;
@@ -40,68 +41,68 @@ t_token	*split_str_in_tokens(t_shell *shell, t_token *top, char *str)
 			i += save_i;
 			var = ft_strndup(&(str[save_i]), i - save_i);
 			if (!var)
-				error_free_exit(shell);
-			top = expand_var(shell, top, var);
+				return (shell_error(malloc_error, "split_str_in_tokens() @ ft_strndup")), free(str), free_shell(shell);
 			free(var);
 		}
+		if (!shell->expander)
+			break ;
 	}
 	free(str);
-	return (top);
 }
 
-t_token	*expand_quote(t_shell *shell, t_token *top, char *quote)
+void	expand_quote(t_shell *shell, char *quote)
 {
 	t_token *new;
 	size_t	len;
 
 	len = ft_strlen(quote);
 	if (len < 2 || quote[len - 1] != '\'')
-		error_free_exit(shell); //how to handle unclosed quotes
-	new = new_token(shell);
+		return (shell_error(print_error, "unclosed quotes"), free_shell(shell));
+	new_token(shell, &new);
+	if (!new)
+		return ;
 	new->type = WORD;
 	quote++;
 	new->str = ft_strndup(quote, ft_strlen(quote) - 1);
-	top = list_add_token(top, new);
+	list_add_token(&(shell->expander), new);
 	if (!new->str)
-		error_free_exit(shell);
-	return(top);
+		return (shell_error(malloc_error, "expand_quote() @ ft_strndup"), free_shell(shell));
 }
 
-t_token	*expand_dquote(t_shell *shell, t_token *top, char *quote)
+void	expand_dquote(t_shell *shell, char *quote)
 {
 	size_t	len;
 	char	*str;
 
 	len = ft_strlen(quote);
 	if (len < 2 || quote[len - 1] != '\"')
-		error_free_exit(shell); //how to handle unclosed quotes
+		return (shell_error(print_error, "unclosed quotes"), free_shell(shell));
 	quote++;
 	str = ft_strndup(quote, ft_strlen(quote) - 1);
 	if (!str)
-		error_free_exit(shell);
-	top = split_str_in_tokens(shell, top, str);
-	return(top);
+		return (shell_error(malloc_error, "expand_dquote() @ ft_strndup"), free_shell(shell));
+	split_str_in_tokens(shell, str);
 }
 
-t_token *expander(t_shell *shell)
+void expander(t_shell *shell)
 {
-	t_token	*top;
 	t_token	*current;
 
-	top = NULL;
 	current = shell->lexer;
 	while (current)
 	{
 		if (current->type == QUOTE)
-			top = expand_quote(shell, top, current->str);
+			expand_quote(shell, current->str);
 		else if (current->type == DQUOTE)
-			top = expand_dquote(shell, top, current->str);
+			expand_dquote(shell, current->str);
 		else if (current->type == VAR)
-			top = expand_var(shell, top, current->str);
+			expand_var(shell, current->str);
 		else
-			top = list_add_copy(shell, top, current);
+			list_add_copy(shell, current);
+		if (shell->expander == NULL)
+			return;
 		current = current->next;
 	}
-	list_cat_words(shell, top);
-	return (top);
+	list_cat_words(shell);
+	free_tok_list(&(shell->lexer));
 }

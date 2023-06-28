@@ -9,7 +9,7 @@ char	*ft_strndup(const char *str, size_t n)
 		return (NULL);
 	if (ft_strlen(str) < n)
 		n = ft_strlen(str);
-	dup = malloc (sizeof(char) * n + 1);
+	dup = ft_calloc (n + 1, sizeof(char));
 	if (!dup)
 		return (NULL);
 	i = 0;

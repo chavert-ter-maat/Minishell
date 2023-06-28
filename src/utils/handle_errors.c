@@ -12,7 +12,7 @@ void	error_exit(char *input)
 	exit(EXIT_FAILURE);
 }
 
-//set errno!
+//set errno?
 void	perror_exit(char *input)
 	{
 		ft_putstr_fd("Shell_yeah: ", STDERR_FILENO);
