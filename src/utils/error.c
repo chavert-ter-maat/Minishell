@@ -6,9 +6,9 @@ void	shell_error(void (*func)(const char *), const char *str) //errno status upd
 	func(str);
 }
 
-void	parse_error(const char *str)
+void	syntax_error(const char *str)
 {
-	ft_putstr_fd("parse error near: '", 2);
+	ft_putstr_fd("syntax error near unexpected token '", 2);
 	ft_putstr_fd(str, 2);
 	ft_putendl_fd("'", 2);
 }

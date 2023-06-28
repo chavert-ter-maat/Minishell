@@ -25,7 +25,7 @@ t_redir_type	get_redir_type(char *str)
 		if (str[1] == '\0')
 			return (IN);
 	}
-	shell_error(parse_error, (const char *)str);
+	shell_error(syntax_error, (const char *)str);
 	return (REDIR);
 }
 
@@ -42,8 +42,10 @@ t_token *add_cmd_redir(t_shell *shell, t_token *current, t_command *new_cmd)
 	new_redir->type = get_redir_type(current->str);
 	current = current->next;
 	skip_space(&current);
-	if (!current || current->type != WORD)
-		return (shell_error(parse_error, "redirection"), free_shell(shell), NULL);
+	if (!current)
+		return (shell_error(syntax_error, "newline"), free_shell(shell), NULL);
+	if (current->type != WORD)
+		return (shell_error(syntax_error, current->str), free_shell(shell), NULL);
 	new_redir->file = ft_strdup(current->str);
 	if (!(new_redir->file))
 		return (shell_error(malloc_error, "add_cmd_redir() @ ft_strdup"), free_shell(shell), NULL);
@@ -61,6 +63,7 @@ t_token	*add_cmd_word(t_shell *shell, t_token *current, t_command *new)
 		new->command = ft_strdup((const char *)current->str);
 		if (!new->command)
 			return (shell_error(malloc_error, "add_cmd_word() @ ft_strdup"), free_shell(shell), NULL);
+		ft_strtolower(new->command);
 	}
 	else
 	{

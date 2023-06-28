@@ -50,6 +50,7 @@ SRC =	ft_atoi.c \
 		ft_strndup.c \
 		ft_strnstr.c \
 		ft_strrchr.c \
+		ft_strtolower.c \
 		ft_strtrim.c \
 		ft_substr.c \
 		ft_tolower.c \
