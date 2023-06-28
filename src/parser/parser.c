@@ -52,7 +52,7 @@ void	print_command_table(t_shell *shell) //for testing purpose
 	}
 }
 
-void	fill_command(t_shell *shell, t_token **current, t_command *new)
+t_token	*fill_command(t_shell *shell, t_token *current, t_command *new)
 {
 	const t_add_cmd_func	func[8] = {
 	[0] = &add_cmd_skip,
@@ -65,14 +65,16 @@ void	fill_command(t_shell *shell, t_token **current, t_command *new)
 	[7] = &add_cmd_word,
 	};
 	if (!new)
-	{
-		*current = NULL;
-		return;
-	}
-	while (*(current) && (*current)->type != PIPE)
-		*current = func[(*current)->type](shell, *current, new);
-	if (*(current))
-		*current = func[(*current)->type](shell, *current, new);
+		return (NULL);
+	if (current && current->type == PIPE)
+		return (shell_error(syntax_error, current->str), free_shell(shell), NULL);
+	while (current && current->type != PIPE)
+		current = func[current->type](shell, current, new);
+	// if (valid_command(new) == false)
+			//return (NULL);
+	if (current)
+		current = func[current->type](shell, current, new);
+	return (current);
 }
 
 void	add_cmd(t_shell *shell, t_token **current)
@@ -81,12 +83,7 @@ void	add_cmd(t_shell *shell, t_token **current)
 	
 	skip_space(current);
 	new = list_add_new_cmd(shell);
-	fill_command(shell, current, new);
-	// if (valid_command(new) == false)
-	// {
-
-	// 	*current = NULL;
-	// }
+	*current = fill_command(shell, *current, new);
 }
 
 void	parser(t_shell *shell)

@@ -146,7 +146,7 @@ void		free_redir_list(t_redir	**list);
 void		shell_error(void (*func)(const char *), const char *str);
 void		print_error(const char *str);
 void		malloc_error(const char *str);
-void		parse_error(const char *str);
+void		syntax_error(const char *str);
 
 
 // executor
