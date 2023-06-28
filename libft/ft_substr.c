@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/10 15:50:29 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/04/30 14:48:09 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/06/23 10:19:33 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	if (start + len >= string_length)
 		len = string_length - start;
-	sub_string = malloc (sizeof(char) * (len + 1));
+	sub_string = ft_calloc (len + 1, sizeof(char));
 	if (!sub_string)
 		return (NULL);
 	while (index < len && s[start + index])

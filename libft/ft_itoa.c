@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/02 09:53:48 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/01/13 10:02:51 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/06/23 10:17:54 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_itoa(int n)
 
 	l_number = (long int) n;
 	lenght = getlen(l_number);
-	string = ft_calloc((lenght + 1), sizeof(char));
+	string = ft_calloc(lenght + 1, sizeof(char));
 	if (!string)
 		return (NULL);
 	if (l_number == 0)

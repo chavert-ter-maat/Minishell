@@ -3,11 +3,10 @@
 
 // for testing puropses
 
-void	exit_lexer(t_shell *shell)
+void	exit_parser(t_shell *shell)
 {
-	free_list(shell->lexer);
-	print_list(shell->expander);
-	free_list(shell->expander);
+	print_command_table(shell);
+	free_shell(shell);
 }
 
 void	inthandler(int signum) // for testing purpose
@@ -24,10 +23,9 @@ void	make_var_list(t_shell *shell) //for testing purpose
 {
 	t_var *new;
 
-	new = malloc(sizeof(t_var));
+	new = ft_calloc(1, sizeof(t_var));
 	new->name = "VAR";
 	new->value = "value";
-	new->next = NULL;
 	shell->var_list = new;
 }
 
@@ -56,7 +54,7 @@ int main(int argc, char **argv, char **envp)
 	(void) argv;
 	(void) envp;
 	if (argc > 1)
-		;//exit
+		exit(EXIT_FAILURE);
 	atexit(f);
 	signal(SIGINT, &inthandler);
 	ft_bzero(&shell, sizeof(t_shell));
@@ -65,13 +63,14 @@ int main(int argc, char **argv, char **envp)
 		make_var_list(&shell); //for testing purpose
 		shell.cmd_line = readline("shellyeah$ ");
 		add_history(shell.cmd_line);
-		shell.lexer = lexer(&shell);
-		shell.expander = expander(&shell);
-		exit_lexer(&shell);//remove later
-		shell.lexer = NULL;
-		shell.expander = NULL;
-		free(shell.cmd_line);
-		free(shell.var_list); //remove later
+		lexer(&shell);
+		expander(&shell);
+		parser(&shell);
+		exit_parser(&shell);//remove later
+		if (shell.cmd_line)
+			free(shell.cmd_line);
+		free_var_list(&(shell.var_list)); //remove later
+	}
     
 // main for executor
 

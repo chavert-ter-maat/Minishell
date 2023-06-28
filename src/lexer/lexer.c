@@ -7,10 +7,10 @@ get_char_type checks if the given character is a meta character
 or whitespace or part of a WORD.
 */
 
-t_token_type	find_metachar(char c)
+int	find_metachar(char c)
 {
 	const char		set[] = "|\'\"><$";
-	size_t			i;
+	int			i;
 
 	i = 0;
 	while (i <= 5)
@@ -30,7 +30,7 @@ Get_token_info gets the data for the string in the token structure.
 It uses a jumptable.
 */
 
-void	get_token_info(t_shell *shell, t_token *token, char *cmd_line, size_t *i)
+void	get_token_info(t_shell *shell, t_token **token, char *cmd_line, size_t *i)
 {
 	const t_token_type_func	func[8] = {
 	[0] = &tok_type_pipe,
@@ -44,12 +44,19 @@ void	get_token_info(t_shell *shell, t_token *token, char *cmd_line, size_t *i)
 	};
 	size_t					save_i;
 
+	if (!*token)
+		return ;
 	save_i = *i;
-	token->type = find_metachar(cmd_line[*i]);
-	func[token->type](cmd_line, i, token->type);
-	token->str = ft_strndup(&(cmd_line[save_i]), *i - save_i);
-	if (!token->str)
-		error_free_exit(shell);
+	(*token)->type = find_metachar(cmd_line[*i]);
+	func[(*token)->type](cmd_line, i, (*token)->type);
+	(*token)->str = ft_strndup(&(cmd_line[save_i]), *i - save_i);
+	if (!(*token)->str)
+	{
+		free(*token);
+		*token = NULL;
+		shell_error(malloc_error, "lget_token_info() @ ft_strndup");
+		free_shell(shell);
+	}
 }
 
 /*
@@ -57,7 +64,7 @@ The lexer function takes the command line input
 and returns a linked list of tokens.
 */
 
-t_token	*lexer(t_shell *shell)
+void	lexer(t_shell *shell)
 {
 	t_token	*new;
 	size_t	i;
@@ -65,9 +72,10 @@ t_token	*lexer(t_shell *shell)
 	i = 0;
 	while (shell->cmd_line[i])
 	{
-		new = new_token(shell);
-		get_token_info(shell, new, shell->cmd_line, &i);
-		shell->lexer = list_add_token(shell->lexer, new);
+		new_token(shell, &new);
+		get_token_info(shell, &new, shell->cmd_line, &i);
+		if (!new)
+			return ;
+		list_add_token(&(shell->lexer), new);
 	}
-	return (shell->lexer);
 }

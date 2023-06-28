@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/17 17:47:15 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/01/13 10:35:37 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/06/23 10:17:18 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 
 	if (!s || !f)
 		return (NULL);
-	string = malloc(sizeof(char) * ft_strlen(s) + 1);
+	string = ft_calloc(ft_strlen(s) + 1, sizeof(char));
 	if (string == NULL)
 		return (NULL);
 	index = 0;
