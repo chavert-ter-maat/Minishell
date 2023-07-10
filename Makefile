@@ -1,14 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: cter-maa <cter-maa@student.codam.nl>         +#+                      #
-#                                                    +#+                       #
-#    Created: 2023/04/20 11:46:11 by cter-maa      #+#    #+#                  #
-#    Updated: 2023/06/16 16:42:13 by cter-maa      ########   odam.nl          #
-#                                                                              #
-# **************************************************************************** #
 
 # VARIABLES
 NAME 	= minishell
@@ -27,24 +16,25 @@ RM 		= rm -rf
 SANITIZE = -fsanitize=address
 
 # INCLUDES
-INCLUDES	= -I ./libft -I ./libft/ft_printf
+INCLUDES	= -I./libft -I./libft/ft_printf -I./include
 
 # LIBRARIES
 PRINTF = ./libft/ft_printf/libftprintf.a
 LIBFT = ./libft/libft.a
 
 # SOURCES
-SRC = 	SRC/main.c \
-		SRC/lexer/lexer.c \
-		SRC/lexer/lexer_jumptable.c \
-		src/utils/handle_errors.c \
-		SRC/utils/lexer_utils.c \
-		SRC/executor/utils_executor.c \
-		src/executor/handle_single_command.c \
-		src/executor/handle_multiple_commands.c \
-		src/executor/input_handling.c \
-		src/executor/run_commands.c \
-		
+SRC =   SRC/main.c \
+        SRC/expander/expander.c \
+        SRC/lexer/lexer_jumptable.c \
+        SRC/lexer/lexer.c \
+        SRC/utils/error.c \
+        SRC/utils/expander_utils.c \
+        SRC/utils/handle_errors.c \
+        SRC/utils/lexer_utils.c \
+		SRC/utils/free.c \
+		SRC/parser/parser.c \
+		SRC/parser/parser_jumptable.c \
+		SRC/utils/parser_utils.c
 
 # OBJECTS
 OBJ			= $(SRC:.c=.o)
@@ -68,6 +58,9 @@ $(NAME): $(OBJ)
 	$(MAKE) -C ./libft/ft_printf
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
+
+%.o: %.c $(INCLUDES)
+	$(CC) -c $(CFLAGS) $(LDFLAGS) -o $@ $<
 
 make go: $(OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)

@@ -7,22 +7,22 @@ get_char_type checks if the given character is a meta character
 or whitespace or part of a WORD.
 */
 
-t_token_type	get_char_type(char c)
+int	find_metachar(char c)
 {
-	const char		set[] = "x|\'\"><$";
-	size_t			pos;
+	const char		set[] = "|\'\"><$";
+	int			i;
 
-	pos = 1;
-	while (pos <= 6)
+	i = 0;
+	while (i <= 5)
 	{
-		if (set[pos] == c)
-			return (pos);
-		pos++;
+		if (set[i] == c)
+			return (i);
+		i++;
 	}
 	if (c == ' ' || c == '\t' || c == '\n')
-		return (pos);
-	pos++;
-	return (pos);
+		return (i);
+	i++;
+	return (i);
 }
 
 /*
@@ -30,33 +30,33 @@ Get_token_info gets the data for the string in the token structure.
 It uses a jumptable.
 */
 
-void	get_token_info(t_token *token, char *cmd_line, size_t *pos)
+void	get_token_info(t_shell *shell, t_token **token, char *cmd_line, size_t *i)
 {
-	const t_token_type_func	func[9] = {
-	[0] = NULL,
-	[1] = &tok_type_pipe,
+	const t_token_type_func	func[8] = {
+	[0] = &tok_type_pipe,
+	[1] = &tok_type_quote,
 	[2] = &tok_type_quote,
-	[3] = &tok_type_quote,
+	[3] = &tok_type_redir,
 	[4] = &tok_type_redir,
-	[5] = &tok_type_redir,
-	[6] = &tok_type_var,
+	[5] = &tok_type_var,
+	[6] = &tok_type_consec,
 	[7] = &tok_type_consec,
-	[8] = &tok_type_consec,
 	};
-	size_t					save_pos;
+	size_t					save_i;
 
-	save_pos = *pos;
-	token->type = get_char_type(cmd_line[*pos]);
-	func[token->type](cmd_line, pos, token->type);
-	token->str = ft_strndup(&(cmd_line[save_pos]), *pos - save_pos);
-}
-
-// for testing puropses
-
-void	exit_lexer(t_shell *shell)
-{
-	print_list(shell->tokens);
-	shell->tokens = free_list(shell->tokens);
+	if (!*token)
+		return ;
+	save_i = *i;
+	(*token)->type = find_metachar(cmd_line[*i]);
+	func[(*token)->type](cmd_line, i, (*token)->type);
+	(*token)->str = ft_strndup(&(cmd_line[save_i]), *i - save_i);
+	if (!(*token)->str)
+	{
+		free(*token);
+		*token = NULL;
+		shell_error(malloc_error, "lget_token_info() @ ft_strndup");
+		free_shell(shell);
+	}
 }
 
 /*
@@ -64,18 +64,18 @@ The lexer function takes the command line input
 and returns a linked list of tokens.
 */
 
-t_token	*lexer(t_shell *shell)
+void	lexer(t_shell *shell)
 {
 	t_token	*new;
-	size_t	pos;
+	size_t	i;
 
-	pos = 0;
-	while (shell->cmd_line[pos])
+	i = 0;
+	while (shell->cmd_line[i])
 	{
-		new = new_token(shell);
-		get_token_info(new, shell->cmd_line, &pos);
-		shell->tokens = list_add_token(shell->tokens, new);
+		new_token(shell, &new);
+		get_token_info(shell, &new, shell->cmd_line, &i);
+		if (!new)
+			return ;
+		list_add_token(&(shell->lexer), new);
 	}
-	exit_lexer(shell);//remove later
-	return (shell->tokens);
 }

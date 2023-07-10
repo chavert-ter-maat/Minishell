@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/14 15:05:02 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/04/30 14:49:40 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/06/23 10:18:39 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ char	*ft_strdup(const char *s1)
 	size_t	index;
 	char	*new_string;
 
+	if (!s1)
+		return (NULL);
 	index = 0;
-	new_string = malloc (sizeof(char) * ft_strlen(s1) + 1);
+	new_string = ft_calloc (ft_strlen(s1) + 1, sizeof(char));
 	if (!new_string)
 		return (NULL);
 	while (s1[index])
