@@ -23,6 +23,7 @@
 # define WRITE_END	1
 # define READ_END	0
 # define SUCCES		0
+# define FOUND		1
 # define NOT_FOUND	0
 # define FAILED		-1
 # define ERROR		-1
@@ -95,26 +96,27 @@ typedef struct s_executor
 
 }	t_executor;
 
-typedef struct s_envp
+typedef struct s_env
 {
 	char			*name;
 	char			*value;
 	int				is_set;
-	struct	s_envp	*next;
-}	t_envp;
+	struct	s_env	*next;
+}	t_env;
 
 typedef struct s_builtins
 {
-	const char	*name_builtin;
-	// void		(*name_function)(char **arguments, t_shell *shell);
+	const char	*type_builtin;
+	void		(*function)(t_shell *shell, char **arguments);
 }	t_builtins;
 
 typedef struct s_shell
 {
-	int			return_value;
+	int				return_value;
 	char			*cmd_line;
 	t_builtins 		*builtins;
-	t_envp			*envp;
+	t_command		*command;
+	t_env			*env_list;
   	t_executor	 	*executor;
 	t_token			*expander;
 	t_token			*lexer;
@@ -155,7 +157,7 @@ t_token			*list_new_word(t_shell *shell, t_token *top, char *str, size_t *i);
 void	run_command(t_shell *shell, char *argv);
 void	create_single_child(t_shell *shell);
 void	handle_multiple_commands(t_shell *shell, int nb_commands, char **argv);
-void	input_handling(t_shell *shell, int argc, char **argv, char **envp);
+// void	input_handling(t_shell *shell, int argc, char **argv, char **envp);
 void	print_status_waidpid(pid_t pid, int options);
 void	infile_as_stdin(t_shell *shell);
 void	outfile_as_stdout(t_shell *shell);
@@ -165,9 +167,16 @@ void	perror_exit(char *input);
 void	error_no_command(char *argv);
 
 // environment
-int		init_envp(t_shell *shell, char **envp);
-void	print_list_envp(t_envp *envp_list);
-void	free_list_envp(t_envp **envp_list);
-void	add_to_list(t_envp **envp_list, t_envp *new_node);
+t_env	*init_env(char **envp);
+void	print_list_env(t_env *env_list);
+void	free_list_env(t_env *env_list);
+void	add_node_to_list_env(t_env **env_list, t_env *new_node);
+
+// builtins
+void	ft_echo(char **args, int fd);
+int		ft_env(t_shell *shell);
+int		execute_builtins(t_shell *shell, char **arguments);
+int		ft_pwd(void);
+void	ft_unset(t_command *command, t_env **env_list);
 
 #endif

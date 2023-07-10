@@ -41,6 +41,7 @@ void	print_list(t_token *list) //can be removed later
 	}
 }
 
+//klopt deze functie?? is het geen **list?
 void	free_list(t_token *list)
 {
 	t_token	*temp;

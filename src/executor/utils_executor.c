@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-
+// redirects a file as standart in.
 void infile_as_stdin(t_shell *shell)
 {
 	int	infile_fd;
@@ -14,6 +14,7 @@ void infile_as_stdin(t_shell *shell)
 		perror_exit("close");
 }
 
+// redirects output to a (new)file.
 void	outfile_as_stdout(t_shell *shell)
 {
 	int	fd_outfile;
@@ -27,6 +28,7 @@ void	outfile_as_stdout(t_shell *shell)
 		perror_exit("close");
 }
 
+// prints the status of waidpid.
 void	print_status_waidpid(pid_t pid, int options) 
 {
 	int status;

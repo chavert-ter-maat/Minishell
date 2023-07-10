@@ -24,14 +24,12 @@ LIBFT = ./libft/libft.a
 
 # SOURCES
 SRC = 	SRC/main.c \
-		SRC/environment/init_envp.c \
-		SRC/executor/handle_builtins.c \
-		SRC/executor/handle_single_command.c \
-		SRC/executor/handle_single_command.c \
-		SRC/executor/handle_multiple_commands.c \
-		SRC/executor/input_handling.c \
-		SRC/executor/run_commands.c \
-		SRC/executor/utils_executor.c \
+		SRC/builtins/echo.c \
+		SRC/builtins/env.c \
+		SRC/builtins/export.c \
+		SRC/builtins/pwd.c \
+		SRC/environment/envp_init.c \
+		SRC/environment/envp_utils.c \
 		SRC/expander/expander.c \
 		SRC/lexer/lexer_jumptable.c \
 		SRC/lexer/lexer.c \
@@ -39,6 +37,11 @@ SRC = 	SRC/main.c \
 		SRC/utils/expander_utils.c \
 		SRC/utils/handle_errors.c \
 		SRC/utils/lexer_utils.c \
+		SRC/builtins/handle_builtins.c \
+		SRC/executor/handle_multiple_commands.c \
+		SRC/executor/handle_single_command.c \
+		SRC/executor/run_commands.c \
+		SRC/executor/utils_executor.c \
 
 # OBJECTS
 OBJ			= $(SRC:.c=.o)
