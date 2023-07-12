@@ -36,9 +36,9 @@ static char	**get_path_environment(t_shell *shell)
 	size_t	index;
 
 	index = 0;
-	while (shell->envp[index])
+	while (shell->env->env_list->next)
 	{
-		path = ft_strnstr(shell->envp[index], "PATH=", 5);
+		path = ft_strnstr(shell->env_list->name, "PATH=", 5);
 		if (path)
 			break ;
 		index++;

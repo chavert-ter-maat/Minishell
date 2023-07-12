@@ -49,7 +49,6 @@ t_env	*create_new_node(char *new_env_variable)
 		exit(EXIT_FAILURE);
 	new_node->next = NULL;
 	return (new_node);
-
 }
 
 t_env	*init_env(char **envp)
