@@ -6,12 +6,12 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/01 15:37:56 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/05/01 09:55:07 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/06/23 10:16:05 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* ft_lstnew() allocates with malloc and returns a new node.				  */
+/* ft_lstnew() allocates with ft_calloc and returns a new node.				  */
 /* ************************************************************************** */
 
 #include "libft.h"
@@ -20,7 +20,7 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*new_node;
 
-	new_node = malloc(sizeof(t_list));
+	new_node = ft_calloc(1, sizeof(t_list));
 	if (!new_node)
 		return (NULL);
 	new_node->content = content;

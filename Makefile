@@ -16,7 +16,7 @@ RM 		= rm -rf
 SANITIZE = -fsanitize=address
 
 # INCLUDES
-INCLUDES	= -I ./libft -I ./libft/ft_printf -I ./include
+INCLUDES	= -I./libft -I./libft/ft_printf -I./include
 
 # LIBRARIES
 PRINTF = ./libft/ft_printf/libftprintf.a
@@ -80,6 +80,9 @@ $(NAME): $(OBJ)
 	$(MAKE) -C ./libft/ft_printf
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
+
+%.o: %.c $(INCLUDES)
+	$(CC) -c $(CFLAGS) $(LDFLAGS) -o $@ $<
 
 make go: $(OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
