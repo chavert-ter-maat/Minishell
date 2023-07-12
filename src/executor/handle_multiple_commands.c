@@ -4,12 +4,12 @@
 static int handle_fds(int *pipe_fd, int read_end)
 {
     if (close(pipe_fd[WRITE_END]) == FAILED)
-        perror_exit("4: close");
+        perror_exit("close");
 		
     if (read_end != STDIN_FILENO)
     {
         if (close(read_end) == FAILED)
-            perror_exit("3: close");
+            perror_exit("close");
     }
 	read_end = pipe_fd[READ_END];
     return (read_end);
@@ -71,11 +71,11 @@ static int	initiate_forks(t_shell *shell, t_command *command)
 	return(pid);
 }
 
-void	handle_multiple_commands(t_shell *shell, t_command *command)
+void	handle_multiple_commands(t_shell *shell)
 {
 	pid_t	pid;
 	
-	pid = initiate_forks(shell, command);
+	pid = initiate_forks(shell, shell->command);
 	if (waitpid(pid, NULL, 0) == FAILED)
 		perror_exit("waitpid");
 }

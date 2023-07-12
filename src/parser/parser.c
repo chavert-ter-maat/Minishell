@@ -93,4 +93,5 @@ void	parser(t_shell *shell)
 	current = shell->expander;
 	while (current)
 		add_cmd(shell, &current);
+	// print_command_table(shell); //remove later
 }

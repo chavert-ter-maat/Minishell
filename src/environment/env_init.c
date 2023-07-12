@@ -51,21 +51,20 @@ t_env	*create_new_node(char *new_env_variable)
 	return (new_node);
 }
 
-t_env	*init_env(char **envp)
+void	init_env(t_shell *shell, char **envp)
 {
 	t_env	*new_node;
-	t_env	*env_list;
 	int		index;
 
 	index = 0;
-	env_list = 	NULL;
+	shell->env_list = NULL;
+	shell->envp = envp;
 	while(envp[index])
 	{
 		new_node = create_new_node(envp[index]);
 		if(!new_node)
-			free_list_env(env_list);
-		add_node_to_list_env(&env_list, new_node);
+			free_list_env(shell->env_list);
+		add_node_to_list_env(&(shell->env_list), new_node);
 		index++;
 	}
-	return(env_list);
 }

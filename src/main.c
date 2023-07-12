@@ -39,10 +39,10 @@ int main(int argc, char **argv, char **envp)
 	(void) envp;
 	if (argc > 1)
 		;//exit
-	atexit(f);
+	// atexit(f);
 	signal(SIGINT, &inthandler);
 	ft_bzero(&shell, sizeof(t_shell));
-	init_env(envp);
+	init_env(&shell, envp);
 	while (1)
 	{
 		make_var_list(&shell); //for testing purpose
@@ -50,9 +50,9 @@ int main(int argc, char **argv, char **envp)
 		add_history(shell.cmd_line);
 		lexer(&shell);
 		expander(&shell);
-		exit_lexer(&shell);//remove later
-		shell.lexer = NULL;
-		shell.expander = NULL;
+		parser(&shell);
+		executor(&shell);
+		free_shell(&shell);
 		free(shell.cmd_line);
 		free(shell.var_list); //remove later
 	}

@@ -198,9 +198,10 @@ char 			*find_var_value(t_var *var_list, char *var);
 void			error_free_exit(t_shell *shell);
 
 // executor
+void    executor(t_shell *shell);
 void	run_command(t_shell *shell, char **argv);
-void	handle_multiple_commands(t_shell *shell, t_command *command);
-void	handle_single_command(t_shell *shell, t_command *command);
+void	handle_multiple_commands(t_shell *shell);
+void	handle_single_command(t_shell *shell);
 int		ft_here_doc(char *delimiter, int fd_write_end);
 
 // void	input_handling(t_shell *shell, int argc, char **argv, char **envp);
@@ -213,7 +214,7 @@ void	perror_exit(char *input);
 void	error_no_command(char *argv);
 
 // environment
-t_env	*init_env(char **envp);
+void	init_env(t_shell *shell, char **envp);
 void	print_list_env(t_env *env_list);
 void	free_list_env(t_env *env_list);
 void	add_node_to_list_env(t_env **env_list, t_env *new_node);
