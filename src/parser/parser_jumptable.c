@@ -54,27 +54,18 @@ t_token *add_cmd_redir(t_shell *shell, t_token *current, t_command *new_cmd)
 
 t_token	*add_cmd_word(t_shell *shell, t_token *current, t_command *new)
 {
-	t_argument *new_arg;
+	t_argument	*new_arg;
+	char		*arg;
 
 	if (!new)
 		return (NULL);
-	if (!new->command)
-	{
-		new->command = ft_strdup((const char *)current->str);
-		if (!new->command)
-			return (shell_error(malloc_error, "add_cmd_word() @ ft_strdup"), free_shell(shell), NULL);
-		ft_strtolower(new->command);
-	}
-	else
-	{
-		new_arg = ft_calloc(1, sizeof(t_argument));
-		if (!new_arg)
-			return (shell_error(malloc_error, "add_cmd_word() @ ft_calloc"), free_shell(shell), NULL);
-		list_add_arg(&(new->args), new_arg);
-		new_arg->str = ft_strdup ((const char *) current->str);
-		if (!(new_arg->str))
-			return (shell_error(malloc_error, "add_cmd_word() @ ft_strdup"), free_shell(shell), NULL);
-	}
+	arg = ft_strdup((const char *)current->str);
+	if (!arg)
+		return (shell_error(malloc_error, "add_cmd_word() @ ft_strdup"), free_shell(shell), NULL);
+	new_arg = ft_calloc(1, sizeof(t_argument));
+	if (!new_arg)
+		return (shell_error(malloc_error, "add_cmd_word() @ ft_calloc"), free_shell(shell), NULL);
+	new_arg->str = arg;
+	list_add_arg(&(new->args), new_arg);
 	return (current->next);
 }
-

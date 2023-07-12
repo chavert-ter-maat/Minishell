@@ -69,7 +69,7 @@ t_token	*fill_command(t_shell *shell, t_token *current, t_command *new)
 	if (current && current->type == PIPE)
 		return (shell_error(syntax_error, current->str), free_shell(shell), NULL);
 	while (current && current->type != PIPE)
-		current = func[current->type](shell, current, new);
+		current = func[current->type](shell, current new);
 	// if (valid_command(new) == false)
 			//return (NULL);
 	if (current)
@@ -80,10 +80,12 @@ t_token	*fill_command(t_shell *shell, t_token *current, t_command *new)
 void	add_cmd(t_shell *shell, t_token **current)
 {
 	t_command	*new;
+	t_argument	*args;
 	
 	skip_space(current);
 	new = list_add_new_cmd(shell);
 	*current = fill_command(shell, *current, new);
+	new->args = arg_list_to_array(new);
 }
 
 void	parser(t_shell *shell)

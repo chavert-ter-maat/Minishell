@@ -43,6 +43,9 @@ SRC = 	SRC/main.c \
 		SRC/executor/handle_single_command.c \
 		SRC/executor/run_commands.c \
 		SRC/executor/utils_executor.c \
+		SRC/parser/parser.c \
+		SRC/parser/parser_jumptable.c \
+		SRC/parser/arguments.c \
 
 # OBJECTS
 OBJ			= $(SRC:.c=.o)

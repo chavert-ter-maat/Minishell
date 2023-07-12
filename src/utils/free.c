@@ -82,10 +82,9 @@ void	free_cmd_list(t_command **list)
 	{
 		temp = *list;
 		*list = (*list)->next;
-		if (temp->command)
-			free(temp->command);
-		free_arg_list(&(temp->args));
+		free_arg_list(&(temp->arg_list));
 		free_redir_list(&(temp->redir));
+		free(temp->args);
 		free(temp);
 	}
 }

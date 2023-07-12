@@ -82,8 +82,8 @@ typedef struct s_argument
 
 typedef struct s_command
 {
-	char				*command;
 	char				**args;
+	struct s_argument	*arg_list;
 	struct s_redir		*redir;
 	struct s_command	*next;
 }	t_command;
@@ -165,6 +165,7 @@ void		list_add_arg(t_argument **top, t_argument *new);
 t_token		*add_cmd_word(t_shell *shell, t_token *current, t_command *new);
 t_token		*add_cmd_redir(t_shell *shell, t_token *current, t_command *new_cmd);
 t_token		*add_cmd_skip(t_shell *shell, t_token *current, t_command *new);
+char		**arg_list_to_array(t_command *cmd);
 
 //
 void		free_tok_list(t_token **list);

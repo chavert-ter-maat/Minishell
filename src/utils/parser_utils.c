@@ -52,7 +52,10 @@ void	list_add_arg(t_argument **top, t_argument *new)
 	t_argument	*temp;
 
 	if (!*top)
+	{
 		*top = new;
+		new->str = ft_strtolower(new->str);
+	}
 	else
 	{
 		temp = *top;
