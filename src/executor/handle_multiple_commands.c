@@ -49,7 +49,7 @@ void	execute_childs(t_shell *shell, int read_end, int *pipe_fd, char *cmd)
 
 // creates forks for the amount of commands and pipes the output of 1
 // command to the input of the next command.
-static int	initiate_forks(t_shell *shell, int nb_commands, char **argv)
+static int	initiate_forks(t_shell *shell, int nb_commands, char **argv) 
 {
 	int 	pipe_fd[2];
 	pid_t	pid;
@@ -73,7 +73,7 @@ static int	initiate_forks(t_shell *shell, int nb_commands, char **argv)
 	return(pid);
 }
 
-void	handle_multiple_commands(t_shell *shell, int nb_commands, char **argv)
+void	handle_multiple_commands(t_shell *shell, int nb_commands, char **argv) //delete number commands. While loop **command -> next.
 {
 	pid_t	pid;
 	

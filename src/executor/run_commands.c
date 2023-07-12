@@ -52,17 +52,13 @@ static char	**get_path_environment(t_shell *shell)
 // run_commands() finds path in environment, splits it and looks then looks if
 // executable is present in the minishell directory, if not it looks for
 // a path either in the environment or in the input.
-void	run_command(t_shell *shell, char *cmd)
+void	run_command(t_shell *shell, char **commands)
 {
-	char	**splitted_cmd;
 	char	*command_path;
-	char	**split_path;
+	char	**split_path; //get envp linked list
 
 	command_path = NULL;
-	split_path = get_path_environment(shell);
-	splitted_cmd = ft_split(cmd, ' ');
-	if (!splitted_cmd)
-		error_exit("split splitted_cmd failed\n");
+	split_path = get_path_environment(shell); //change to linked list
 	if (splitted_cmd[0] && (ft_strncmp(splitted_cmd[0], "/", 1) 
 		|| ft_strncmp(splitted_cmd[0], "./", 2)))
 	{
