@@ -6,12 +6,12 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/17 17:47:15 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/01/13 10:26:16 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/06/23 10:18:52 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* ft_strjoin allocates with malloc and returns a new string,				  */
+/* ft_strjoin allocates with ft_calloc and returns a new string,				  */
 /* which is the result of the concatenation of ’s1’ and ’s2’.				  */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*new_string;
 
 	lenght = ft_strlen(s1) + ft_strlen(s2);
-	new_string = malloc(sizeof(char) * (lenght + 1));
+	new_string = ft_calloc(lenght + 1, sizeof(char));
 	if (!new_string)
 		return (NULL);
 	index1 = 0;

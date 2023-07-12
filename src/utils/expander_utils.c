@@ -12,75 +12,73 @@ char	*ft_append(char *str1, char *str2)
 		return(str1);
 	if (!str1)
 		return(str2);
-	append = NULL;
 	size = ft_strlen(str1) + ft_strlen(str2) + 1;
-	append = malloc(size);
+	append = ft_calloc(size, sizeof(char));
 	if (!append)
-	{
-		free(str1);
-		return (NULL);
-	}
+		return (free(str1), NULL);
 	append[0] = '\0';
 	ft_strlcat(append, str1, size);
 	ft_strlcat(append, str2, size);
-	free(str1);
-	return (append);
+	return (free(str1), append);
 }
 
-/* checks the list and if two censecutive tokens are of type WORD
+void	remove_token_from_list(t_token *previous, t_token *token)
+{
+	previous->next = token->next;
+	if ((token)->str)
+		free((token)->str);
+	free(token);
+}
+
+/* checks the expander list and removes type TOKEN tokens,
+if two censecutive tokens are of type WORD
 it concatenates the words in the first token string,
 removes the second token from the list and frees that token
 remaining the order of the rest of the list */
 
-t_token	*list_cat_words(t_shell *shell, t_token *top)
+void	list_cat_words(t_shell *shell)
 {
 	t_token	*temp;
-	t_token	*to_free;
 
-	if (!top)
-		return (NULL);
-	temp = top;
+	if (!shell->expander)
+		return ;
+	temp = shell->expander;
 	while (temp->next)
 	{
-		if (temp->type == WORD &&temp->next->type == WORD)
+		if (temp->next->type == TOKEN)
+			remove_token_from_list(temp, temp->next);
+		else if (temp->type == WORD &&temp->next->type == WORD)
 		{
 			temp->str = ft_append(temp->str, temp->next->str);
 			if (!temp->str)
-				error_free_exit(shell);
-			to_free = temp->next;
-			temp->next = temp->next->next;
-			free(to_free->str);
-			free(to_free);
+				return (shell_error(malloc_error, "list_cat_words() @ ft_append"), free_shell(shell));
+			remove_token_from_list(temp, temp->next);
 		}
 		else
 		temp = temp->next;
 	}
-	return (top);
 }
 
 /* allocates a copy of the token and adds
-it to the back of the list */
+it to the back of the expander list */
 
-t_token	*list_add_copy(t_shell *shell, t_token *top, t_token *token)
+void	list_add_copy(t_shell *shell, t_token *token)
 {
 	t_token	*new;
 
 	if (!token)
-		return(top);
-	new = new_token(shell);
+		return ;
+	new_token(shell, &new);
+	if (!new)
+		return ;
 	new->type = token->type;
-	if (!token->str)
-		return(list_add_token(top, new));
 	new->str = ft_strdup(token->str);
+	list_add_token(&(shell->expander), new);
 	if (!new->str)
-	{
-		free(new);
-		error_free_exit(shell);
-	}
-	return (list_add_token(top, new));
+		return (shell_error(malloc_error, "list_add_copy() @ ft_strdup"), free_shell(shell));
 }
 
-/* returns last nde in list */
+/* returns last node in list */
 
 t_token *list_last(t_token *top)
 {
@@ -114,24 +112,20 @@ char *find_var_value(t_var *var_list, char *var) //ADD $? !!!!!!!!!!!!!!!!!!!!!!
 	return (NULL);
 }
 
-t_token	*list_new_word(t_shell *shell, t_token *top, char *str, size_t *i)
+void	list_new_word(t_shell *shell, char *str, size_t *i)
 {
 	t_token	*new;
 	size_t	save_i;
 
-	new = malloc(sizeof(t_token));
+	new_token(shell, &new);
 	if (!new)
-		error_free_exit(shell);
+		return ;
 	new->type = WORD;
-	new->next = NULL;
 	save_i = *i;
 	while (str[*i] && str[*i] != '$')
 		(*i)++;
 	new->str = ft_strndup(&(str[save_i]), *i - save_i);
+	list_add_token(&(shell->expander), new);
 	if (!new->str)
-	{
-		free(new);
-		error_free_exit(shell);
-	}
-	return (list_add_token(top, new));
+		return (shell_error(malloc_error, "list_new_word() @ ft_strndup"), free_shell(shell));
 }

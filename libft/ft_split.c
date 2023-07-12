@@ -6,12 +6,12 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/02 11:57:54 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/05/23 14:51:23 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/06/23 10:18:13 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* ft_split allocates with malloc and returns an array of strings 			  */
+/* ft_split allocates with ft_calloc and returns an array of strings 			  */
 /* obtained by splitting ’s’ using the character ’c’ as a delimiter. 		  */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	split = malloc((count_words(s, c) + 1) * sizeof(char *));
+	split = ft_calloc(count_words(s, c) + 1, sizeof(char *));
 	if (!split)
 		return (NULL);
 	if (create_split(s, c, split) == 1)
