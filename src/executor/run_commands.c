@@ -15,7 +15,7 @@ static char	*get_path_executable(char **split_path, char **cmd)
 	while (split_path[index])
 	{
 		tmp_path = ft_strjoin(split_path[index], cmd_slash);
-		if (access(tmp_path, F_OK | X_OK) == SUCCES)
+		if (access(tmp_path, F_OK | X_OK) == SUCCESS)
 			break ;
 		free(tmp_path);
 		index++;
