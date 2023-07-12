@@ -30,20 +30,15 @@ static t_env	*search_last_node_env(t_env *env_list)
 {
     if (!env_list) 
         return (NULL);
-	ft_putstr_fd("hier?3\n", 1);
     while (env_list->next)
-    	{
-			ft_putstr_fd("test last node\n", 1);
         	env_list = env_list->next;
-		}
-	ft_putstr_fd("hier?\n", 1);
     return (env_list);
 }
 
 void	add_node_to_list_env(t_env **env_list, t_env *new_node)
 {
 	t_env	*last_node;
-	ft_putstr_fd("hier2?\n", 1);
+
 	if (!*env_list)
 	{
 		*env_list = new_node;

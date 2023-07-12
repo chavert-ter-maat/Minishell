@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	create_single_child(t_shell *shell) //**commands
+void	handle_single_command(t_shell *shell, t_command *command)
 {
 	pid_t	pid;
 	int		status;
@@ -10,7 +10,7 @@ void	create_single_child(t_shell *shell) //**commands
 		perror_exit("fork");
 	// save_std(shell->executor);
 	if (pid == SUCCESS)
-		run_command(shell, shell->argv[2]); // **commands
+		run_arguments(shell, shell->command->args);
 	// restore_std(shell->executor);
 	if (waitpid(pid, &status, 0) == FAILED)
 		perror_exit("waitpid");

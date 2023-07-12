@@ -117,6 +117,7 @@ typedef struct s_shell
 	t_builtins 		*builtins;
 	t_command		*command;
 	t_env			*env_list;
+	char			**envp;
   	t_executor	 	*executor;
 	t_token			*expander;
 	t_token			*lexer;
@@ -154,9 +155,9 @@ void			error_free_exit(t_shell *shell);
 t_token			*list_new_word(t_shell *shell, t_token *top, char *str, size_t *i);
 
 // executor
-void	run_command(t_shell *shell, char *argv);
-void	handle_multiple_commands(t_shell *shell, int nb_commands, char **argv);
-void	create_single_child(t_shell *shell);
+void	run_command(t_shell *shell, char **args);
+void	handle_multiple_commands(t_shell *shell, t_command *command);
+void	handle_single_command(t_shell *shell, t_command *command);
 int		ft_here_doc(char *delimiter, int fd_write_end);
 // void	input_handling(t_shell *shell, int argc, char **argv, char **envp);
 void	print_status_waidpid(pid_t pid, int options);
