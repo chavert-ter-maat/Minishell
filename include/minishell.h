@@ -22,7 +22,7 @@
 // defines
 # define WRITE_END	1
 # define READ_END	0
-# define SUCCES		0
+# define SUCCESS	0
 # define FOUND		1
 # define NOT_FOUND	0
 # define FAILED		-1
@@ -155,8 +155,9 @@ t_token			*list_new_word(t_shell *shell, t_token *top, char *str, size_t *i);
 
 // executor
 void	run_command(t_shell *shell, char *argv);
-void	create_single_child(t_shell *shell);
 void	handle_multiple_commands(t_shell *shell, int nb_commands, char **argv);
+void	create_single_child(t_shell *shell);
+int		ft_here_doc(char *delimiter, int fd_write_end);
 // void	input_handling(t_shell *shell, int argc, char **argv, char **envp);
 void	print_status_waidpid(pid_t pid, int options);
 void	infile_as_stdin(t_shell *shell);

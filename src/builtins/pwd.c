@@ -2,14 +2,14 @@
 
 int ft_pwd(void)
 {
-	char *buffer;
+	char *cwd;
 
-	buffer = NULL;
-  	buffer = getcwd(buffer, sizeof(buffer));
-	if(buffer == NULL)
-	    perror_exit("pwd: ");
-	write(STDOUT_FILENO, buffer, ft_strlen(buffer));
+	cwd = NULL;
+  	cwd = getcwd(cwd, sizeof(cwd));
+	if(cwd == NULL)
+	    perror_exit("cwd: ");
+	write(STDOUT_FILENO, cwd, ft_strlen(cwd));
 	write(STDOUT_FILENO, "\n", 1);
-	free(buffer);
-	return(SUCCES);
+	free(cwd);
+	return(SUCCESS);
 }

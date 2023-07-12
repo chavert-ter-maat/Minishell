@@ -23,7 +23,7 @@ static int	execute_last_command(t_shell *shell, int read_end, char *cmd)
 	pid = fork();
 	if (pid == FAILED)
 		perror_exit("fork");
-	if (pid == SUCCES)
+	if (pid == SUCCESS)
 	{
 		if (dup2(read_end, STDIN_FILENO) == FAILED)
 			perror_exit("3: dup2");
@@ -63,7 +63,7 @@ static int	initiate_forks(t_shell *shell, int nb_commands, char **argv)
 	pid = fork();
 	if (pid == FAILED)
 		perror_exit("fork");
-	if (pid == SUCCES)
+	if (pid == SUCCESS)
 		execute_childs(shell, read_end, pipe_fd, argv[index_command]);
 	read_end = handle_fds(pipe_fd, read_end);
 		nb_commands--;

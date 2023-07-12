@@ -24,12 +24,13 @@ LIBFT = ./libft/libft.a
 
 # SOURCES
 SRC = 	SRC/main.c \
+		SRC/builtins/cd.c \
 		SRC/builtins/echo.c \
 		SRC/builtins/env.c \
 		SRC/builtins/export.c \
 		SRC/builtins/pwd.c \
-		SRC/environment/envp_init.c \
-		SRC/environment/envp_utils.c \
+		SRC/environment/env_init.c \
+		SRC/environment/env_utils.c \
 		SRC/expander/expander.c \
 		SRC/lexer/lexer_jumptable.c \
 		SRC/lexer/lexer.c \
