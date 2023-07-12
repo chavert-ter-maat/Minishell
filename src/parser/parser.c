@@ -41,12 +41,11 @@ void	print_command_table(t_shell *shell) //for testing purpose
 {
 	t_command *temp;
 
-	temp = shell->parser;
+	temp = shell->command;
 	while (temp)
 	{
 		printf("------------------------------\n");
-		printf("command name: %s\n", temp->command);
-		print_args(temp->args);
+		print_args(temp->arg_list);
 		print_redir(temp->redir);
 		temp = temp->next;
 	}
@@ -69,7 +68,7 @@ t_token	*fill_command(t_shell *shell, t_token *current, t_command *new)
 	if (current && current->type == PIPE)
 		return (shell_error(syntax_error, current->str), free_shell(shell), NULL);
 	while (current && current->type != PIPE)
-		current = func[current->type](shell, current new);
+		current = func[current->type](shell, current, new);
 	// if (valid_command(new) == false)
 			//return (NULL);
 	if (current)
@@ -80,7 +79,6 @@ t_token	*fill_command(t_shell *shell, t_token *current, t_command *new)
 void	add_cmd(t_shell *shell, t_token **current)
 {
 	t_command	*new;
-	t_argument	*args;
 	
 	skip_space(current);
 	new = list_add_new_cmd(shell);

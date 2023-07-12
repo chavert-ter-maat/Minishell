@@ -38,6 +38,8 @@ SRC = 	SRC/main.c \
 		SRC/utils/expander_utils.c \
 		SRC/utils/handle_errors.c \
 		SRC/utils/lexer_utils.c \
+		SRC/utils/free.c \
+		SRC/utils/parser_utils.c \
 		SRC/builtins/handle_builtins.c \
 		SRC/executor/handle_multiple_commands.c \
 		SRC/executor/handle_single_command.c \

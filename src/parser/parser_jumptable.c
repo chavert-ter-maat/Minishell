@@ -66,6 +66,6 @@ t_token	*add_cmd_word(t_shell *shell, t_token *current, t_command *new)
 	if (!new_arg)
 		return (shell_error(malloc_error, "add_cmd_word() @ ft_calloc"), free_shell(shell), NULL);
 	new_arg->str = arg;
-	list_add_arg(&(new->args), new_arg);
+	list_add_arg(&(new->arg_list), new_arg);
 	return (current->next);
 }

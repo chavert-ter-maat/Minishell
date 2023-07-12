@@ -10,7 +10,7 @@ void	handle_single_command(t_shell *shell, t_command *command)
 		perror_exit("fork");
 	// save_std(shell->executor);
 	if (pid == SUCCESS)
-		run_arguments(shell, shell->command->args);
+		run_command(shell, command->args);
 	// restore_std(shell->executor);
 	if (waitpid(pid, &status, 0) == FAILED)
 		perror_exit("waitpid");

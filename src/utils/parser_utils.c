@@ -22,7 +22,7 @@ t_command	*list_add_new_cmd(t_shell *shell)
 	new = ft_calloc(1, sizeof(t_command));
 	if (!new)
 		return (shell_error(malloc_error, "list_add_new_cmd() @ ft_calloc"), free_shell(shell), NULL);
-	list_add_cmd(&(shell->parser), new);
+	list_add_cmd(&(shell->command), new);
 	return (new);
 }
 

@@ -1,3 +1,4 @@
+#include "../../include/minishell.h"
 
 static int  get_argc(t_command *cmd)
 {

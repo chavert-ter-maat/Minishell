@@ -1,32 +1,32 @@
 #include "../../include/minishell.h"
 
 // redirects a file as standart in.
-void infile_as_stdin(t_shell *shell)
-{
-	int	infile_fd;
+// void infile_as_stdin(t_shell *shell)
+// {
+// 	int	infile_fd;
 
-	infile_fd = open(shell->infile, O_RDONLY);
-	if (infile_fd == FAILED)
-		perror_exit(shell->infile);
-	if (dup2(infile_fd, STDIN_FILENO) == FAILED)
-		perror_exit("dup2");
-	if (close(infile_fd) == FAILED)
-		perror_exit("close");
-}
+// 	infile_fd = open(shell->infile, O_RDONLY);
+// 	if (infile_fd == FAILED)
+// 		perror_exit(shell->infile);
+// 	if (dup2(infile_fd, STDIN_FILENO) == FAILED)
+// 		perror_exit("dup2");
+// 	if (close(infile_fd) == FAILED)
+// 		perror_exit("close");
+// }
 
 // redirects output to a (new)file.
-void	outfile_as_stdout(t_shell *shell)
-{
-	int	fd_outfile;
+// void	outfile_as_stdout(t_shell *shell)
+// {
+// 	int	fd_outfile;
 
-	fd_outfile = open(shell->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd_outfile == FAILED)
-		perror_exit(shell->outfile);
-	if (dup2(fd_outfile, STDOUT_FILENO) == FAILED)
-		perror_exit("dup2");
-	if (close(fd_outfile) == FAILED)
-		perror_exit("close");
-}
+// 	fd_outfile = open(shell->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+// 	if (fd_outfile == FAILED)
+// 		perror_exit(shell->outfile);
+// 	if (dup2(fd_outfile, STDOUT_FILENO) == FAILED)
+// 		perror_exit("dup2");
+// 	if (close(fd_outfile) == FAILED)
+// 		perror_exit("close");
+// }
 
 // prints the status of waidpid.
 void	print_status_waidpid(pid_t pid, int options) 

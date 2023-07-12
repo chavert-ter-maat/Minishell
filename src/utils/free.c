@@ -10,7 +10,7 @@ void	free_shell(t_shell *shell)
 	free_tok_list(&(shell->lexer));
 	free_tok_list(&(shell->expander));
 	free_var_list(&(shell->var_list));
-	free_cmd_list(&(shell->parser));
+	free_cmd_list(&(shell->command));
 }
 
 void	free_tok_list(t_token **list)

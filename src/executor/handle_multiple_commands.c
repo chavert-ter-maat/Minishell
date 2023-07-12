@@ -42,7 +42,7 @@ void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_
 		perror_exit("dup2");
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
 		perror_exit("dup2");
-	run_command(shell, shell->command->args);
+	run_command(shell, command->args);
 	if (close(pipe_fd[WRITE_END]) == FAILED)
 		perror_exit("close");
 }
