@@ -31,8 +31,8 @@
 # define FALSE		0
  
 // structs
-typedef enum e_token_type 
-{
+typedef enum e_token_type {
+
 	TOKEN = -1,
 	PIPE,
 	QUOTE,
@@ -90,8 +90,8 @@ typedef struct s_command
 
 typedef struct s_executor
 {	
-	int			temp_stdin;
-	int			temp_stdout;
+  int temp_stdin;
+	int temp_stdout;
 	char		*cmd_line;
 	int			argc;
 	char		**argv;
@@ -100,6 +100,17 @@ typedef struct s_executor
 	char		*outfile;
 	int			pipe_infile[2];
 }	t_executor;
+
+
+typedef struct s_shell
+{
+  t_executor 	*executor;
+	char		*cmd_line;
+	t_token		*lexer;
+	t_token		*expander;
+	t_command	*parser;
+	t_var		*var_list;
+	char		**envp;
 
 typedef struct s_env
 {
