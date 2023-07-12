@@ -71,11 +71,11 @@ static int	initiate_forks(t_shell *shell, t_command *command)
 	return(pid);
 }
 
-void	handle_multiple_commands(t_shell *shell, t_command *command)
+void	handle_multiple_commands(t_shell *shell)
 {
 	pid_t	pid;
 	
-	pid = initiate_forks(shell, command);
+	pid = initiate_forks(shell, shell->command);
 	if (waitpid(pid, NULL, 0) == FAILED)
 		perror_exit("waitpid");
 }

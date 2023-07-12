@@ -41,6 +41,7 @@ SRC = 	SRC/main.c \
 		SRC/utils/free.c \
 		SRC/utils/parser_utils.c \
 		SRC/builtins/handle_builtins.c \
+		SRC/executor/executor.c \
 		SRC/executor/handle_multiple_commands.c \
 		SRC/executor/handle_single_command.c \
 		SRC/executor/run_commands.c \

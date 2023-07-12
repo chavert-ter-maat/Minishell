@@ -33,15 +33,15 @@ static char	**get_path_environment(t_shell *shell)
 {
 	char	*path;
 	char	**split_path;
-	size_t	index;
+	t_env	*temp;
 
-	index = 0;
-	while (shell->envp[index])
+	temp = shell->env_list;
+	while (temp)
 	{
-		path = ft_strnstr(shell->envp[index], "PATH=", 5);
+		path = ft_strnstr(temp->name, "PATH", 5);
 		if (path)
 			break ;
-		index++;
+		temp = temp->next;
 	}
 	split_path = ft_split(&path[5], ':');
 	if (!split_path)
