@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-// find_path_to_executable looks if the executable can be found
+// Checks if the executable can be found
 // and if the there is permission to run the executable
 static char	*get_path_executable(char **split_path, char **cmd)
 {
@@ -15,7 +15,7 @@ static char	*get_path_executable(char **split_path, char **cmd)
 	while (split_path[index])
 	{
 		tmp_path = ft_strjoin(split_path[index], cmd_slash);
-		if (access(tmp_path, F_OK | X_OK) == SUCCES)
+		if (access(tmp_path, F_OK | X_OK) == SUCCESS)
 			break ;
 		free(tmp_path);
 		index++;
@@ -28,7 +28,6 @@ static char	*get_path_executable(char **split_path, char **cmd)
 
 // get_path() looks for the path in the environment
 // where command executables can found
-
 // !!unset PATH works, but doesnt give the same error message as bash for 100% 
 static char	**get_path_environment(t_shell *shell)
 {
@@ -51,8 +50,8 @@ static char	**get_path_environment(t_shell *shell)
 }
 
 // run_commands() finds path in environment, splits it and looks then looks if
-// command is present in the folder or a path is given as a command.
-// if not the path for the command is searched for
+// executable is present in the minishell directory, if not it looks for
+// a path either in the environment or in the input.
 void	run_command(t_shell *shell, char *cmd)
 {
 	char	**splitted_cmd;

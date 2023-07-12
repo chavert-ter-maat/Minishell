@@ -2,11 +2,11 @@
 #include <signal.h>
 
 // for testing puropses
-
-void	exit_parser(t_shell *shell)
+void	exit_lexer(t_shell *shell)
 {
-	print_command_table(shell);
-	free_shell(shell);
+	free_list(shell->lexer);
+	print_list(shell->expander);
+	free_list(shell->expander);
 }
 
 void	inthandler(int signum) // for testing purpose
@@ -23,72 +23,51 @@ void	make_var_list(t_shell *shell) //for testing purpose
 {
 	t_var *new;
 
-	new = ft_calloc(1, sizeof(t_var));
+	new = malloc(sizeof(t_var));
 	new->name = "VAR";
 	new->value = "value";
+	new->next = NULL;
 	shell->var_list = new;
 }
 
-// int	main(int argc, char *argv[], char *envp[])
+// // executor tester
+// int main(int argc, char **argv, char **envp)
 // {
-// 	t_shell	shell;
+// 	t_shell shell;
 
 // 	(void) argv;
 // 	(void) envp;
 // 	if (argc > 1)
 // 		;//exit
+// 	atexit(f);
+// 	signal(SIGINT, &inthandler);
+// 	ft_bzero(&shell, sizeof(t_shell));
 // 	while (1)
 // 	{
+// 		make_var_list(&shell); //for testing purpose
 // 		shell.cmd_line = readline("shellyeah$ ");
 // 		add_history(shell.cmd_line);
-// 		shell.tokens = lexer(&shell);
+// 		shell.lexer = lexer(&shell);
+// 		shell.expander = expander(&shell);
+// 		exit_lexer(&shell);//remove later
+// 		shell.lexer = NULL;
+// 		shell.expander = NULL;
 // 		free(shell.cmd_line);
+// 		free(shell.var_list); //remove later
 // 	}
-// }
 
-// executor tester
-int main(int argc, char **argv, char **envp)
-{
-	t_shell shell;
 
-	(void) argv;
-	(void) envp;
-	if (argc > 1)
-		exit(EXIT_FAILURE);
-	atexit(f);
-	signal(SIGINT, &inthandler);
-	ft_bzero(&shell, sizeof(t_shell));
-	while (1)
-	{
-		make_var_list(&shell); //for testing purpose
-		shell.cmd_line = readline("shellyeah$ ");
-		add_history(shell.cmd_line);
-		lexer(&shell);
-		expander(&shell);
-		parser(&shell);
-		exit_parser(&shell);//remove later
-		if (shell.cmd_line)
-			free(shell.cmd_line);
-		free_var_list(&(shell.var_list)); //remove later
-	}
-    
-// main for executor
-
+// // // main to test env
 // int main(int argc, char **argv, char **envp)
 // {
-// 	t_shell shell;
+// 	t_env	*env_list;
 
-// 	if(argc != 4) //1 cmd
-// 	{
-// 		ft_putstr_fd("wrong argument input", 1);
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	input_handling(&shell, argc, argv, envp);
-// 	infile_as_stdin(&shell);
-// 	outfile_as_stdout(&shell);
-// 	create_single_child(&shell);
-// 	// argc -= 4;
-// 	// handle_multiple_commands(&shell, argc, argv); 
+// 	atexit()
+// 	(void) argc;
+// 	(void) argv;
+// 	env_list = NULL;
+// 	env_list = init_env(envp);
+// 	print_list_env(env_list);
+// 	free_list_env(env_list);
 // 	return(0);
 // }
-}

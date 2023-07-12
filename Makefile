@@ -23,19 +23,41 @@ PRINTF = ./libft/ft_printf/libftprintf.a
 LIBFT = ./libft/libft.a
 
 # SOURCES
-SRC =   SRC/main.c \
-        SRC/expander/expander.c \
-        SRC/lexer/lexer_jumptable.c \
-        SRC/lexer/lexer.c \
-        SRC/utils/error.c \
-        SRC/utils/expander_utils.c \
-        SRC/utils/handle_errors.c \
-        SRC/utils/lexer_utils.c \
-		SRC/utils/free.c \
-		SRC/parser/parser.c \
-		SRC/parser/parser_jumptable.c \
-		SRC/utils/parser_utils.c
+SRC = 	SRC/main.c \
+		SRC/builtins/cd.c \
+		SRC/builtins/echo.c \
+		SRC/builtins/env.c \
+		SRC/builtins/export.c \
+		SRC/builtins/pwd.c \
+		SRC/environment/env_init.c \
+		SRC/environment/env_utils.c \
+		SRC/expander/expander.c \
+		SRC/lexer/lexer_jumptable.c \
+		SRC/lexer/lexer.c \
+		SRC/utils/error.c \
+		SRC/utils/expander_utils.c \
+		SRC/utils/handle_errors.c \
+		SRC/utils/lexer_utils.c \
+		SRC/builtins/handle_builtins.c \
+		SRC/executor/handle_multiple_commands.c \
+		SRC/executor/handle_single_command.c \
+		SRC/executor/run_commands.c \
+		SRC/executor/utils_executor.c \
 
+# OBJECTS
+OBJ			= $(SRC:.c=.o)
+
+# COLORS
+DEF_COLOR 	= \033[0;39m
+GRAY 		= \033[0;90m
+RED 		= \033[0;91m
+GREEN 		= \033[0;92m
+YELLOW 		= \033[0;93m
+BLUE 		= \033[0;94m
+MAGENTA		= \033[0;95m
+CYAN 		= \033[0;96m
+WHITE 		= \033[0;97m
+	
 # OBJECTS
 OBJ			= $(SRC:.c=.o)
 
