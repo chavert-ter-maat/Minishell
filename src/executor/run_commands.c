@@ -52,24 +52,20 @@ static char	**get_path_environment(t_shell *shell)
 // run_commands() finds path in environment, splits it and looks then looks if
 // executable is present in the minishell directory, if not it looks for
 // a path either in the environment or in the input.
-void	run_command(t_shell *shell, char *cmd)
+void	run_command(t_shell *shell, char **args)
 {
-	char	**splitted_cmd;
 	char	*command_path;
-	char	**split_path;
+	char	**split_path; 
 
 	command_path = NULL;
 	split_path = get_path_environment(shell);
-	splitted_cmd = ft_split(cmd, ' ');
-	if (!splitted_cmd)
-		error_exit("split splitted_cmd failed\n");
-	if (splitted_cmd[0] && (ft_strncmp(splitted_cmd[0], "/", 1) 
-		|| ft_strncmp(splitted_cmd[0], "./", 2)))
+	if (args[0] && (ft_strncmp(args[0], "/", 1) 
+		|| ft_strncmp(args[0], "./", 2)))
 	{
-		command_path = get_path_executable(split_path, splitted_cmd);
-		if (execve(command_path, splitted_cmd, shell->envp) == FAILED)
-			error_no_command(splitted_cmd[0]);
+		command_path = get_path_executable(split_path, args);
+		if (execve(command_path, args, shell->envp) == FAILED)
+			error_no_command(args[0]);
 	}
-	if (execve(splitted_cmd[0], splitted_cmd, shell->envp) == FAILED)
-		error_no_command(splitted_cmd[0]);
+	if (execve(args[0], args, shell->envp) == FAILED)
+		error_no_command(args[0]);
 }

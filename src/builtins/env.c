@@ -15,5 +15,5 @@ int	ft_env(t_shell *shell)
 		return(FAILED);
 	}
 	print_list_env(shell->env_list);
-	return(SUCCES);
+	return(SUCCESS);
 }
