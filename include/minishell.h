@@ -31,12 +31,8 @@
 # define FALSE		0
  
 // structs
-<<<<<<< HEAD
-typedef enum e_token_type {
-=======
 typedef enum e_token_type 
 {
->>>>>>> chaviebranch
 	TOKEN = -1,
 	PIPE,
 	QUOTE,
@@ -48,12 +44,8 @@ typedef enum e_token_type
 	WORD
 }	t_token_type;
 
-<<<<<<< HEAD
-typedef enum e_redir_type {
-=======
 typedef enum e_redir_type 
 {
->>>>>>> chaviebranch
 	REDIR = 0,
 	IN,
 	OUT,
@@ -82,7 +74,6 @@ typedef struct s_redir
 	struct s_redir	*next;
 }	t_redir;
 
-<<<<<<< HEAD
 typedef struct s_argument
 {
 	char				*str;
@@ -92,26 +83,15 @@ typedef struct s_argument
 typedef struct s_command
 {
 	char				*command;
-	t_argument			*args;
-=======
-typedef struct s_command
-{
-	char				*command;
 	char				**args;
->>>>>>> chaviebranch
 	struct s_redir		*redir;
 	struct s_command	*next;
 }	t_command;
 
 typedef struct s_executor
 {	
-<<<<<<< HEAD
-  int temp_stdin;
-	int temp_stdout;
-=======
 	int			temp_stdin;
 	int			temp_stdout;
->>>>>>> chaviebranch
 	char		*cmd_line;
 	int			argc;
 	char		**argv;
@@ -119,20 +99,6 @@ typedef struct s_executor
 	char		*infile;
 	char		*outfile;
 	int			pipe_infile[2];
-<<<<<<< HEAD
-}	t_executor;
-
-typedef struct s_shell
-{
-  t_executor 	*executor;
-	char		*cmd_line;
-	t_token		*lexer;
-	t_token		*expander;
-	t_command	*parser;
-	t_var		*var_list;
-	char		**envp;
-=======
-
 }	t_executor;
 
 typedef struct s_env
@@ -160,7 +126,6 @@ typedef struct s_shell
 	t_token			*expander;
 	t_token			*lexer;
 	t_var			*var_list;
->>>>>>> chaviebranch
 }	t_shell;
 
 void			tok_type_pipe(char *cmd_line, size_t *i, t_token_type type);
@@ -171,7 +136,6 @@ void			tok_type_consec(char *cmd_line, size_t *i, t_token_type type);
 t_token_type	find_metachar(char c);
 
 // lexer
-<<<<<<< HEAD
 void		lexer(t_shell *shell);
 void		tok_type_pipe(char *cmd_line, size_t *i, t_token_type type);
 void		tok_type_quote(char *cmd_line, size_t *i, t_token_type type);
@@ -231,7 +195,6 @@ void		error_no_command(char *argv);
 //test functions
 void		print_list(t_token *list);
 void		print_command_table(t_shell *shell);
-=======
 void			tok_type_pipe(char *cmd_line, size_t *pos, t_token_type type);
 void			tok_type_quote(char *cmd_line, size_t *pos, t_token_type type);
 void			tok_type_redir(char *cmd_line, size_t *pos, t_token_type type);
@@ -267,7 +230,6 @@ void	input_error(void);
 void	error_exit(char *input);
 void	perror_exit(char *input);
 void	error_no_command(char *argv);
->>>>>>> chaviebranch
 
 // environment
 t_env	*init_env(char **envp);
