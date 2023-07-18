@@ -214,6 +214,7 @@ void	perror_exit(char *input);
 void	error_no_command(char *argv);
 
 // environment
+t_env	*create_new_node(char *new_env_variable);
 void	init_env(t_shell *shell, char **envp);
 void	print_list_env(t_env *env_list);
 void	free_list_env(t_env *env_list);
@@ -222,7 +223,7 @@ void	add_node_to_list_env(t_env **env_list, t_env *new_node);
 // builtins
 int		ft_echo(char **args, int fd);
 int		ft_env(t_shell *shell);
-// int		ft_export(t_command *command, t_env **env_list);
+int		ft_export(t_command *command, t_env **env_list);
 int		check_if_builtin(char *command);
 int		execute_builtin(t_shell *shell);
 int		ft_pwd(void);
