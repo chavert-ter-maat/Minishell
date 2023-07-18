@@ -5,18 +5,7 @@
 // absolute path: provides the complete path from the
 // root directory or drive letter.
 
-// int	ft_cd(t_shell *shell, t_command *command)
-// {
-// 	char *cwd;
 
-// 	cwd = getcwd();
-// 	if(!cwd)
-// 		{
-// 			ft_putstr_fd("cwd faked up", 1);
-// 			exit(EXIT_FAILURE);
-// 		}
-	
-// }
 
 /* 1. set new_working_dir:
 'cd'				: change cwd to "HOME"

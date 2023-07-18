@@ -22,13 +22,14 @@ INCLUDES	= -I./libft -I./libft/ft_printf -I./include
 PRINTF = ./libft/ft_printf/libftprintf.a
 LIBFT = ./libft/libft.a
 
+# SRC/builtins/export.c \
 # SOURCES
 SRC = 	SRC/main.c \
 		SRC/builtins/cd.c \
 		SRC/builtins/echo.c \
 		SRC/builtins/env.c \
-		SRC/builtins/export.c \
 		SRC/builtins/pwd.c \
+		SRC/builtins/unset.c \
 		SRC/environment/env_init.c \
 		SRC/environment/env_utils.c \
 		SRC/expander/expander.c \
@@ -84,7 +85,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./libft/ft_printf
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 
 %.o: %.c $(INCLUDES)

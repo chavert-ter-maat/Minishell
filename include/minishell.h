@@ -26,7 +26,7 @@
 # define FOUND		1
 # define NOT_FOUND	0
 # define FAILED		-1
-# define ERROR		-1
+# define ERROR		1
 # define TRUE		1
 # define FALSE		0
  
@@ -198,7 +198,7 @@ char 			*find_var_value(t_var *var_list, char *var);
 void			error_free_exit(t_shell *shell);
 
 // executor
-void    executor(t_shell *shell);
+int		executor(t_shell *shell);
 void	run_command(t_shell *shell, char **argv);
 void	handle_multiple_commands(t_shell *shell);
 void	handle_single_command(t_shell *shell);
@@ -220,10 +220,12 @@ void	free_list_env(t_env *env_list);
 void	add_node_to_list_env(t_env **env_list, t_env *new_node);
 
 // builtins
-void	ft_echo(char **args, int fd);
+int		ft_echo(char **args, int fd);
 int		ft_env(t_shell *shell);
-int		execute_builtins(t_shell *shell, char **arguments);
+// int		ft_export(t_command *command, t_env **env_list);
+int		check_if_builtin(char *command);
+int		execute_builtin(t_shell *shell);
 int		ft_pwd(void);
-void	ft_unset(t_command *command, t_env **env_list);
+int		ft_unset(t_command *command, t_env **env_list);
 
 #endif
