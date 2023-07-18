@@ -22,7 +22,6 @@ INCLUDES	= -I./libft -I./libft/ft_printf -I./include
 PRINTF = ./libft/ft_printf/libftprintf.a
 LIBFT = ./libft/libft.a
 
-# SRC/builtins/export.c \
 # SOURCES
 SRC = 	SRC/main.c \
 		SRC/builtins/cd.c \
@@ -30,6 +29,7 @@ SRC = 	SRC/main.c \
 		SRC/builtins/env.c \
 		SRC/builtins/pwd.c \
 		SRC/builtins/unset.c \
+		SRC/builtins/export.c \
 		SRC/environment/env_init.c \
 		SRC/environment/env_utils.c \
 		SRC/expander/expander.c \

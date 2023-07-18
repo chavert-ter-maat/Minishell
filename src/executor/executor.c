@@ -6,9 +6,8 @@ int	executor(t_shell *shell)
         return(ERROR);
     if (check_if_builtin(shell->command->args[0]) == TRUE)
     {
-		if(execute_builtin(shell) == 1)
+		if(execute_builtin(shell) == ERROR)
 			return(ERROR);
-		ft_putstr_fd("ft builtin executed\n", 1);
     }
     else if (!shell->command->next)
         handle_single_command(shell);
