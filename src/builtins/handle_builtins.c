@@ -2,8 +2,8 @@
 
 int execute_builtin(t_shell *shell)
 {
-	// if (ft_strncmp(shell->command->args[0], "cd", 3) == 0)
-	//  return (ft_cd));
+	if (ft_strncmp(shell->command->args[0], "cd", 3) == 0)
+	 return (ft_cd(shell, shell->command));
 	if (ft_strncmp(shell->command->args[0], "echo", 5) == 0)
 		return (ft_echo(shell->command->args, 1));
 	if (ft_strncmp(shell->command->args[0], "env", 4) == 0)
@@ -20,8 +20,8 @@ int execute_builtin(t_shell *shell)
 }
 int check_if_builtin(char *command)
 {
-	// if (ft_strncmp(command, "cd", 3) == 0)
-	// 	return (TRUE);
+	if (ft_strncmp(command, "cd", 3) == 0)
+		return (TRUE);
 	if (ft_strncmp(command, "echo", 5) == 0)
 		return (TRUE);
 	if (ft_strncmp(command, "env", 4) == 0)
