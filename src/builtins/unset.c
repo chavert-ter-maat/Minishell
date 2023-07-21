@@ -36,14 +36,17 @@ int ft_unset(t_command *command, t_env **env_list)
 	}
 	while(command->args[index])
 	{
-		strlen = ft_strlen(command->args[index]);
+		strlen = ft_strlen(command->args[index]) + 1;
 		while(current)
 		{
 			if(ft_strncmp(current->name, command->args[index], strlen) == 0)
+			{
 				remove_node(env_list, current);
+				return (SUCCESS);
+			}
 			current = current->next;
 		}
 		index++;
 	}
-	return (SUCCESS);
+	return (ERROR);
 }

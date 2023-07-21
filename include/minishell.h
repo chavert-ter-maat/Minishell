@@ -219,8 +219,17 @@ void	print_list_env(t_env *env_list);
 void	free_list_env(t_env *env_list);
 void	add_node_to_list_env(t_env **env_list, t_env *new_node);
 
-// builtins
+// builtin cd
+int		go_path(t_shell *shell, char *path, char *cwd);
+int		go_home_dir(t_shell *shell, char *cwd);
+int		go_previous_dir(t_shell *shell, char *cwd);
+int		go_oldpwd(t_shell *shell, char *cwd);
+int		cd_update_env(t_shell *shell, char *name, char *value);
+char	*get_path(t_shell *shell, char *name);
+void	cd_error(char *argument);
 int		ft_cd(t_shell *shell, t_command *command);
+
+// builtins
 int		ft_echo(char **args, int fd);
 int		ft_env(t_shell *shell);
 int		ft_export(t_command *command, t_env **env_list);

@@ -24,6 +24,8 @@ LIBFT = ./libft/libft.a
 
 # SOURCES
 SRC = 	SRC/main.c \
+	 	SRC/builtins/cd_change_path.c \
+		SRC/builtins/cd_utils.c \
 		SRC/builtins/cd.c \
 		SRC/builtins/echo.c \
 		SRC/builtins/env.c \
