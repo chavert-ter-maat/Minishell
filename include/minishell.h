@@ -105,7 +105,6 @@ typedef struct s_env
 {
 	char			*name;
 	char			*value;
-	int				is_set;
 	struct	s_env	*next;
 }	t_env;
 
@@ -181,8 +180,8 @@ void		malloc_error(const char *str);
 void		syntax_error(const char *str);
 
 //test functions
-void		print_list(t_token *list);
-void		print_command_table(t_shell *shell);
+void			print_list(t_token *list);
+void			print_command_table(t_shell *shell);
 void			tok_type_pipe(char *cmd_line, size_t *pos, t_token_type type);
 void			tok_type_quote(char *cmd_line, size_t *pos, t_token_type type);
 void			tok_type_redir(char *cmd_line, size_t *pos, t_token_type type);
@@ -219,6 +218,16 @@ void	init_env(t_shell *shell, char **envp);
 void	print_list_env(t_env *env_list);
 void	free_list_env(t_env *env_list);
 void	add_node_to_list_env(t_env **env_list, t_env *new_node);
+
+// builtin cd
+int		go_path(t_shell *shell, char *path, char *cwd);
+int		go_home_dir(t_shell *shell, char *cwd);
+int		go_previous_dir(t_shell *shell, char *cwd);
+int		go_oldpwd(t_shell *shell, char *cwd);
+int		cd_update_env(t_shell *shell, char *name, char *value);
+char	*get_path(t_shell *shell, char *name);
+void	cd_error(char *argument);
+int		ft_cd(t_shell *shell, t_command *command);
 
 // builtins
 int		ft_echo(char **args, int fd);
