@@ -26,7 +26,7 @@
 # define FOUND		1
 # define NOT_FOUND	0
 # define FAILED		-1
-# define ERROR		-1
+# define ERROR		1
 # define TRUE		1
 # define FALSE		0
  
@@ -112,7 +112,6 @@ typedef struct s_env
 {
 	char			*name;
 	char			*value;
-	int				is_set;
 	struct	s_env	*next;
 }	t_env;
 
@@ -170,7 +169,7 @@ void	print_command_table(t_shell *shell);
 void	print_token_list(t_shell *shell);
 
 // executor
-void    executor(t_shell *shell);
+int		executor(t_shell *shell);
 void	run_command(t_shell *shell, char **argv);
 void	handle_multiple_commands(t_shell *shell);
 void	handle_single_command(t_shell *shell);
@@ -186,6 +185,7 @@ void	perror_exit(char *input);
 void	error_no_command(char *argv);
 
 // environment
+t_env	*create_new_node(char *new_env_variable);
 void	init_env(t_shell *shell, char **envp);
 void	print_list_env(t_env *env_list);
 void	free_env_list(t_env **list);
@@ -193,9 +193,11 @@ void	add_node_to_list_env(t_env **env_list, t_env *new_node);
 char	*env_get_var_value(t_shell *shell, char *var);
 
 // builtins
-void	ft_echo(char **args, int fd);
+int		ft_echo(char **args, int fd);
 int		ft_env(t_shell *shell);
-int		execute_builtins(t_shell *shell, char **arguments);
+int		ft_export(t_command *command, t_env **env_list);
+int		check_if_builtin(char *command);
+int		execute_builtin(t_shell *shell);
 int		ft_pwd(void);
 void	ft_unset(t_command *command, t_env **env_list);
 void	ft_exit(t_shell *shell);

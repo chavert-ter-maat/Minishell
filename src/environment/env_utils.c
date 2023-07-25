@@ -7,8 +7,10 @@ void	print_list_env(t_env *env_list)
 		exit(EXIT_FAILURE);
 	while (env_list)
 	{
-		ft_printf("%s", env_list->name);
-		ft_printf("%s\n", env_list->value);
+		ft_putstr_fd(env_list->name, 1);
+		ft_putchar_fd('=', 1);
+		ft_putstr_fd(env_list->value, 1);
+		ft_putchar_fd('\n', 1);
 		env_list = env_list->next;
 	}
 }

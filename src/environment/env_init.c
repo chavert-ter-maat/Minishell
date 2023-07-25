@@ -6,7 +6,7 @@ char	*get_env_name(char *new_env_variable)
 	int		index;
 
 	index = 0;
-	while (new_env_variable[index] && new_env_variable[index] != '=')
+	while (new_env_variable[index] && new_env_variable[index] != '=') //!!MALLOC
 		index++;
 	name = ft_substr(new_env_variable, 0, (index));
 	if(!name)
@@ -25,7 +25,7 @@ char	*get_env_value(char *new_env_variable)
 		start++;
 	while (new_env_variable[end])
 		end++;
-	variable = ft_substr(new_env_variable, (start + 1), (end - 1)); //checken end -1
+	variable = ft_substr(new_env_variable, (start + 1), (end - 1)); //checken end -1 !!MALLOC
 	if(!variable)
 		return(NULL);
 	return(variable);

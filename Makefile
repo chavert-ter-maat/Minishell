@@ -24,9 +24,13 @@ LIBFT = ./libft/libft.a
 
 # SOURCES
 SRC = 	SRC/main.c \
+	 	SRC/builtins/cd_change_path.c \
+		SRC/builtins/cd_utils.c \
 		SRC/builtins/cd.c \
 		SRC/builtins/echo.c \
 		SRC/builtins/env.c \
+		SRC/builtins/pwd.c \
+		SRC/builtins/unset.c \
 		SRC/builtins/export.c \
 		SRC/builtins/pwd.c \
 		SRC/builtins/exit.c \
@@ -86,7 +90,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./libft/ft_printf
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 
 %.o: %.c $(INCLUDES)

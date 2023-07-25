@@ -1,10 +1,9 @@
 #include "../../include/minishell.h"
 
-static int	check_n_flag(char *str)
+static int  check_n_flag(char *str)
 {
-	int	index;
-	int	str_length;
-
+	int index;
+	int str_length;
 	index = 2;
 	str_length = ft_strlen(str);
 	if(!str)
@@ -13,7 +12,7 @@ static int	check_n_flag(char *str)
 		{
 			while(index < str_length)
 			{
-				if(ft_strncmp(&str[index], "n", 1) != 0	)
+				if(ft_strncmp(&str[index], "n", 1) != 0 )
 					return(NOT_FOUND);
 				index++;
 			}
@@ -21,15 +20,13 @@ static int	check_n_flag(char *str)
 		}
 	else
 		return(NOT_FOUND);
-}	
-
-void	ft_echo(char **args, int fd)
+}
+int ft_echo(char **args, int fd)
 {
-	int	n_flag;
-	int	index1;
-
+	int n_flag;
+	int index1;
 	n_flag = 0;
-	index1 = 0;
+	index1 = 1;
 	while(check_n_flag(args[index1]) == FOUND)
 		{
 			n_flag = FOUND;
@@ -45,4 +42,5 @@ void	ft_echo(char **args, int fd)
 	}
 	if (n_flag == NOT_FOUND)
 		ft_putchar_fd('\n', fd);
+	return (SUCCESS);
 }
