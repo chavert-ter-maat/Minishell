@@ -63,7 +63,7 @@ void	init_env(t_shell *shell, char **envp)
 	{
 		new_node = create_new_node(envp[index]);
 		if(!new_node)
-			free_list_env(shell->env_list);
+			free_env_list(&(shell->env_list));
 		add_node_to_list_env(&(shell->env_list), new_node);
 		index++;
 	}

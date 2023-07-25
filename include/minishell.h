@@ -30,10 +30,10 @@
 # define TRUE		1
 # define FALSE		0
  
-// structs
+// enums
 typedef enum e_token_type {
 
-	TOKEN = -1,
+	TOKEN = 0,
 	PIPE,
 	QUOTE,
 	DQUOTE,
@@ -53,45 +53,52 @@ typedef enum e_redir_type
 	APPEND,
 }	t_redir_type;
 
+// functions
+
+typedef	void(*func_ptr_free)(void *);
+typedef int(*func_ptr_comp)(void *, void *);
+
+
+//structs
+typedef struct s_node
+{
+	void			*data;
+	struct s_node	*next;
+}	t_node;
+
+typedef struct s_list
+{
+	size_t			data_size;
+	int				count;
+	t_node			*head;
+	t_node			*tail;
+	func_ptr_free	ft_free;
+	func_ptr_comp	ft_comp;
+} t_list;
+
 typedef struct s_token
 {
 	t_token_type	type;
 	char			*str;
-	struct s_token	*next;
 }	t_token;
-
-typedef struct s_var
-{
-	char			*name;
-	char			*value;
-	struct s_var	*next;
-}	t_var;
 
 typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*file;
-	struct s_redir	*next;
 }	t_redir;
-
-typedef struct s_argument
-{
-	char				*str;
-	struct s_argument	*next;
-}	t_argument;
 
 typedef struct s_command
 {
-	char				**args;
-	struct s_argument	*arg_list;
-	struct s_redir		*redir;
-	struct s_command	*next;
+	char	**args;
+	t_list	*arg_list;
+	t_list	*redir_list;
 }	t_command;
 
 typedef struct s_executor
 {	
-  int temp_stdin;
-	int temp_stdout;
+  	int 		temp_stdin;
+	int 		temp_stdout;
 	char		*cmd_line;
 	int			argc;
 	char		**argv;
@@ -114,12 +121,10 @@ typedef struct s_shell
 	int					return_value;
 	char				*cmd_line;
 	struct s_builtins	*builtins;
-	t_command			*command;
+	t_list				*command_list;
 	t_env				*env_list;
   	t_executor	 		*executor;
-	t_token				*expander;
-	t_token				*lexer;
-	t_var				*var_list;
+	t_list				*token_list;
 	char				**envp;
 }	t_shell;
 
@@ -129,73 +134,40 @@ typedef struct s_builtins
 	void		(*function)(t_shell *shell, char **arguments);
 }	t_builtins;
 
-void			tok_type_pipe(char *cmd_line, size_t *i, t_token_type type);
-void			tok_type_quote(char *cmd_line, size_t *i, t_token_type type);
-void			tok_type_redir(char *cmd_line, size_t *i, t_token_type type);
-void			tok_type_var(char *cmd_line, size_t *i, t_token_type type);
-void			tok_type_consec(char *cmd_line, size_t *i, t_token_type type);
-t_token_type	find_metachar(char c);
-
 // lexer
-void		lexer(t_shell *shell);
-void		tok_type_pipe(char *cmd_line, size_t *i, t_token_type type);
-void		tok_type_quote(char *cmd_line, size_t *i, t_token_type type);
-void		tok_type_redir(char *cmd_line, size_t *i, t_token_type type);
-void		tok_type_var(char *cmd_line, size_t *i, t_token_type type);
-void		tok_type_consec(char *cmd_line, size_t *i, t_token_type type);
-int			find_metachar(char c);
-void		list_add_token(t_token **top, t_token *new);
-void		new_token(t_shell *shell, t_token **new);
-char 		*find_var_value(t_var *var_list, char *var);
+void	lexer(t_shell *shell);
+int		get_token_type(char c);
+void	find_end_pipe(char *cmd_line, size_t *i, int type);
+void	find_end_quote(char *cmd_line, size_t *i, int type);
+void	find_end_redir(char *cmd_line, size_t *i, int type);
+void	find_end_var(char *cmd_line, size_t *i, int type);
+void	find_end_consec(char *cmd_line, size_t *i, int type);
 
 //expander
-void		expander(t_shell *shell);
-void		list_cat_words(t_shell *shell);
-void		list_add_copy(t_shell *shell, t_token *token);
-t_token		*list_last(t_token *top);
-char		*ft_append(char *str1, char *str2);
-void		list_new_word(t_shell *shell, char *str, size_t *i);
+void	expander(t_shell *shell);
+char 	*get_var_value(t_shell *shell, char *var);
+void	list_cat_words(t_shell *shell, t_list *list);
+void	list_add_new_word(t_shell *shell, t_list *list, char *str, size_t *i);
+void	list_add_token_copy(t_shell *shell, t_list *list, t_token *token);
 
 //parser
-void		parser(t_shell *shell);
-void		list_add_cmd(t_command **top, t_command *new);
-t_command	*list_add_new_cmd(t_shell *shell);
-void		skip_space(t_token **current);
-void		list_add_redir(t_redir **top, t_redir *new);
-void		list_add_arg(t_argument **top, t_argument *new);
-t_token		*add_cmd_word(t_shell *shell, t_token *current, t_command *new);
-t_token		*add_cmd_redir(t_shell *shell, t_token *current, t_command *new_cmd);
-t_token		*add_cmd_skip(t_shell *shell, t_token *current, t_command *new);
-char		**arg_list_to_array(t_command *cmd);
+void	parser(t_shell *shell);
+void	skip_space(t_node **node);
+t_node	*add_cmd_arg(t_shell *shell, t_node *node, t_command *new);
+t_node	*add_cmd_redir(t_shell *shell, t_node *node, t_command *new_cmd);
+t_node	*skip_token(t_shell *shell, t_node *node, t_command *new);
+char	**arg_list_to_array(t_command *command);
 
-//
-void		free_tok_list(t_token **list);
-t_shell		*init_shell(void);
-void		free_shell(t_shell *shell);
-void		free_var_list(t_var **list);
-void		free_cmd_list(t_command **list);
-void		free_redir_list(t_redir	**list);
-void		shell_error(void (*func)(const char *), const char *str);
-void		print_error(const char *str);
-void		malloc_error(const char *str);
-void		syntax_error(const char *str);
+// utils
+void	free_shell(t_shell *shell);
+void	shell_error(t_shell *shell, void (*func)(const char *), const char *str, int ret);
+void	print_error(const char *str);
+void	malloc_error(const char *str);
+void	syntax_error(const char *str);
 
 //test functions
-void		print_list(t_token *list);
-void		print_command_table(t_shell *shell);
-void			tok_type_pipe(char *cmd_line, size_t *pos, t_token_type type);
-void			tok_type_quote(char *cmd_line, size_t *pos, t_token_type type);
-void			tok_type_redir(char *cmd_line, size_t *pos, t_token_type type);
-void			tok_type_var(char *cmd_line, size_t *pos, t_token_type type);
-void			tok_type_consec(char *cmd_line, size_t *pos, t_token_type type);
-t_token_type	get_char_type(char c);
-
-void			print_list(t_token *list);
-t_shell			*init_shell(void);
-char			*ft_append(char *str1, char *str2);
-t_token 		*list_last(t_token *top);
-char 			*find_var_value(t_var *var_list, char *var);
-void			error_free_exit(t_shell *shell);
+void	print_command_table(t_shell *shell);
+void	print_token_list(t_shell *shell);
 
 // executor
 void    executor(t_shell *shell);
@@ -216,8 +188,9 @@ void	error_no_command(char *argv);
 // environment
 void	init_env(t_shell *shell, char **envp);
 void	print_list_env(t_env *env_list);
-void	free_list_env(t_env *env_list);
+void	free_env_list(t_env **list);
 void	add_node_to_list_env(t_env **env_list, t_env *new_node);
+char	*env_get_var_value(t_shell *shell, char *var);
 
 // builtins
 void	ft_echo(char **args, int fd);
@@ -225,5 +198,34 @@ int		ft_env(t_shell *shell);
 int		execute_builtins(t_shell *shell, char **arguments);
 int		ft_pwd(void);
 void	ft_unset(t_command *command, t_env **env_list);
+void	ft_exit(t_shell *shell);
+
+//signals
+void	ft_signals(void);
+void	sigquit_handler(int signum);
+void	sigint_handler(int signum);
+
+//generic list
+t_list	*list_create(t_shell *shell, size_t data_size, func_ptr_free ft_free, func_ptr_comp ft_comp);
+void	list_add_new_node(t_shell *shell, t_list *list, void *data);
+void	list_remove_head(t_list *list);
+void	list_remove_node(t_list *list, void *data);
+int		list_get_index(t_list *list, void *data);
+void	list_remove_index(t_list *list, int index);
+bool	list_contains(t_list *list, void *data);
+bool	list_is_identical(t_list *list1, t_list *list2);
+
+//generic list free functions
+void	free_node_data(func_ptr_free ft_free, void *data);
+t_list	*free_list(t_list *list);
+void	free_token(void *data);
+void	free_command(void *data);
+void	free_redir(void *data);
+
+//generic list compare functions
+int		comp_command(void *data1, void *data2);
+int		comp_arg(void *data1, void *data2);
+int		comp_redir(void *data1, void *data2);
+int		comp_token(void *data1, void *data2);
 
 #endif

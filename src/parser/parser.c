@@ -1,97 +1,148 @@
 #include "../../include/minishell.h"
 
-typedef t_token	*(*t_add_cmd_func)(t_shell *, t_token *, t_command *);
+typedef t_node	*(*t_add_cmd_func)(t_shell *, t_node *, t_command *);
 
-void	print_redir(t_redir *top) //for testing purpose
+static void	print_redir(t_list *redir_list) //for testing purpose
 {
-	t_redir	*temp;
+	t_node	*current;
+	t_redir	*redir;
 
 	printf("redir: ");
-	temp = top;
-	while (temp)
+	current = redir_list->head;
+	while (current)
 	{
-		if (temp->type == IN)
-			printf("<: %s, ", temp->file);
-		if (temp->type == OUT)
-			printf(">: %s, ", temp->file);
-		if (temp->type == APPEND)
-			printf(">>: %s, ", temp->file);
-		if (temp->type == HEREDOC)
-			printf("<<: %s, ", temp->file);
-		temp = temp->next;
+		redir = (t_redir *) current->data;
+		if (redir->type == IN)
+			printf("<: %s", redir->file);
+		else if (redir->type == OUT)
+			printf(">: %s", redir->file);
+		else if (redir->type == APPEND)
+			printf(">>: %s", redir->file);
+		else if (redir->type == HEREDOC)
+			printf("<<: %s", redir->file);
+		if (current->next)
+			printf(", ");
+		current = current->next;
 	}
 	printf("\n");
 }
 
-void	print_args(t_argument *top) //for testing purpose
+static void	print_args(char *args[]) //for testing purpose
 {
-	t_argument	*temp;
+	int	i;
 
-	printf("args: ");
-	temp = top;
-	while (temp)
+	printf("args:");
+	i = 0;
+	while (args[i])
 	{
-		printf("%s, ", temp->str);
-		temp = temp->next;
+		if (i != 0)
+			printf(",");
+		printf(" %s", args[i]);
+		i ++;
 	}
 	printf("\n");
 }
 
 void	print_command_table(t_shell *shell) //for testing purpose
 {
-	t_command *temp;
+	t_node		*current;
+	t_command	*command;
 
-	temp = shell->command;
-	while (temp)
+	if (!shell->command_list)
+		return ;
+	current = shell->command_list->head;
+	while (current)
 	{
+		command = (t_command *) current->data;
 		printf("------------------------------\n");
-		print_args(temp->arg_list);
-		print_redir(temp->redir);
-		temp = temp->next;
+		print_args(command->args);
+		print_redir(command->redir_list);
+		current = current->next;
 	}
 }
 
-t_token	*fill_command(t_shell *shell, t_token *current, t_command *new)
+char	**arg_list_to_array(t_command *command)
 {
-	const t_add_cmd_func	func[8] = {
-	[0] = &add_cmd_skip,
-	[1] = NULL,
-	[2] = NULL,
-	[3] = &add_cmd_redir,
-	[4] = &add_cmd_redir,
-	[5] = NULL,
-	[6] = &add_cmd_skip,
-	[7] = &add_cmd_word,
-	};
-	if (!new)
-		return (NULL);
-	if (current && current->type == PIPE)
-		return (shell_error(syntax_error, current->str), free_shell(shell), NULL);
-	while (current && current->type != PIPE)
-		current = func[current->type](shell, current, new);
-	// if (valid_command(new) == false)
-			//return (NULL);
-	if (current)
-		current = func[current->type](shell, current, new);
-	return (current);
+	char	**args;
+	t_node	*temp;
+	int		i;
+
+	args = ft_calloc(command->arg_list->count + 1, sizeof(char *));
+	i = 0;
+	if (args && command->arg_list)
+	{
+		temp = command->arg_list->head;
+		while (temp)
+		{
+			args[i] = (char *) temp->data;
+			temp = temp->next;
+			i++;
+		}
+	}
+    return (args);
 }
 
-void	add_cmd(t_shell *shell, t_token **current)
+static t_node	*fill_command(t_shell *shell, t_node *node, t_command *new)
 {
-	t_command	*new;
+	const t_add_cmd_func	func[9] = {
+	[0] = &skip_token,
+	[1] = &skip_token,
+	[2] = NULL,
+	[3] = NULL,
+	[4] = &add_cmd_redir,
+	[5] = &add_cmd_redir,
+	[6] = NULL,
+	[7] = &skip_token,
+	[8] = &add_cmd_arg,
+	};
+	t_token	*token;
+
+	if (node)
+		token = (t_token *) node->data;
+	while (shell->token_list && node && token->type != PIPE)
+	{
+		node = func[token->type](shell, node, new);
+		if (node)
+			token = (t_token *) node->data;
+	}
+	if (shell->token_list && node)
+		node = func[token->type](shell, node, new);
+	return (node);
+}
+
+void	skip_space(t_node **node)
+{
+	t_token	*token;
+
+	token = (t_token *) (*node)->data;
+	while (token && token->type == SPACE)
+		*node = (*node)->next;
+}
+
+static void	add_cmd(t_shell *shell, t_node **node)
+{
+	t_token		*token;
+	t_command	new;
 	
-	skip_space(current);
-	new = list_add_new_cmd(shell);
-	*current = fill_command(shell, *current, new);
-	new->args = arg_list_to_array(new);
+	skip_space(node);
+	token = (*node)->data;
+	if (token->type == PIPE)
+		return (shell_error(shell, syntax_error, token->str, 258));
+	new.arg_list = list_create(shell, sizeof(char *), NULL, comp_arg);
+	new.redir_list = list_create(shell, sizeof(t_redir), free_redir, comp_redir);
+	*node = fill_command(shell, *node, &new);
+	new.args = arg_list_to_array(&new);
+	list_add_new_node(shell, shell->command_list, &new);
 }
 
 void	parser(t_shell *shell)
 {
-	t_token		*current;
+	t_node		*node;
 
-	current = shell->expander;
-	while (current)
-		add_cmd(shell, &current);
-	// print_command_table(shell); //remove later
+    shell->command_list = list_create(shell, sizeof(t_command), free_command, comp_command);
+	if (!shell->command_list)
+		return ;
+	node = shell->token_list->head;
+	while (shell->command_list && node)
+		add_cmd(shell, &node);
 }

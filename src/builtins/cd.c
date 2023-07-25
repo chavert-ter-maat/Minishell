@@ -7,7 +7,7 @@
 
 // int	ft_cd(t_shell *shell, t_command *command)
 // {
-// 	char *cwd;
+// 	char cwd[999];
 
 // 	cwd = getcwd();
 // 	if(!cwd)

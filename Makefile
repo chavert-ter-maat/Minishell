@@ -29,6 +29,8 @@ SRC = 	SRC/main.c \
 		SRC/builtins/env.c \
 		SRC/builtins/export.c \
 		SRC/builtins/pwd.c \
+		SRC/builtins/exit.c \
+		SRC/builtins/handle_builtins.c \
 		SRC/environment/env_init.c \
 		SRC/environment/env_utils.c \
 		SRC/expander/expander.c \
@@ -37,10 +39,10 @@ SRC = 	SRC/main.c \
 		SRC/utils/error.c \
 		SRC/utils/expander_utils.c \
 		SRC/utils/handle_errors.c \
-		SRC/utils/lexer_utils.c \
 		SRC/utils/free.c \
-		SRC/utils/parser_utils.c \
-		SRC/builtins/handle_builtins.c \
+		SRC/generic_list/generic_list.c \
+		SRC/generic_list/free_functions.c \
+		SRC/generic_list/compare_functions.c \
 		SRC/executor/executor.c \
 		SRC/executor/handle_multiple_commands.c \
 		SRC/executor/handle_single_command.c \
@@ -48,7 +50,7 @@ SRC = 	SRC/main.c \
 		SRC/executor/utils_executor.c \
 		SRC/parser/parser.c \
 		SRC/parser/parser_jumptable.c \
-		SRC/parser/arguments.c \
+		SRC/signals/signals.c \
 
 # OBJECTS
 OBJ			= $(SRC:.c=.o)
