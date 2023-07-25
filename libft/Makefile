@@ -56,16 +56,8 @@ SRC =	ft_atoi.c \
 		ft_tolower.c \
 		ft_toupper.c \
 
-#SOURCES BONUS
-BONUS		=	ft_lstnew.c \
-				ft_lstadd_front.c \
-				ft_lstsize.c \
-				ft_lstlast.c \
-				ft_lstadd_back.c \
-
 # OBJECTS
 OBJ			= $(SRC:.c=.o)
-OBJ_BONUS	= $(BONUS:.c=.o)
 
 # HEADERS
 HEADER		= libft.h
@@ -93,12 +85,8 @@ comp: all bonus clean
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-bonus: $(OBJ_BONUS)
-	$(AR) $(NAME) $(OBJ_BONUS)
-	@echo "$(GREEN)ft_libft_bonus compiled $(DEF_COLOR)"
-
 clean:
-	$(RM) $(OBJ) $(OBJ_BONUS)
+	$(RM) $(OBJ)
 	@echo "$(YELLOW)ft_libft object files cleaned $(DEF_COLOR)"
 
 fclean: clean

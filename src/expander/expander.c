@@ -1,28 +1,21 @@
 #include "../../include/minishell.h"
 
-void	expand_var(t_shell *shell, char *var_name)
+static void	expand_var(t_shell *shell, t_list *list, char *var)
 {
-	t_token *new;
-	char	*value;
+	t_token new;
 
-	new_token(shell, &new);
-	if (!new)
+	new.str = get_var_value(shell, var);
+	new.type = WORD;
+	if (!new.str)
 		return ;
-	list_add_token(&(shell->expander), new);
-	value = find_var_value(shell->var_list, var_name);
-	if (!value)
-		return ;
-	new->type = WORD;
-	new->str = ft_strdup(value);
-	if (!new->str)
-		return (shell_error(malloc_error, "expand_var() @ ft_strdup"), free_shell(shell));
+	list_add_new_node(shell, list, &new);
 }
 
 /* splits the string in WORDS and VAR tokens,
 expands the VARs to their value and adds them
-to the expander list */
+to the list */
 
-void	split_str_in_tokens(t_shell *shell, char *str)
+static void	split_str_in_tokens(t_shell *shell, t_list *list, char *str)
 {
 	size_t	i;
 	size_t	save_i;
@@ -33,76 +26,84 @@ void	split_str_in_tokens(t_shell *shell, char *str)
 	{
 		save_i = i;
 		if (str[i] != '$')
-			list_new_word(shell, str, &i);
+			list_add_new_word(shell, list, str, &i);
 		else
 		{
+			save_i++;
 			i = 0;
-			tok_type_var(&(str[save_i]), &i, VAR);
+			find_end_var(&(str[save_i]), &i, VAR);
 			i += save_i;
 			var = ft_strndup(&(str[save_i]), i - save_i);
 			if (!var)
-				return (shell_error(malloc_error, "split_str_in_tokens() @ ft_strndup")), free(str), free_shell(shell);
+				return (shell_error(shell, malloc_error, "split_str_in_tokens()", 1), free(str));
+			expand_var(shell, list, var);
 			free(var);
 		}
-		if (!shell->expander)
+		if (!shell->token_list)
 			break ;
 	}
 	free(str);
 }
 
-void	expand_quote(t_shell *shell, char *quote)
-{
-	t_token *new;
-	size_t	len;
-
-	len = ft_strlen(quote);
-	if (len < 2 || quote[len - 1] != '\'')
-		return (shell_error(print_error, "unclosed quotes"), free_shell(shell));
-	new_token(shell, &new);
-	if (!new)
-		return ;
-	new->type = WORD;
-	quote++;
-	new->str = ft_strndup(quote, ft_strlen(quote) - 1);
-	list_add_token(&(shell->expander), new);
-	if (!new->str)
-		return (shell_error(malloc_error, "expand_quote() @ ft_strndup"), free_shell(shell));
-}
-
-void	expand_dquote(t_shell *shell, char *quote)
+static void	expand_quote(t_shell *shell, t_list *list, t_token *token)
 {
 	size_t	len;
 	char	*str;
+	char	quote;
+	t_token	new;
 
-	len = ft_strlen(quote);
-	if (len < 2 || quote[len - 1] != '\"')
-		return (shell_error(print_error, "unclosed quotes"), free_shell(shell));
-	quote++;
-	str = ft_strndup(quote, ft_strlen(quote) - 1);
+	if (token->type == QUOTE)
+		quote = '\'';
+	else if (token->type == DQUOTE)
+		quote = '\"';
+	str = token->str;
+	len = ft_strlen(str);
+	if (len < 2 || str[0] != quote || str[len - 1] != quote)
+		return (shell_error(shell, print_error, "unclosed quotes", 1));
+	str = ft_strndup(str + 1, ft_strlen(str) - 2);
 	if (!str)
-		return (shell_error(malloc_error, "expand_dquote() @ ft_strndup"), free_shell(shell));
-	split_str_in_tokens(shell, str);
+		return (shell_error(shell, malloc_error, "expand_quote()", 1));
+	if (token->type == QUOTE)
+	{
+		new.str = str;
+		new.type = WORD;
+		list_add_new_node(shell, list, &new);
+	}
+	else if (token->type == DQUOTE)
+		split_str_in_tokens(shell, list, str);
 }
 
-void expander(t_shell *shell)
+static t_list	*expand_token_list(t_shell *shell, t_list *list)
 {
-	t_token	*current;
+	t_token	*token;
+	t_node	*current;
 
-	current = shell->lexer;
+	if (!list)
+		return (NULL);
+	current = shell->token_list->head;
 	while (current)
 	{
-		if (current->type == QUOTE)
-			expand_quote(shell, current->str);
-		else if (current->type == DQUOTE)
-			expand_dquote(shell, current->str);
-		else if (current->type == VAR)
-			expand_var(shell, current->str);
+		token = (t_token *) current->data;
+		if (token->type == QUOTE || token->type == DQUOTE)
+			expand_quote(shell, list, token);
+		else if (token->type == VAR)
+			expand_var(shell, list, token->str + 1);
 		else
-			list_add_copy(shell, current);
-		if (shell->expander == NULL)
-			return;
+			list_add_token_copy(shell, list, token);
+		if (shell->token_list == NULL)
+			return(free_list(list));
 		current = current->next;
 	}
-	list_cat_words(shell);
-	free_tok_list(&(shell->lexer));
+	return (list);
+}
+
+void	expander(t_shell *shell)
+{
+	t_list	*list;
+
+	list = list_create(shell, sizeof(t_token), free_token, comp_token);
+	list = expand_token_list(shell, list);
+	list_cat_words(shell, list);
+	free_list(shell->token_list);
+	shell->token_list = list;
 }

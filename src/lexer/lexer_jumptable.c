@@ -2,7 +2,7 @@
 
 /* increments i by one */
 
-void	tok_type_pipe(char *cmd_line, size_t *i, t_token_type type)
+void	find_end_pipe(char *cmd_line, size_t *i, int type)
 {
 	(void) cmd_line;
 	(void) type;
@@ -11,20 +11,20 @@ void	tok_type_pipe(char *cmd_line, size_t *i, t_token_type type)
 
 /* changes i to the end of the quotes or end of line */
 
-void	tok_type_quote(char *cmd_line, size_t *i, t_token_type type)
+void	find_end_quote(char *cmd_line, size_t *i, int type)
 {
 	(*i)++;
-	while (cmd_line[*i] && find_metachar(cmd_line[*i]) != type)
+	while (cmd_line[*i] && get_token_type(cmd_line[*i]) != type)
 		(*i)++;
 	(*i)++;
 }
 
 /* changes i to the end of a redirecting operator */
 
-void	tok_type_redir(char *cmd_line, size_t *i, t_token_type type)
+void	find_end_redir(char *cmd_line, size_t *i, int type)
 {
 	(*i)++;
-	if (cmd_line[*i] && find_metachar(cmd_line[*i]) == type)
+	if (cmd_line[*i] && get_token_type(cmd_line[*i]) == type)
 		(*i)++;
 }
 
@@ -32,7 +32,7 @@ void	tok_type_redir(char *cmd_line, size_t *i, t_token_type type)
 A variable name starts with an underscore or alphabetical character and
 consists of underscores alphabetical characters and numbers */
 
-void	tok_type_var(char *cmd_line, size_t *i, t_token_type type)
+void	find_end_var(char *cmd_line, size_t *i, int type)
 {
 	(void) type;
 	(*i)++;
@@ -51,9 +51,9 @@ void	tok_type_var(char *cmd_line, size_t *i, t_token_type type)
 /* changes i to the end of consecutive white space 
 or consecutive 'word characters' */
 
-void	tok_type_consec(char *cmd_line, size_t *i, t_token_type type)
+void	find_end_consec(char *cmd_line, size_t *i, int type)
 {
 	(*i)++;
-	while (cmd_line[*i] && find_metachar(cmd_line[*i]) == type)
+	while (cmd_line[*i] && get_token_type(cmd_line[*i]) == type)
 		(*i)++;
 }
