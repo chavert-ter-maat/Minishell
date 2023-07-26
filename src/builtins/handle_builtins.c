@@ -14,8 +14,8 @@ int execute_builtin(t_shell *shell)
 		return (ft_pwd());
 	if (ft_strncmp(shell->command->args[0], "unset", 6) == 0)
 	 return (ft_unset(shell->command, &shell->env_list));
-	// if (ft_strncmp(shell->command->args[0], "exit", 5) == 0)
-	//  return (TRUE);
+	if (ft_strncmp(shell->command->args[0], "exit", 5) == 0)
+	 return (TRUE);
 	return (SUCCESS);
 }
 int check_if_builtin(char *command)
