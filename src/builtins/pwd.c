@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-int ft_pwd(void)
+void ft_pwd(void)
 {
 	char *cwd;
 	
@@ -14,5 +14,4 @@ int ft_pwd(void)
 	write(STDOUT_FILENO, cwd, ft_strlen(cwd));
 	write(STDOUT_FILENO, "\n", 1);
 	free(cwd);
-	return(SUCCESS);
 }

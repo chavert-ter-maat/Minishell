@@ -77,3 +77,18 @@ void	free_redir(void *data)
 	free(redir);
 	redir = NULL;
 }
+
+void	free_var(void *data)
+{
+	t_var	*var;
+
+	if (!data)
+		return;
+	var = (t_var *) data;
+	if (var->name)
+		free(var->name);
+	if (var->value)
+		free(var->value);
+	free(var);
+	var = NULL;
+}

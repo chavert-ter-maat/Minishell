@@ -2,7 +2,7 @@
 
 void	ft_exit(t_shell *shell)
 {
-	free_env_list(&(shell->env_list));
+	shell->environment = free_list(shell->environment);
 	free_shell(shell);
 	exit(SUCCESS);
 }

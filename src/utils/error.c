@@ -25,3 +25,16 @@ void	malloc_error(const char *str)
 	ft_putstr_fd("Memory allocation failed in ", 2);
 	ft_putendl_fd(str, 2);
 }
+
+void env_error(const char *str)
+{
+    ft_putstr_fd("env: ", 2);
+    ft_putstr_fd(str, 2);
+    ft_putendl_fd(": No such file or directory", 2);
+}
+
+void	argc_error(const char *str)
+{
+	ft_putstr_fd(str, 2);
+    ft_putendl_fd(": insufficient arguments", 2);
+}

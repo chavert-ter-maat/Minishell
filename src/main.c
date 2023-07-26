@@ -36,16 +36,16 @@ int main(int argc, char **argv, char **envp)
 	ft_signals();
 	ft_bzero(&shell, sizeof(t_shell));
 	init_env(&shell, envp);
-
 	while (1)
 	{
 		shell.cmd_line = readline("shellyeah$ ");
+		if (shell.cmd_line == NULL)
+			ft_exit(&shell);
 		add_history(shell.cmd_line);
 		lexer(&shell);
 		expander(&shell);
 		parser(&shell);
-		// executor(&shell);
-		print_command_table(&shell);
+		executor(&shell);
 		free_shell(&shell);
 	}
 	return (0);
