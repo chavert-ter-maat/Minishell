@@ -27,7 +27,7 @@
 // 	argv = NULL;
 // 	argc = 0;
 // 	envp_list = init_env(envp);
-// 	free_list_env(envp_list);
+// 	free_env_list(envp_list);
 // 	return(0);
 // }
 

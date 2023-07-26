@@ -1,19 +1,15 @@
 #include "../../include/minishell.h"
 
-typedef void	(*t_token_type_func)(char *, size_t *, t_token_type);
+typedef void	(*ft_find_end_token)(char *, size_t *, int);
 
-/*
-get_char_type checks if the given character is a meta character
-or whitespace or part of a WORD.
-*/
 
-int	find_metachar(char c)
+int	get_token_type(char c)
 {
-	const char		set[] = "|\'\"><$";
+	const char		set[] = "x|\'\"><$";
 	int			i;
 
-	i = 0;
-	while (i <= 5)
+	i = 1;
+	while (i <= 6)
 	{
 		if (set[i] == c)
 			return (i);
@@ -30,33 +26,27 @@ Get_token_info gets the data for the string in the token structure.
 It uses a jumptable.
 */
 
-void	get_token_info(t_shell *shell, t_token **token, char *cmd_line, size_t *i)
+static void	get_token_info(t_shell *shell, t_token *token, char *cmd_line, size_t *i)
 {
-	const t_token_type_func	func[8] = {
-	[0] = &tok_type_pipe,
-	[1] = &tok_type_quote,
-	[2] = &tok_type_quote,
-	[3] = &tok_type_redir,
-	[4] = &tok_type_redir,
-	[5] = &tok_type_var,
-	[6] = &tok_type_consec,
-	[7] = &tok_type_consec,
+	const ft_find_end_token	func[9] = {
+	[0] = NULL,
+	[1] = &find_end_pipe,
+	[2] = &find_end_quote,
+	[3] = &find_end_quote,
+	[4] = &find_end_redir,
+	[5] = &find_end_redir,
+	[6] = &find_end_var,
+	[7] = &find_end_consec,
+	[8] = &find_end_consec,
 	};
 	size_t					save_i;
 
-	if (!*token)
-		return ;
 	save_i = *i;
-	(*token)->type = find_metachar(cmd_line[*i]);
-	func[(*token)->type](cmd_line, i, (*token)->type);
-	(*token)->str = ft_strndup(&(cmd_line[save_i]), *i - save_i);
-	if (!(*token)->str)
-	{
-		free(*token);
-		*token = NULL;
-		shell_error(malloc_error, "lget_token_info() @ ft_strndup");
-		free_shell(shell);
-	}
+	token->type = get_token_type(cmd_line[*i]);
+	func[token->type](cmd_line, i, token->type);
+	token->str = ft_strndup(&(cmd_line[save_i]), *i - save_i);
+	if (!token->str)
+		shell_error(shell, malloc_error, "get_token_info()", 1);
 }
 
 /*
@@ -66,16 +56,14 @@ and returns a linked list of tokens.
 
 void	lexer(t_shell *shell)
 {
-	t_token	*new;
 	size_t	i;
+	t_token	new;
 
+	shell->token_list = list_create(shell, sizeof(t_token), free_token, comp_token);
 	i = 0;
 	while (shell->cmd_line[i])
 	{
-		new_token(shell, &new);
 		get_token_info(shell, &new, shell->cmd_line, &i);
-		if (!new)
-			return ;
-		list_add_token(&(shell->lexer), new);
+		list_add_new_node(shell, shell->token_list, &new);
 	}
 }

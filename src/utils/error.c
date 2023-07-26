@@ -1,9 +1,11 @@
 #include "../../include/minishell.h"
 
-void	shell_error(void (*func)(const char *), const char *str) //errno status update toevoegen
+void	shell_error(t_shell *shell, void (*func)(const char *), const char *str, int ret)
 {
+	shell->return_value = ret;
 	ft_putstr_fd("shellyeah: ", 2);
 	func(str);
+	free_shell(shell);
 }
 
 void	syntax_error(const char *str)
