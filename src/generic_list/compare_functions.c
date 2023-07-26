@@ -55,3 +55,15 @@ int		comp_redir(void *data1, void *data2)
 		return (-1);
 	return (ft_strcmp(redir1->file, redir2->file));
 }
+
+int	comp_var(void *data, void *comp_name)
+{
+	t_var	*var;
+	char	*name;
+
+	if (!data || !comp_name)
+		return (-1);
+	var = (t_var *) data;
+	name = (char *) comp_name;
+	return (ft_strcmp(var->name, name));
+}

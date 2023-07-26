@@ -52,21 +52,21 @@ void	list_cat_words(t_shell *shell, t_list *list)
 	}
 }
 
-char *get_var_value(t_shell *shell, char *var)
+char *expand_var(t_shell *shell, char *name)
 {
 	char	*value;
 
-	if (!var)
+	if (!name)
 		return (NULL);
-	if (var[0] == '?')
+	if (name[0] == '?')
 		value = ft_itoa(shell->return_value);
 	else
-		value = env_get_var_value(shell, var);
+		value = env_get_var_value(shell, name);
 	if (!value)
 		return (value);
 	value = ft_strdup(value);
 	if (!value)
-		shell_error(shell, malloc_error, "get_var_value()", 1);
+		shell_error(shell, malloc_error, "expand_var()", 1);
 	return (value);
 }
 

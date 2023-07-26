@@ -180,3 +180,19 @@ bool	list_is_identical(t_list *list1, t_list *list2)
 	}
 	return (true);
 }
+
+t_node	*list_get_node(t_list *list, void *data)
+{
+	t_node	*current;
+
+	if (!list || !data || !list->ft_comp)
+		return (NULL);
+	current = list->head;
+	while (current)
+	{
+		if (list->ft_comp(current->data, data) == 0)
+			return (current);
+		current = current->next;
+	}
+	return (NULL);
+}

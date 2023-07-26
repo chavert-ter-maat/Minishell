@@ -49,23 +49,23 @@ static char	**get_path_environment(t_shell *shell)
 	return (split_path);
 }
 
-// run_commands() finds path in environment, splits it and looks then looks if
+// execute_non_builtin() finds path in environment, splits it and looks then looks if
 // executable is present in the minishell directory, if not it looks for
 // a path either in the environment or in the input.
-void	run_command(t_shell *shell, char **args)
+void	execute_non_builtin(t_shell *shell, t_command *command)
 {
 	char	*command_path;
 	char	**split_path; 
 
 	command_path = NULL;
 	split_path = get_path_environment(shell);
-	if (args[0] && (ft_strncmp(args[0], "/", 1) 
-		|| ft_strncmp(args[0], "./", 2)))
+	if (command->args[0] && (ft_strncmp(command->args[0], "/", 1) 
+		|| ft_strncmp(command->args[0], "./", 2)))
 	{
-		command_path = get_path_executable(split_path, args);
-		if (execve(command_path, args, shell->envp) == FAILED)
-			error_no_command(args[0]);
+		command_path = get_path_executable(split_path, command->args);
+		if (execve(command_path, command->args, shell->envp) == FAILED)
+			error_no_command(command->args[0]);
 	}
-	if (execve(args[0], args, shell->envp) == FAILED)
-		error_no_command(args[0]);
+	if (execve(command->args[0], command->args, shell->envp) == FAILED)
+		error_no_command(command->args[0]);
 }

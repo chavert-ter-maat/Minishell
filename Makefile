@@ -28,7 +28,6 @@ SRC = 	SRC/main.c \
 		SRC/builtins/cd.c \
 		SRC/builtins/echo.c \
 		SRC/builtins/env.c \
-		SRC/builtins/pwd.c \
 		SRC/builtins/unset.c \
 		SRC/builtins/export.c \
 		SRC/builtins/pwd.c \
@@ -49,7 +48,7 @@ SRC = 	SRC/main.c \
 		SRC/executor/executor.c \
 		SRC/executor/handle_multiple_commands.c \
 		SRC/executor/handle_single_command.c \
-		SRC/executor/run_commands.c \
+		SRC/executor/execute_non_builtin.c \
 		SRC/executor/utils_executor.c \
 		SRC/parser/parser.c \
 		SRC/parser/parser_jumptable.c \

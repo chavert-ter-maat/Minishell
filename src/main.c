@@ -36,7 +36,6 @@ int main(int argc, char **argv, char **envp)
 	ft_signals();
 	ft_bzero(&shell, sizeof(t_shell));
 	init_env(&shell, envp);
-
 	while (1)
 	{
 		shell.cmd_line = readline("shellyeah$ ");
@@ -48,8 +47,7 @@ int main(int argc, char **argv, char **envp)
 			lexer(&shell);
 			expander(&shell);
 			parser(&shell);
-			// executor(&shell);
-			print_command_table(&shell);
+			executor(&shell);
 		}
 		free_shell(&shell);
 	}
