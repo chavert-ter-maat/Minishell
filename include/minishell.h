@@ -204,7 +204,7 @@ void	ft_exit(t_shell *shell);
 
 //signals
 void	ft_signals(void);
-void	sigquit_handler(int signum);
+void	sigquit_handler(t_shell *shell);
 void	sigint_handler(int signum);
 
 //generic list
