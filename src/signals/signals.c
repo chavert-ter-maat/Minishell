@@ -2,22 +2,20 @@
 
 void	sigint_handler(int signum)
 {
-	if (signum == SIGINT)
-		write(1, "exit\n", 5);
-	exit(SUCCESS);
+	(void)	signum;
+	// rl_replace_line("", 0);
+	// rl_on_new_line();
 }
 
-void	sigquit_handler(int signum)
+void	sigquit_handler(t_shell *shell)
 {
-	if (signum == SIGQUIT)
-		write(1, "quit", 4);
-	else
-		write(1, "else", 4);
+	printf("exit\n");
+	ft_exit(shell);
 	exit(SUCCESS);
 }
 
 void	ft_signals(void)
 {
 	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

@@ -40,12 +40,15 @@ int main(int argc, char **argv, char **envp)
 	{
 		shell.cmd_line = readline("shellyeah$ ");
 		if (shell.cmd_line == NULL)
-			ft_exit(&shell);
-		add_history(shell.cmd_line);
-		lexer(&shell);
-		expander(&shell);
-		parser(&shell);
-		executor(&shell);
+			sigquit_handler(&shell);
+		else
+		{
+			add_history(shell.cmd_line);
+			lexer(&shell);
+			expander(&shell);
+			parser(&shell);
+			executor(&shell);
+		}
 		free_shell(&shell);
 	}
 	return (0);
