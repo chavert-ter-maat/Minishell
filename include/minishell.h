@@ -223,7 +223,7 @@ void	add_node_to_list_env(t_env **env_list, t_env *new_node);
 int		go_path(t_shell *shell, char *path, char *cwd);
 int		go_home_dir(t_shell *shell, char *cwd);
 int		go_previous_dir(t_shell *shell, char *cwd);
-int		go_oldpwd(t_shell *shell, char *cwd);
+int		go_oldpwd(t_shell *shell);
 int		cd_update_env(t_shell *shell, char *name, char *value);
 char	*get_path(t_shell *shell, char *name);
 void	cd_error(char *argument);
