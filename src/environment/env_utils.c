@@ -1,84 +1,64 @@
 # include "../../include/minishell.h"
 
-void	print_list_env(t_env *env_list)
+void	print_environment(t_list *environment)
 {
+	t_node	*temp;
+	t_var	*var;
 
-	if(env_list == NULL)
-		exit(EXIT_FAILURE);
-	while (env_list)
-	{
-		ft_putstr_fd(env_list->name, 1);
-		ft_putchar_fd('=', 1);
-		ft_putstr_fd(env_list->value, 1);
-		ft_putchar_fd('\n', 1);
-		env_list = env_list->next;
-	}
-}
-
-static t_env	*search_last_node_env(t_env *env_list) 
-{
-    if (!env_list) 
-        return (NULL);
-    while (env_list->next)
-        	env_list = env_list->next;
-    return (env_list);
-}
-
-void	add_node_to_list_env(t_env **env_list, t_env *new_node)
-{
-	t_env	*last_node;
-
-	if (!*env_list)
-	{
-		*env_list = new_node;
+	if(!environment | !environment->head)
 		return ;
-	}
-	last_node = search_last_node_env(*env_list);
-	last_node->next = new_node;
-}
-
-char *env_get_var_value(t_shell *shell, char *var)
-{
-	t_env	*temp;
-	size_t	len;
-
-	if (!var)
-		return (NULL);
-	len = ft_strlen(var);
-	temp = shell->env_list;
+	temp = environment->head;
 	while (temp)
 	{
-		if (ft_strncmp(var, temp->name, len) == 0)
-			return (temp->value);
+		var = (t_var *) temp->data;
+		ft_putstr_fd(var->name, 1);
+		ft_putchar_fd('=', 1);
+		ft_putstr_fd(var->value, 1);
+		ft_putchar_fd('\n', 1);
 		temp = temp->next;
 	}
-	return (NULL);
+}
+
+char *env_get_var_value(t_shell *shell, char *name)
+{
+	t_node	*target;
+	t_var	*var;
+
+	if (!shell->environment || !shell->environment->head || !name)
+		return (NULL);
+	target = list_get_node(shell->environment, name);
+	if (!target)
+		return (NULL);
+	var = (t_var *) target->data;
+	return (var->value);
+}
+
+static void	env_add_new_var(t_shell *shell, char *name, char *value)
+{
+	t_var	new_var;
+
+	new_var.name = name;
+	new_var.value = value;
+	list_add_new_node(shell, shell->environment, &new_var);
 }
 
 void	env_set_var_value(t_shell *shell, char *name, char *value)
 {
-	t_env	*temp;
-	t_env	*new;
-	size_t	len;
+	t_node	*target;
+	t_var	*var;
 
-	if (!name)
+	if (!name || !shell->environment || !shell->environment->head)
 		return ;
-	len = ft_strlen(name);
-	temp = shell->env_list;
-	while (temp)
+	target = list_get_node(shell->environment, name);
+	if (!target)
 	{
-		if (ft_strncmp(name, temp->name, len) == 0)
-		{
-			free(temp->value);
-			temp->value = value;
-			return ;
-		}
-		temp = temp->next;
+		env_add_new_var(shell, name, value);
+		return ;
 	}
-	new = ft_calloc(1, sizeof(t_env));
-	new->name = ft_strdup(name);
-	new->value = ft_strdup(value);
-	add_node_to_list_env(&(shell->env_list), new);
-	if (!new || !new->name || !new->value)
-		return (shell_error(shell, malloc_error, "env_set_var_value()", 1));
+	var = (t_var *) target->data;
+	if (var->value)
+		free(var->value);
+	free(name);
+	var->value = value;
 }
+

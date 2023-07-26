@@ -21,7 +21,7 @@ static int  check_n_flag(char *str)
 	else
 		return(NOT_FOUND);
 }
-int ft_echo(char **args, int fd)
+void ft_echo(char **args, int fd)
 {
 	int n_flag;
 	int index1;
@@ -42,5 +42,4 @@ int ft_echo(char **args, int fd)
 	}
 	if (n_flag == NOT_FOUND)
 		ft_putchar_fd('\n', fd);
-	return (SUCCESS);
 }

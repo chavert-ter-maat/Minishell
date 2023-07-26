@@ -1,70 +1,75 @@
 #include "../../include/minishell.h"
 
-char	*get_env_name(char *new_env_variable)
+static char	*get_var_name(t_shell *shell, char *var)
 {
 	char	*name;
 	int		index;
 
+	if (!var)
+		return (NULL);
 	index = 0;
-	while (new_env_variable[index] && new_env_variable[index] != '=') //!!MALLOC
+	while (var[index] && var[index] != '=')
 		index++;
-	name = ft_substr(new_env_variable, 0, (index));
+	name = ft_substr(var, 0, (index));
 	if(!name)
-		return(NULL);
+		return (shell_error(shell, malloc_error, "get_var_name", 1), NULL);
 	return(name);
 }
-char	*get_env_value(char *new_env_variable)
+static char	*get_var_value(t_shell *shell, char *var)
 {
-	char	*variable;
+	char	*value;
 	int		start;
 	int		end;
 
+	if (!var)
+		return (NULL);
 	start = 0;
 	end = 0;
-	while(new_env_variable[start] && new_env_variable[start] != '=')
+	while(var[start] && var[start] != '=')
 		start++;
-	while (new_env_variable[end])
+	while (var[end])
 		end++;
-	variable = ft_substr(new_env_variable, (start + 1), (end - 1)); //checken end -1 !!MALLOC
-	if(!variable)
-		return(NULL);
-	return(variable);
+	value = ft_substr(var, (start + 1), (end - 1));
+	if(!value)
+		return (shell_error(shell, malloc_error, "get_env_value", 1), NULL);
+	return(value);
 }
 
-t_env	*create_new_node(char *new_env_variable)
+int	add_var_to_environment(t_shell *shell, char *var)
 {
-	t_env	*new_node;
+	char	*name;
+	char	*value;
 
-	new_node = ft_calloc(1, sizeof(t_env));
-	if (!new_node)
+	name = NULL;
+	value = NULL;
+	name = get_var_name(shell, var);
+	if (!name)
+		return (-1);
+	value = get_var_value(shell, var);
+	if (!value)
 	{
-		ft_printf ("Calloc failed"),
-		exit (EXIT_FAILURE);
+		free(name);
+		return (-1);
 	}
-	new_node->name = get_env_name(new_env_variable);
-	if(!new_node->name)
-		exit(EXIT_FAILURE);
-	new_node->value = get_env_value(new_env_variable);
-	if(!new_node->value)
-		exit(EXIT_FAILURE);
-	new_node->next = NULL;
-	return (new_node);
+	env_set_var_value(shell, name, value);
+	return (0);
 }
 
 void	init_env(t_shell *shell, char **envp)
 {
-	t_env	*new_node;
 	int		index;
 
-	index = 0;
-	shell->env_list = NULL;
+	shell->environment = list_create(shell, sizeof(t_var), free_var, comp_var);
+	if (!shell->environment)
+		exit(EXIT_FAILURE);
 	shell->envp = envp;
+	index = 0;
 	while(envp[index])
 	{
-		new_node = create_new_node(envp[index]);
-		if(!new_node)
-			free_env_list(&(shell->env_list));
-		add_node_to_list_env(&(shell->env_list), new_node);
-		index++;
+		if (add_var_to_environment(shell, envp[index++]) != 0)
+		{
+			free_list(shell->environment);
+			exit(EXIT_FAILURE);
+		}
 	}
 }

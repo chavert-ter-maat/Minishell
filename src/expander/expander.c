@@ -1,10 +1,10 @@
 #include "../../include/minishell.h"
 
-static void	expand_var(t_shell *shell, t_list *list, char *var)
+static void	list_add_expand_var(t_shell *shell, t_list *list, char *name)
 {
 	t_token new;
 
-	new.str = get_var_value(shell, var);
+	new.str = expand_var(shell, name);
 	new.type = WORD;
 	if (!new.str)
 		return ;
@@ -19,7 +19,7 @@ static void	split_str_in_tokens(t_shell *shell, t_list *list, char *str)
 {
 	size_t	i;
 	size_t	save_i;
-	char	*var;
+	char	*var_name;
 
 	i = 0;
 	while(str[i])
@@ -33,11 +33,11 @@ static void	split_str_in_tokens(t_shell *shell, t_list *list, char *str)
 			i = 0;
 			find_end_var(&(str[save_i]), &i, VAR);
 			i += save_i;
-			var = ft_strndup(&(str[save_i]), i - save_i);
-			if (!var)
+			var_name = ft_strndup(&(str[save_i]), i - save_i);
+			if (!var_name)
 				return (shell_error(shell, malloc_error, "split_str_in_tokens()", 1), free(str));
-			expand_var(shell, list, var);
-			free(var);
+			list_add_expand_var(shell, list, var_name);
+			free(var_name);
 		}
 		if (!shell->token_list)
 			break ;
@@ -87,7 +87,7 @@ static t_list	*expand_token_list(t_shell *shell, t_list *list)
 		if (token->type == QUOTE || token->type == DQUOTE)
 			expand_quote(shell, list, token);
 		else if (token->type == VAR)
-			expand_var(shell, list, token->str + 1);
+			list_add_expand_var(shell, list, token->str + 1);
 		else
 			list_add_token_copy(shell, list, token);
 		if (shell->token_list == NULL)
