@@ -41,6 +41,7 @@ void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_
 	if (dup2(read_end, STDIN_FILENO) == FAILED)
 		perror_exit(shell, "dup2");
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
+
 		perror_exit(shell, "dup2");
     if (check_if_builtin(command->args[0]) == TRUE)
 		execute_builtin(shell, command);
