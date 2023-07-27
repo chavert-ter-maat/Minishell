@@ -150,6 +150,7 @@ void	list_add_token_copy(t_shell *shell, t_list *list, t_token *token);
 
 //parser
 void	parser(t_shell *shell);
+void	make_command_table(t_shell *shell);
 void	skip_space(t_node **node);
 t_node	*add_cmd_arg(t_shell *shell, t_node *node, t_command *new);
 t_node	*add_cmd_redir(t_shell *shell, t_node *node, t_command *new_cmd);
@@ -181,8 +182,8 @@ void	print_status_waidpid(pid_t pid, int options);
 void	infile_as_stdin(t_shell *shell);
 void	outfile_as_stdout(t_shell *shell);
 void	input_error(void);
-void	error_exit(char *input);
-void	perror_exit(char *input);
+void	error_exit(t_shell *shell, char *input);
+void	perror_exit(t_shell *shell, char *input);
 void	error_no_command(char *argv);
 
 // environment
@@ -209,7 +210,7 @@ void 	ft_env(t_shell *shell, t_command *command);
 void	ft_export(t_shell *shell, t_command *command);
 int		check_if_builtin(char *command);
 void	execute_builtin(t_shell *shell, t_command *command);
-void	ft_pwd(void);
+void	ft_pwd(t_shell *shell);
 void	ft_unset(t_shell *shell, t_command *command);
 void	ft_exit(t_shell *shell, int exitstatus);
 

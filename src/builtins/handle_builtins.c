@@ -11,7 +11,7 @@ void execute_builtin(t_shell *shell, t_command *command)
 	if (ft_strncmp(command->args[0], "export", 7) == 0)
 	 return (ft_export(shell, command));
 	if (ft_strncmp(command->args[0], "pwd", 4) == 0)
-		return (ft_pwd());
+		return (ft_pwd(shell));
 	if (ft_strncmp(command->args[0], "unset", 6) == 0)
 	 return (ft_unset(shell, command));
 	if (ft_strncmp(command->args[0], "exit", 5) == 0)

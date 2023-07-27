@@ -6,18 +6,18 @@ void	input_error(void)
 	exit(EXIT_FAILURE);
 }
 
-void	error_exit(char *input)
+void	error_exit(t_shell *shell, char *input)
 {
 	ft_putstr_fd(input, STDERR_FILENO);
-	exit(EXIT_FAILURE);
+	ft_exit(shell, EXIT_FAILURE);
 }
 
 //set errno?
-void	perror_exit(char *input)
+void	perror_exit(t_shell *shell, char *input)
 	{
 		ft_putstr_fd("Shell_yeah: ", STDERR_FILENO);
 		perror(input);
-		exit(EXIT_FAILURE);
+		ft_exit(shell, EXIT_FAILURE);
 	}
 
 void	error_no_command(char *cmd)

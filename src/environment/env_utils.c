@@ -47,14 +47,11 @@ void	env_set_var_value1(t_shell *shell, char *name, char *value)
 	t_node	*target;
 	t_var	*var;
 
-	if (!name || !shell->environment || !shell->environment->head)
+	if (!name || !shell->environment)
 		return ;
 	target = list_get_node(shell->environment, name);
 	if (!target)
-	{
-		env_add_new_var(shell, name, value);
-		return ;
-	}
+		return (env_add_new_var(shell, name, value));
 	var = (t_var *) target->data;
 	if (var->value)
 		free(var->value);
