@@ -40,7 +40,7 @@ typedef enum e_token_type {
 	GREAT,
 	LESS,
 	VAR,
-	SPACE,
+	E_SPACE,
 	WORD
 }	t_token_type;
 
@@ -201,7 +201,7 @@ int		go_home_dir(t_shell *shell, char *cwd);
 int		go_previous_dir(t_shell *shell, char *cwd);
 int		go_oldpwd(t_shell *shell);
 void	cd_error(char *argument);
-int		ft_cd(t_shell *shell, t_command *command);
+void	ft_cd(t_shell *shell, t_command *command);
 
 // builtins
 void	ft_echo(char **args, int fd);
@@ -214,7 +214,7 @@ void	ft_unset(t_shell *shell, t_command *command);
 void	ft_exit(t_shell *shell, int exitstatus);
 
 //signals
-void	ft_signals(void);
+void	init_signals(void);
 void	sigquit_handler(t_shell *shell);
 void	sigint_handler(int signum);
 

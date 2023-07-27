@@ -29,15 +29,14 @@ int main(int argc, char **argv, char **envp)
 	t_shell shell;
 
 	(void) argv;
-	(void) envp;
 	if (argc > 1)
 		;//exit
 	atexit(f);
-	ft_signals();
 	ft_bzero(&shell, sizeof(t_shell));
 	init_env(&shell, envp);
 	while (1)
 	{
+		init_signals();
 		shell.cmd_line = readline("shellyeah$ ");
 		if (shell.cmd_line == NULL)
 			sigquit_handler(&shell);

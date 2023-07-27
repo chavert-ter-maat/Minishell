@@ -2,8 +2,8 @@
 
 void execute_builtin(t_shell *shell, t_command *command)
 {
-	// if (ft_strncmp(command->args[0], "cd", 3) == 0)
-	//  return (ft_cd(shell, command));
+	if (ft_strncmp(command->args[0], "cd", 3) == 0)
+	 return (ft_cd(shell, command));
 	if (ft_strncmp(command->args[0], "echo", 5) == 0)
 		return (ft_echo(command->args, 1));
 	if (ft_strncmp(command->args[0], "env", 4) == 0)
