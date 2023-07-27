@@ -2,7 +2,7 @@
 NAME 	= minishell
 CC 		= gcc
 CFLAGS 	= -Wall -Wextra -Werror
-LDFLAGS			=	-L$(shell brew --prefix readline)/lib
+LDFLAGS = -lreadline
 ifdef DEBUG
 	CFLAGS += -g
 endif
@@ -15,7 +15,7 @@ RM 		= rm -rf
 SANITIZE = -fsanitize=address
 
 # INCLUDES
-INCLUDES	= -I./libft -I./libft/ft_printf -I./include -I$(shell brew --prefix readline)/include
+INCLUDES	= -I./libft -I./libft/ft_printf -I./include
 
 # LIBRARIES
 PRINTF = ./libft/ft_printf/libftprintf.a
@@ -81,7 +81,6 @@ BLUE 		= \033[0;94m
 MAGENTA		= \033[0;95m
 CYAN 		= \033[0;96m
 WHITE 		= \033[0;97m
-
 	
 # RULES
 all: $(NAME)
@@ -122,4 +121,4 @@ fclean: clean
 	$(RM) $(NAME)
 	@echo "$(YELLOW)minishell executable removed $(DEF_COLOR)"
 
-re: fclean all	
+re: fclean all

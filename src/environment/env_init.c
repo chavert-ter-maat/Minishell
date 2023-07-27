@@ -51,7 +51,7 @@ int	add_var_to_environment(t_shell *shell, char *var)
 		free(name);
 		return (-1);
 	}
-	env_set_var_value(shell, name, value);
+	env_set_var_value1(shell, name, value);
 	return (0);
 }
 

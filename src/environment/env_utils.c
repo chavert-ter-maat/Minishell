@@ -42,7 +42,7 @@ static void	env_add_new_var(t_shell *shell, char *name, char *value)
 	list_add_new_node(shell, shell->environment, &new_var);
 }
 
-void	env_set_var_value(t_shell *shell, char *name, char *value)
+void	env_set_var_value1(t_shell *shell, char *name, char *value)
 {
 	t_node	*target;
 	t_var	*var;
@@ -62,3 +62,28 @@ void	env_set_var_value(t_shell *shell, char *name, char *value)
 	var->value = value;
 }
 
+void	env_set_var_value2(t_shell *shell, char *not_allocated_name, char *value)
+{
+	t_node	*target;
+	t_var	*var;
+	char	*name;
+
+	if (!not_allocated_name || !shell->environment || !shell->environment->head)
+		return ;
+	target = list_get_node(shell->environment, not_allocated_name);
+	if (!target)
+	{
+		name = ft_strdup(not_allocated_name);
+		if (!name)
+		{
+			free(value);
+			return(shell_error(shell, malloc_error, "env_set_var_value2", 1));
+		}
+		env_add_new_var(shell, name, value);
+		return ;
+	}
+	var = (t_var *) target->data;
+	if (var->value)
+		free(var->value);
+	var->value = value;
+}
