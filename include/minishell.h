@@ -150,6 +150,7 @@ void	list_add_token_copy(t_shell *shell, t_list *list, t_token *token);
 
 //parser
 void	parser(t_shell *shell);
+void	make_command_table(t_shell *shell);
 void	skip_space(t_node **node);
 t_node	*add_cmd_arg(t_shell *shell, t_node *node, t_command *new);
 t_node	*add_cmd_redir(t_shell *shell, t_node *node, t_command *new_cmd);

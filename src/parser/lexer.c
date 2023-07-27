@@ -67,3 +67,10 @@ void	lexer(t_shell *shell)
 		list_add_new_node(shell, shell->token_list, &new);
 	}
 }
+
+void parser(t_shell *shell)
+{
+	lexer(shell);
+	expander(shell);
+	make_command_table(shell);
+}

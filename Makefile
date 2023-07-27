@@ -36,9 +36,11 @@ SRC = 	SRC/main.c \
 		SRC/builtins/handle_builtins.c \
 		SRC/environment/env_init.c \
 		SRC/environment/env_utils.c \
-		SRC/expander/expander.c \
-		SRC/lexer/lexer_jumptable.c \
-		SRC/lexer/lexer.c \
+		SRC/parser/lexer_jumptable.c \
+		SRC/parser/lexer.c \
+		SRC/parser/expander.c \
+		SRC/parser/parser.c \
+		SRC/parser/parser_jumptable.c \
 		SRC/utils/error.c \
 		SRC/utils/expander_utils.c \
 		SRC/utils/handle_errors.c \
@@ -51,8 +53,6 @@ SRC = 	SRC/main.c \
 		SRC/executor/handle_single_command.c \
 		SRC/executor/execute_non_builtin.c \
 		SRC/executor/utils_executor.c \
-		SRC/parser/parser.c \
-		SRC/parser/parser_jumptable.c \
 		SRC/signals/signals.c \
 
 # OBJECTS

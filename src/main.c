@@ -44,8 +44,6 @@ int main(int argc, char **argv, char **envp)
 		else
 		{
 			add_history(shell.cmd_line);
-			lexer(&shell);
-			expander(&shell);
 			parser(&shell);
 			executor(&shell);
 		}

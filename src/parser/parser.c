@@ -147,10 +147,12 @@ static void	add_cmd(t_shell *shell, t_node **node)
 	list_add_new_node(shell, shell->command_list, &new);
 }
 
-void	parser(t_shell *shell)
+void	make_command_table(t_shell *shell)
 {
 	t_node		*node;
 
+	if (!shell->token_list)
+		return ;
     shell->command_list = list_create(shell, sizeof(t_command), free_command, comp_command);
 	if (!shell->command_list)
 		return ;

@@ -101,6 +101,8 @@ void	expander(t_shell *shell)
 {
 	t_list	*list;
 
+	if (!shell->token_list)
+		return ;
 	list = list_create(shell, sizeof(t_token), free_token, comp_token);
 	list = expand_token_list(shell, list);
 	list_cat_words(shell, list);
