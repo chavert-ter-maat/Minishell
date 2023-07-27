@@ -122,4 +122,4 @@ fclean: clean
 	$(RM) $(NAME)
 	@echo "$(YELLOW)minishell executable removed $(DEF_COLOR)"
 
-re: fclean all	
+re: fclean all

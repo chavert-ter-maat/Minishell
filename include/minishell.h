@@ -189,7 +189,8 @@ void	error_no_command(char *argv);
 t_var 	*create_new_node(char *new_var_variable);
 void	init_env(t_shell *shell, char **varp);
 void	print_environment(t_list *environment);
-void	env_set_var_value(t_shell *shell, char *name, char *value);
+void	env_set_var_value1(t_shell *shell, char *name, char *value);
+void	env_set_var_value2(t_shell *shell, char *not_allocated_name, char *value);
 char 	*env_get_var_value(t_shell *shell, char *name);
 int		add_var_to_environment(t_shell *shell, char *var);
 
@@ -199,8 +200,6 @@ int		go_path(t_shell *shell, char *path, char *cwd);
 int		go_home_dir(t_shell *shell, char *cwd);
 int		go_previous_dir(t_shell *shell, char *cwd);
 int		go_oldpwd(t_shell *shell);
-int		cd_update_env(t_shell *shell, char *name, char *value);
-char	*get_path(t_shell *shell, char *name);
 void	cd_error(char *argument);
 int		ft_cd(t_shell *shell, t_command *command);
 
@@ -212,7 +211,7 @@ int		check_if_builtin(char *command);
 void	execute_builtin(t_shell *shell, t_command *command);
 void	ft_pwd(void);
 void	ft_unset(t_shell *shell, t_command *command);
-void	ft_exit(t_shell *shell);
+void	ft_exit(t_shell *shell, int exitstatus);
 
 //signals
 void	ft_signals(void);

@@ -10,8 +10,7 @@ void	sigint_handler(int signum)
 void	sigquit_handler(t_shell *shell)
 {
 	printf("exit\n");
-	ft_exit(shell);
-	exit(SUCCESS);
+	ft_exit(shell, 0);
 }
 
 void	ft_signals(void)
