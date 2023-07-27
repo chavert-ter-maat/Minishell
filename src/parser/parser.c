@@ -119,8 +119,12 @@ void	skip_space(t_node **node)
 	if (!*node)
 		return ;
 	token = (t_token *) (*node)->data;
+<<<<<<< HEAD
+	while (token && token->type == E_SPACE)
+=======
 	while (token && token->type == SPACE)
 	{
+>>>>>>> 729c1cb79aa29c5d28d10e10fbffccdf779b3faf
 		*node = (*node)->next;
 		if (*node)
 			token = (t_token *) (*node)->data;

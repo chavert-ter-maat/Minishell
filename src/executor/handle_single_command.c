@@ -14,11 +14,18 @@ void	handle_single_command(t_shell *shell, t_command *command)
         if (check_if_builtin(command->args[0]))
             execute_builtin(shell, command);
         else 
+		{
 		    execute_non_builtin(shell, shell->command_list->head->data);
-
+			if (waitpid(pid, &status, 0) == FAILED)
+				perror_exit("waitpid");
+		}
     }
 	// restore_std(shell->executor);
+<<<<<<< HEAD
+
+=======
 	if (waitpid(pid, &status, 0) == FAILED)
 		perror_exit(shell, "waitpid");
+>>>>>>> 729c1cb79aa29c5d28d10e10fbffccdf779b3faf
 	// print_status_waidpid(pid, status);
 }

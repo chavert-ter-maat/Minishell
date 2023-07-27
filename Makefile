@@ -2,8 +2,7 @@
 # VARIABLES
 NAME 	= minishell
 CC 		= gcc
-CFLAGS 	= -Wall -Wextra -Werror
-LDFLAGS = -lreadline
+CFLAGS 	= -Wall -Wextra -Werror -I./libft -I./libft/ft_printf -I./include -I$(RL_PATH)/include
 ifdef DEBUG
 	CFLAGS += -g
 endif
@@ -14,18 +13,21 @@ endif
 
 RM 		= rm -rf
 SANITIZE = -fsanitize=address
+# RL_PATH = ./Users/cter-maa/.brew/opt/readline
+RL_PATH = $(shell brew --prefix readline)
+RL_INC = -I $(RL_PATH)/include
 
 # INCLUDES
-INCLUDES	= -I./libft -I./libft/ft_printf -I./include
+INCLUDES	= -I./libft -I./libft/ft_printf -I./include -I$(RL_PATH)/include
 
 # LIBRARIES
+LIBS = -lreadline -L$(RL_PATH)/lib -L$(PRINTF) -L$(LIBFT)
 PRINTF = ./libft/ft_printf/libftprintf.a
 LIBFT = ./libft/libft.a
 
 # SOURCES
 SRC = 	SRC/main.c \
 	 	SRC/builtins/cd_change_path.c \
-		SRC/builtins/cd_utils.c \
 		SRC/builtins/cd.c \
 		SRC/builtins/echo.c \
 		SRC/builtins/env.c \
@@ -69,34 +71,22 @@ MAGENTA		= \033[0;95m
 CYAN 		= \033[0;96m
 WHITE 		= \033[0;97m
 	
-# OBJECTS
-OBJ			= $(SRC:.c=.o)
-
-# COLORS
-DEF_COLOR 	= \033[0;39m
-GRAY 		= \033[0;90m
-RED 		= \033[0;91m
-GREEN 		= \033[0;92m
-YELLOW 		= \033[0;93m
-BLUE 		= \033[0;94m
-MAGENTA		= \033[0;95m
-CYAN 		= \033[0;96m
-WHITE 		= \033[0;97m
-	
 # RULES
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./libft/ft_printf
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
+	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)  
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 
 %.o: %.c $(INCLUDES)
-	$(CC) -c $(CFLAGS) $(LDFLAGS) -o $@ $<
+# $(CC) -c $(CFLAGS) $(INCLUDES) -o $@ $<
+	echo test
+	$(CC) -c -o $@ $<
 
 make go: $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)
+	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
 	$(RM) $(OBJ)
 	@echo "$(GREEN)SHELL YEAH! $(DEF_COLOR)"
 
