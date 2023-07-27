@@ -7,7 +7,7 @@ void	handle_single_command(t_shell *shell, t_command *command)
 
 	pid = fork();
 	if (pid == FAILED)
-		perror_exit("fork");
+		perror_exit(shell, "fork");
 	// save_std(shell->executor);
 	if (pid == SUCCESS)
     {
@@ -19,6 +19,6 @@ void	handle_single_command(t_shell *shell, t_command *command)
     }
 	// restore_std(shell->executor);
 	if (waitpid(pid, &status, 0) == FAILED)
-		perror_exit("waitpid");
+		perror_exit(shell, "waitpid");
 	// print_status_waidpid(pid, status);
 }

@@ -12,7 +12,7 @@ static char	*get_var_name(t_shell *shell, char *var)
 		index++;
 	name = ft_substr(var, 0, (index));
 	if(!name)
-		return (shell_error(shell, malloc_error, "get_var_name", 1), NULL);
+		shell_error(shell, malloc_error, "get_var_name", 1);
 	return(name);
 }
 static char	*get_var_value(t_shell *shell, char *var)
@@ -29,9 +29,10 @@ static char	*get_var_value(t_shell *shell, char *var)
 		start++;
 	while (var[end])
 		end++;
+	value = NULL;
 	value = ft_substr(var, (start + 1), (end - 1));
 	if(!value)
-		return (shell_error(shell, malloc_error, "get_env_value", 1), NULL);
+		shell_error(shell, malloc_error, "get_env_value", 1);
 	return(value);
 }
 
@@ -67,9 +68,6 @@ void	init_env(t_shell *shell, char **envp)
 	while(envp[index])
 	{
 		if (add_var_to_environment(shell, envp[index++]) != 0)
-		{
-			free_list(shell->environment);
-			exit(EXIT_FAILURE);
-		}
+			ft_exit(shell, EXIT_FAILURE);
 	}
 }

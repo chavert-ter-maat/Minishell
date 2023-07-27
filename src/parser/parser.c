@@ -54,7 +54,7 @@ void	print_command_table(t_shell *shell) //for testing purpose
 	while (current)
 	{
 		command = (t_command *) current->data;
-		printf("------------------------------\n");
+		printf("-----------------------command count: %d\n", shell->command_list->count);
 		print_args(command->args);
 		print_redir(command->redir_list);
 		current = current->next;
@@ -74,6 +74,8 @@ char	**arg_list_to_array(t_command *command)
 		temp = command->arg_list->head;
 		while (temp)
 		{
+			if (i == 0)
+				ft_strtolower((char *) temp->data);
 			args[i] = (char *) temp->data;
 			temp = temp->next;
 			i++;
@@ -114,9 +116,17 @@ void	skip_space(t_node **node)
 {
 	t_token	*token;
 
+	if (!*node)
+		return ;
 	token = (t_token *) (*node)->data;
 	while (token && token->type == SPACE)
+	{
 		*node = (*node)->next;
+		if (*node)
+			token = (t_token *) (*node)->data;
+		else
+			return ;
+	}
 }
 
 static void	add_cmd(t_shell *shell, t_node **node)
@@ -125,7 +135,9 @@ static void	add_cmd(t_shell *shell, t_node **node)
 	t_command	new;
 	
 	skip_space(node);
-	token = (*node)->data;
+	if (!*node)
+		return;
+	token = (t_token *) (*node)->data;
 	if (token->type == PIPE)
 		return (shell_error(shell, syntax_error, token->str, 258));
 	new.arg_list = list_create(shell, sizeof(char *), NULL, comp_arg);
