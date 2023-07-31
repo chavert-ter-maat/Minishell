@@ -4,12 +4,17 @@
 static int handle_fds(t_shell *shell, int *pipe_fd, int read_end)
 {
     if (close(pipe_fd[WRITE_END]) == FAILED)
-        perror_exit(shell, "close");
-		
-    if (read_end != STDIN_FILENO)
-    {
-        if (close(read_end) == FAILED)
-            perror_exit(shell, "close");
+	{
+		ft_putstr_fd("hier1\n", 1);
+		perror_exit(shell, "close");
+	}	
+	if (read_end != STDIN_FILENO)
+	{
+		if (close(read_end) == FAILED)
+		{
+			ft_putstr_fd("hier2\n", 1);
+			perror_exit(shell, "close");
+		}	
     }
 	read_end = pipe_fd[READ_END];
     return (read_end);
@@ -26,11 +31,17 @@ static int	execute_last_command(t_shell *shell, t_command *command, int read_end
 	if (pid == SUCCESS)
 	{
 		if (dup2(read_end, STDIN_FILENO) == FAILED)
-			perror_exit(shell, "dup2");
+				{
+		ft_putstr_fd("dub test3\n", 1);
+		perror_exit(shell, "dup2");
+	}
 		execute_non_builtin(shell, command);
 	}	
 	if (close(read_end) == FAILED)
+	{
+		ft_putstr_fd("hier3\n", 1);
 		perror_exit(shell, "close");
+	}	
 	return(pid);
 }
 
@@ -39,21 +50,24 @@ static int	execute_last_command(t_shell *shell, t_command *command, int read_end
 void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_fd)
 {
 	if (dup2(read_end, STDIN_FILENO) == FAILED)
+	{
+		ft_putstr_fd("dub test1\n", 1);
 		perror_exit(shell, "dup2");
+	}
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
+	{
+		ft_putstr_fd("dub test2\n", 1);
 		perror_exit(shell, "dup2");
-<<<<<<< HEAD
-    // if (check_if_builtin(command->args[0]) == TRUE)
-	// 	execute_builtin(shell, command);
-    // else
-=======
-    if (check_if_builtin(command->args[0]) == TRUE)
+	}
+	if (check_if_builtin(command->args[0]) == TRUE)
 		execute_builtin(shell, command);
-    else
->>>>>>> origin
+	else
     	execute_non_builtin(shell, command);
 	if (close(pipe_fd[WRITE_END]) == FAILED)
+	{
+		ft_putstr_fd("hier4\n", 1);
 		perror_exit(shell, "close");
+	}
 }
 
 // creates forks for the amount of commands and pipes the output of a
@@ -65,6 +79,7 @@ static int	initiate_forks(t_shell *shell, t_list *command_list)
 	int		read_end;
     t_node  *current;
 	
+	read_end = 0;
     current = command_list->head;
 	while(current->next) 
 	{
