@@ -42,9 +42,15 @@ void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_
 		perror_exit(shell, "dup2");
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
 		perror_exit(shell, "dup2");
+<<<<<<< HEAD
     // if (check_if_builtin(command->args[0]) == TRUE)
 	// 	execute_builtin(shell, command);
     // else
+=======
+    if (check_if_builtin(command->args[0]) == TRUE)
+		execute_builtin(shell, command);
+    else
+>>>>>>> origin
     	execute_non_builtin(shell, command);
 	if (close(pipe_fd[WRITE_END]) == FAILED)
 		perror_exit(shell, "close");
