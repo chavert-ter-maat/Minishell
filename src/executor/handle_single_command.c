@@ -11,14 +11,13 @@ void	handle_single_command(t_shell *shell, t_command *command)
 		execute_builtin(shell, command);
 		return ;
 	}
-    else 
+	else
 	{
-
 		pid = fork();
 		if (pid == FAILED)
 			perror_exit(shell, "fork");
 		if (pid == SUCCESS)
-		    execute_non_builtin(shell, shell->command_list->head->data);
+			execute_non_builtin(shell, shell->command_list->head->data);
 		if (waitpid(pid, &status, 0) == FAILED)
 				perror_exit(shell, "waitpid");
 	}
