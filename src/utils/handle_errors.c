@@ -9,7 +9,8 @@ void	input_error(void)
 void	error_exit(t_shell *shell, char *input)
 {
 	ft_putstr_fd(input, STDERR_FILENO);
-	ft_exit(shell, EXIT_FAILURE);
+	shell->return_value = EXIT_FAILURE;
+	clean_exit(shell);
 }
 
 //set errno?
@@ -17,7 +18,8 @@ void	perror_exit(t_shell *shell, char *input)
 	{
 		ft_putstr_fd("Shell_yeah: ", STDERR_FILENO);
 		perror(input);
-		ft_exit(shell, EXIT_FAILURE);
+		shell->return_value = EXIT_FAILURE;
+		clean_exit(shell);
 	}
 
 void	error_no_command(char *cmd)

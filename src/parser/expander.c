@@ -22,6 +22,8 @@ static void	split_str_in_tokens(t_shell *shell, t_list *list, char *str)
 	char	*var_name;
 
 	i = 0;
+	if (str[i] == '\0')
+		list_add_new_word(shell, list, str, &i);
 	while(str[i])
 	{
 		save_i = i;

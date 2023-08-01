@@ -59,7 +59,12 @@ char *expand_var(t_shell *shell, char *name)
 	if (!name)
 		return (NULL);
 	if (name[0] == '?')
+	{
 		value = ft_itoa(shell->return_value);
+		if (!value)
+			shell_error(shell, malloc_error, "expand_var", 1);
+		return (value);
+	}
 	else
 		value = env_get_var_value(shell, name);
 	if (!value)

@@ -68,6 +68,9 @@ void	init_env(t_shell *shell, char **envp)
 	while(envp[index])
 	{
 		if (add_var_to_environment(shell, envp[index++]) != 0)
-			ft_exit(shell, EXIT_FAILURE);
+		{
+			shell->return_value = 1;
+			clean_exit(shell);
+		}
 	}
 }
