@@ -64,8 +64,8 @@ void	execute_non_builtin(t_shell *shell, t_command *command)
 	{
 		command_path = get_path_executable(split_path, command->args);
 		if (execve(command_path, command->args, shell->envp) == FAILED)
-			error_no_command(command->args[0]);
+			error_no_command(shell, command->args[0]);
 	}
-	if (execve(command->args[0], command->args, shell->envp) == FAILED)
-		error_no_command(command->args[0]);
+	else if (execve(command->args[0], command->args, shell->envp) == FAILED)
+		error_no_command(shell, command->args[0]);
 }

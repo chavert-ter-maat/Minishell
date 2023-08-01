@@ -1,17 +1,5 @@
 #include "../../include/minishell.h"
 
-void	input_error(void)
-{
-	ft_putstr_fd("wrong input: infile cmd1 cmd2 outfile\n", STDERR_FILENO);
-	exit(EXIT_FAILURE);
-}
-
-void	error_exit(t_shell *shell, char *input)
-{
-	ft_putstr_fd(input, STDERR_FILENO);
-	shell->return_value = EXIT_FAILURE;
-	clean_exit(shell);
-}
 
 //set errno?
 void	perror_exit(t_shell *shell, char *input)
@@ -22,12 +10,15 @@ void	perror_exit(t_shell *shell, char *input)
 		clean_exit(shell);
 	}
 
-void	error_no_command(char *cmd)
+void	error_no_command(t_shell *shell, char *cmd)
 {
+	(void) shell;
 	ft_putstr_fd("Shell_yeah: ", STDERR_FILENO);
 	if(cmd != NULL)
 		ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd("command not found\n", STDERR_FILENO);
-	exit(127);
+	// ft_exit(shell, EXIT_FAILURE);
+	_exit(1);
+	
 }

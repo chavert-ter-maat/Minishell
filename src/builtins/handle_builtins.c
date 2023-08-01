@@ -17,6 +17,7 @@ void execute_builtin(t_shell *shell, t_command *command)
 	if (ft_strncmp(command->args[0], "exit", 5) == 0)
 	 return (ft_exit(shell, command));
 }
+
 int check_if_builtin(char *command)
 {
 	if (ft_strncmp(command, "cd", 3) == 0)
