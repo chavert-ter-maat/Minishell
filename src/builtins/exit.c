@@ -1,11 +1,10 @@
 #include "../../include/minishell.h"
 
-
 void	clean_exit(t_shell *shell)
 {
 	shell->environment = free_list(shell->environment);
 	free_shell(shell);
-	_exit(shell->return_value);
+	exit(shell->return_value);
 }
 
 static bool	numeric(char *str)

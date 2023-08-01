@@ -158,6 +158,7 @@ t_node	*skip_token(t_shell *shell, t_node *node, t_command *new);
 char	**arg_list_to_array(t_command *command);
 
 // utils
+void	return_to_promt(t_shell *shell);
 void	free_shell(t_shell *shell);
 void	shell_error(t_shell *shell, void (*func)(const char *), const char *str, int ret);
 void	print_error(const char *str);

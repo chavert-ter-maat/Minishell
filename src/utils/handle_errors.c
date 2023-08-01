@@ -3,22 +3,20 @@
 
 //set errno?
 void	perror_exit(t_shell *shell, char *input)
-	{
-		ft_putstr_fd("Shell_yeah: ", STDERR_FILENO);
-		perror(input);
-		shell->return_value = EXIT_FAILURE;
-		clean_exit(shell);
-	}
+{
+	ft_putstr_fd("Shell_yeah: ", STDERR_FILENO);
+	perror(input);
+	shell->return_value = errno;
+	clean_exit(shell);
+}
 
 void	error_no_command(t_shell *shell, char *cmd)
 {
-	(void) shell;
 	ft_putstr_fd("Shell_yeah: ", STDERR_FILENO);
 	if(cmd != NULL)
 		ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd("command not found\n", STDERR_FILENO);
-	// ft_exit(shell, EXIT_FAILURE);
-	_exit(1);
-	
+	free_shell(shell);
+	_exit(127);
 }
