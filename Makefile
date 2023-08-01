@@ -80,11 +80,6 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)  
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 
-%.o: %.c $(INCLUDES)
-# $(CC) -c $(CFLAGS) $(INCLUDES) -o $@ $<
-	echo test
-	$(CC) -c -o $@ $<
-
 make go: $(OBJ)
 	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
 	$(RM) $(OBJ)
