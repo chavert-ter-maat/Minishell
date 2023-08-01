@@ -42,11 +42,11 @@ int main(int argc, char **argv, char **envp)
 		if (shell.cmd_line == NULL)
 			sigquit_handler(&shell);
 		else
-		// {
+		{
 			add_history(shell.cmd_line);
 			parser(&shell);
 			executor(&shell);
-		// }
+		}
 		free_shell(&shell);
 	}
 	return (0);
