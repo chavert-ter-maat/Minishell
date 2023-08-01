@@ -32,14 +32,14 @@ int	comp_command(void *data1, void *data2)
 
 int	comp_arg(void *data1, void *data2)
 {
-	const char	*arg1;
-	const char	*arg2;
+	const char	**arg1;
+	const char	**arg2;
 
 	if (!data1 || !data2)
 		return (-1);
-	arg1 = (const char *) data1;
-	arg2 = (const char *) data2;
-	return (ft_strcmp(arg1, arg2));
+	arg1 = (const char **) data1;
+	arg2 = (const char **) data2;
+	return (ft_strcmp(*arg1, *arg2));
 }
 
 int		comp_redir(void *data1, void *data2)

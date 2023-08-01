@@ -60,8 +60,7 @@ t_node	*add_cmd_arg(t_shell *shell, t_node *node, t_command *new)
 	token = (t_token *)node->data;
 	arg = ft_strdup(token->str);
 	if (!arg)
-		return (shell_error(shell, malloc_error, "add_cmd_argd() @ ft_strdup", 1), NULL);
-	list_add_new_node(shell, new->arg_list, arg);
-	free(arg);
+		return (shell_error(shell, malloc_error, "add_cmd_arg() @ ft_strdup", 1), NULL);
+	list_add_new_node(shell, new->arg_list, &arg);
 	return (node->next);
 }

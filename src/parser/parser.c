@@ -64,6 +64,7 @@ void	print_command_table(t_shell *shell) //for testing purpose
 char	**arg_list_to_array(t_command *command)
 {
 	char	**args;
+	char	**arg;
 	t_node	*temp;
 	int		i;
 
@@ -74,9 +75,10 @@ char	**arg_list_to_array(t_command *command)
 		temp = command->arg_list->head;
 		while (temp)
 		{
+			arg = (char **) temp->data;
 			if (i == 0)
-				ft_strtolower((char *) temp->data);
-			args[i] = (char *) temp->data;
+				ft_strtolower(*arg);
+			args[i] = *arg;
 			temp = temp->next;
 			i++;
 		}
@@ -140,7 +142,7 @@ static void	add_cmd(t_shell *shell, t_node **node)
 	token = (t_token *) (*node)->data;
 	if (token->type == PIPE)
 		return (shell_error(shell, syntax_error, token->str, 258));
-	new.arg_list = list_create(shell, sizeof(char *), NULL, comp_arg);
+	new.arg_list = list_create(shell, sizeof(char *), free_arg, comp_arg);
 	new.redir_list = list_create(shell, sizeof(t_redir), free_redir, comp_redir);
 	*node = fill_command(shell, *node, &new);
 	new.args = arg_list_to_array(&new);

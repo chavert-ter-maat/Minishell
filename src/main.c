@@ -41,12 +41,9 @@ int main(int argc, char **argv, char **envp)
 		shell.cmd_line = readline("shellyeah$ ");
 		if (shell.cmd_line == NULL)
 			sigquit_handler(&shell);
-		else
-		{
-			add_history(shell.cmd_line);
-			parser(&shell);
-			executor(&shell);
-		}
+		add_history(shell.cmd_line);
+		parser(&shell);
+		executor(&shell);
 		free_shell(&shell);
 	}
 	return (0);

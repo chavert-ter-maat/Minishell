@@ -241,6 +241,7 @@ void	free_token(void *data);
 void	free_command(void *data);
 void	free_redir(void *data);
 void	free_var(void *data);
+void	free_arg(void *data);
 
 //generic list compare functions
 int		comp_command(void *data1, void *data2);
