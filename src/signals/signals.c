@@ -21,3 +21,5 @@ void	init_signals(void)
 	signal(SIGTSTP, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
+
+

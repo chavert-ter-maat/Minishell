@@ -184,7 +184,7 @@ void	outfile_as_stdout(t_shell *shell);
 void	input_error(void);
 void	error_exit(t_shell *shell, char *input);
 void	perror_exit(t_shell *shell, char *input);
-void	error_no_command(char *argv);
+void	error_no_command(t_shell *shell, char *argv);
 
 // environment
 t_var 	*create_new_node(char *new_var_variable);
