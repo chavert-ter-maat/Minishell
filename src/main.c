@@ -37,16 +37,16 @@ int main(int argc, char **argv, char **envp)
 	init_env(&shell, envp);
 	while (1)
 	{
-		init_signals();
+		// init_signals();
 		shell.cmd_line = readline("shellyeah$ ");
-		if (shell.cmd_line == NULL)
-			sigquit_handler(&shell);
-		else
-		{
+		// if (shell.cmd_line == NULL)
+		// 	sigquit_handler(&shell);
+		// else
+		// {
 			add_history(shell.cmd_line);
 			parser(&shell);
 			executor(&shell);
-		}
+		// }
 		free_shell(&shell);
 	}
 	return (0);
