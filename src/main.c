@@ -31,7 +31,7 @@ int main(int argc, char **argv, char **envp)
 
 	(void) argv;
 	if (argc > 1)
-		ft_exit(&shell, 1);
+		exit(1);
 	atexit(f);
 	ft_bzero(&shell, sizeof(t_shell));
 	init_env(&shell, envp);

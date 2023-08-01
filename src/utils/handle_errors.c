@@ -6,7 +6,8 @@ void	perror_exit(t_shell *shell, char *input)
 	{
 		ft_putstr_fd("Shell_yeah: ", STDERR_FILENO);
 		perror(input);
-		ft_exit(shell, EXIT_FAILURE);
+		shell->return_value = EXIT_FAILURE;
+		clean_exit(shell);
 	}
 
 void	error_no_command(t_shell *shell, char *cmd)

@@ -33,8 +33,21 @@ void env_error(const char *str)
     ft_putendl_fd(": No such file or directory", 2);
 }
 
-void	argc_error(const char *str)
+void	too_little_args(const char *str)
 {
 	ft_putstr_fd(str, 2);
     ft_putendl_fd(": insufficient arguments", 2);
+}
+
+void	too_many_args(const char *str)
+{
+	ft_putstr_fd(str, 2);
+    ft_putendl_fd(": too many arguments", 2);
+}
+
+void	exit_numeric_arg(const char *str)
+{
+	ft_putstr_fd("exit: ", 2);
+    ft_putstr_fd(str, 2);
+    ft_putendl_fd(": numeric argument required", 2);
 }

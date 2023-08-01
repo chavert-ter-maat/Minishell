@@ -4,10 +4,11 @@ void ft_unset(t_shell *shell, t_command *command)
 {
 	t_node	*target;
 	size_t	index;
+	t_var	*var;
 
 	if(!command->args[1])
 	{
-		shell_error(shell, argc_error, "unset", 1); //return value 1??????
+		shell_error(shell, too_little_args, "unset", 1); //return value 1??????
 		return ;
 	}
 	index = 1;
@@ -15,6 +16,9 @@ void ft_unset(t_shell *shell, t_command *command)
 	{
 		target = list_get_node(shell->environment, command->args[index++]);
 		if (target)
-			list_remove_node(shell->environment, target);
+		{
+			var = (t_var *) target->data;
+			list_remove_node(shell->environment, var->name);
+		}
 	}
 }

@@ -12,7 +12,8 @@ void	sigint_handler(int signum)
 void	sigquit_handler(t_shell *shell)
 {
 	ft_putstr_fd("exit\n", 1);
-	ft_exit(shell, 0);
+	shell->return_value = 0;
+	clean_exit(shell);
 }
 
 void	init_signals(void)

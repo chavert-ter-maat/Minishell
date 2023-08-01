@@ -63,29 +63,36 @@ void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_
 
 // creates forks for the amount of commands and pipes the output of a
 // command to the input of the next command.
-static int	initiate_forks(t_shell *shell, t_list *command_list) 
+static int  initiate_forks(t_shell *shell, t_list *command_list)
 {
-	int 	pipe_fd[2];
-	pid_t	pid;
-	int		read_end;
-    t_node  *current;
-	
-	read_end = 0;
+    int     	pipe_fd[2];
+    pid_t   	pid;
+    int     	read_end;
+    t_node  	*current;
+	t_command	*command;
+
+    read_end = 0;
     current = command_list->head;
-	while(current->next) 
-	{
-		if (pipe(pipe_fd) == FAILED)
-			perror_exit(shell, "pipe");
-		pid = fork();
-		if (pid == FAILED)
-			perror_exit(shell, "fork");
-		if (pid == SUCCESS)
-			execute_childs(shell, current->data, read_end, pipe_fd);
-		read_end = handle_fds(shell, pipe_fd, read_end);
-		current = current->next;
-	}
-	pid = execute_last_command(shell, current->data, read_end);
-	return(pid);
+    while(current->next)
+    {
+		command = (t_command *) current->data;
+        if (check_if_builtin(command->args[0]) == TRUE)
+            execute_builtin(shell, command);
+        else
+        {
+            if (pipe(pipe_fd) == FAILED)
+                perror_exit(shell, "pipe");
+            pid = fork();
+            if (pid == FAILED)
+                perror_exit(shell, "fork");
+            if (pid == SUCCESS)
+                execute_childs(shell, command, read_end, pipe_fd);
+        }
+        read_end = handle_fds(shell, pipe_fd, read_end);
+        current = current->next;
+    }
+    pid = execute_last_command(shell, current->data, read_end);
+    return(pid);
 }
 
 void	handle_multiple_commands(t_shell *shell)

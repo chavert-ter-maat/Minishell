@@ -164,7 +164,9 @@ void	print_error(const char *str);
 void	malloc_error(const char *str);
 void	syntax_error(const char *str);
 void 	env_error(const char *str);
-void	argc_error(const char *str);
+void	too_little_args(const char *str);
+void	too_many_args(const char *str);
+void	exit_numeric_arg(const char *str);
 
 //test functions
 void	print_command_table(t_shell *shell);
@@ -212,7 +214,8 @@ int		check_if_builtin(char *command);
 void	execute_builtin(t_shell *shell, t_command *command);
 void	ft_pwd(t_shell *shell);
 void	ft_unset(t_shell *shell, t_command *command);
-void	ft_exit(t_shell *shell, int exitstatus);
+void	ft_exit(t_shell *shell, t_command *command);
+void	clean_exit(t_shell *shell);
 
 //signals
 void	init_signals(void);
