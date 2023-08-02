@@ -29,7 +29,6 @@ static bool	numeric(char *str)
 
 void	ft_exit(t_shell *shell, t_command *command)
 {
-	ft_putstr_fd("exit\n", 1);
 	if (command->arg_list->count == 1)
 	{
 		shell->return_value = 0;

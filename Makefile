@@ -13,7 +13,6 @@ endif
 
 RM 		= rm -rf
 SANITIZE = -fsanitize=address
-# RL_PATH = ./Users/cter-maa/.brew/opt/readline
 RL_PATH = $(shell brew --prefix readline)
 RL_INC = -I $(RL_PATH)/include
 
@@ -21,7 +20,7 @@ RL_INC = -I $(RL_PATH)/include
 INCLUDES	= -I./libft -I./libft/ft_printf -I./include -I$(RL_PATH)/include
 
 # LIBRARIES
-LIBS = -lreadline -L$(RL_PATH)/lib -L$(PRINTF) -L$(LIBFT)
+LIBS = -lreadline -L$(RL_PATH)/lib 
 PRINTF = ./libft/ft_printf/libftprintf.a
 LIBFT = ./libft/libft.a
 
@@ -45,12 +44,12 @@ SRC = 	SRC/main.c \
 		SRC/parser/parser_jumptable.c \
 		SRC/utils/error.c \
 		SRC/utils/expander_utils.c \
-		SRC/utils/handle_errors.c \
 		SRC/utils/free.c \
 		SRC/generic_list/generic_list.c \
 		SRC/generic_list/free_functions.c \
 		SRC/generic_list/compare_functions.c \
 		SRC/executor/executor.c \
+		SRC/executor/handle_errors.c \
 		SRC/executor/handle_multiple_commands.c \
 		SRC/executor/handle_single_command.c \
 		SRC/executor/execute_non_builtin.c \
@@ -83,7 +82,16 @@ $(NAME): $(OBJ)
 make go: $(OBJ)
 	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
 	$(RM) $(OBJ)
-	@echo "$(GREEN)SHELL YEAH! $(DEF_COLOR)"
+	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
+	@echo "$(RED)      _______. __    __   _______  __       __         ____    ____  _______     ___       __    __  "
+	@echo "$(ORANGE)     /       ||  |  |  | |   ____||  |     |  |        \   \  /   / |   ____|   /   \     |  |  |  | "
+	@echo "$(YELLOW)    |   (----|   |__|  | |  |__   |  |     |  |         \   \/   /  |  |__     /  ^  \    |  |__|  | "
+	@echo "$(GREEN)     \   \    |   __   | |   __|  |  |     |  |          \_    _/   |   __|   /  /_\  \   |   __   | "
+	@echo "$(BLUE) .----)   |   |  |  |  | |  |____ |   ----.|   ----.       |  |     |  |____ /  _____  \  |  |  |  | "
+	@echo "$(VIOLET) |_______/    |__|  |__| |_______||_______||_______|       |__|     |_______/__/     \__\ |__|  |__| "
+
+
+
 
 debug:
 	$(MAKE) DEBUG=1

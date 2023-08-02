@@ -9,7 +9,7 @@ void ft_pwd(t_shell *shell)
 	if(!cwd)
 	{
 		free(cwd);
-		perror_exit(shell, "cwd: ");
+		error_exit_fork(shell, "cwd: ");
 	}
 	write(STDOUT_FILENO, cwd, ft_strlen(cwd));
 	write(STDOUT_FILENO, "\n", 1);

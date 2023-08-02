@@ -174,7 +174,7 @@ void	print_command_table(t_shell *shell);
 void	print_token_list(t_shell *shell);
 
 // executor
-int		executor(t_shell *shell);
+void	executor(t_shell *shell);
 void	execute_non_builtin(t_shell *shell, t_command *command);
 void	handle_multiple_commands(t_shell *shell);
 void	handle_single_command(t_shell *shell, t_command *command);
@@ -186,7 +186,7 @@ void	infile_as_stdin(t_shell *shell);
 void	outfile_as_stdout(t_shell *shell);
 void	input_error(void);
 void	error_exit(t_shell *shell, char *input);
-void	perror_exit(t_shell *shell, char *input);
+void	error_exit_fork(t_shell *shell, char *input);
 void	error_no_command(t_shell *shell, char *argv);
 
 // environment
