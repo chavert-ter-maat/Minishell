@@ -2,13 +2,6 @@
 
 #define HEREDOC_PROMPT "> "
 
-
-static void	put_line_fd(char *line, int fd_write_end)
-{
-	ft_putstr_fd(line, fd_write_end);
-	ft_putstr_fd("\n", fd_write_end);
-}
-
 int	ft_here_doc(char *delimiter, int fd_write_end)
 {
 	char	*line;
@@ -29,7 +22,7 @@ int	ft_here_doc(char *delimiter, int fd_write_end)
 			free(line);
 			break ;
 		}
-		put_line_fd(line, fd_write_end);
+		ft_putendl_fd(line, fd_write_end);
 		free(line);
 	}
 	return (SUCCESS);

@@ -11,10 +11,13 @@ void	print_environment(t_list *environment)
 	while (temp)
 	{
 		var = (t_var *) temp->data;
-		ft_putstr_fd(var->name, 1);
-		ft_putchar_fd('=', 1);
-		ft_putstr_fd(var->value, 1);
-		ft_putchar_fd('\n', 1);
+		if (var->value)
+		{
+			ft_putstr_fd(var->name, 1);
+			ft_putchar_fd('=', 1);
+			ft_putstr_fd(var->value, 1);
+			ft_putchar_fd('\n', 1);
+		}
 		temp = temp->next;
 	}
 }

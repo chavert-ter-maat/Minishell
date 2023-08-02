@@ -1,65 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parser.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/02 13:29:49 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/02 20:57:02 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 typedef t_node	*(*t_add_cmd_func)(t_shell *, t_node *, t_command *);
-
-static void	print_redir(t_list *redir_list) //for testing purpose
-{
-	t_node	*current;
-	t_redir	*redir;
-
-	printf("redir: ");
-	current = redir_list->head;
-	while (current)
-	{
-		redir = (t_redir *) current->data;
-		if (redir->type == IN)
-			printf("<: %s", redir->file);
-		else if (redir->type == OUT)
-			printf(">: %s", redir->file);
-		else if (redir->type == APPEND)
-			printf(">>: %s", redir->file);
-		else if (redir->type == HEREDOC)
-			printf("<<: %s", redir->file);
-		if (current->next)
-			printf(", ");
-		current = current->next;
-	}
-	printf("\n");
-}
-
-static void	print_args(char *args[]) //for testing purpose
-{
-	int	i;
-
-	printf("args:");
-	i = 0;
-	while (args[i])
-	{
-		if (i != 0)
-			printf(",");
-		printf(" %s", args[i]);
-		i ++;
-	}
-	printf("\n");
-}
-
-void	print_command_table(t_shell *shell) //for testing purpose
-{
-	t_node		*current;
-	t_command	*command;
-
-	if (!shell->command_list)
-		return ;
-	current = shell->command_list->head;
-	while (current)
-	{
-		command = (t_command *) current->data;
-		printf("-----------------------command count: %d\n", shell->command_list->count);
-		print_args(command->args);
-		print_redir(command->redir_list);
-		current = current->next;
-	}
-}
 
 char	**arg_list_to_array(t_command *command)
 {
@@ -83,7 +36,7 @@ char	**arg_list_to_array(t_command *command)
 			i++;
 		}
 	}
-    return (args);
+	return (args);
 }
 
 static t_node	*fill_command(t_shell *shell, t_node *node, t_command *new)
@@ -99,7 +52,7 @@ static t_node	*fill_command(t_shell *shell, t_node *node, t_command *new)
 	[7] = &skip_token,
 	[8] = &add_cmd_arg,
 	};
-	t_token	*token;
+	t_token					*token;
 
 	if (node)
 		token = (t_token *) node->data;
@@ -120,12 +73,12 @@ void	skip_space(t_node **node)
 
 	if (!*node)
 		return ;
-	token = (t_token *) (*node)->data;
+	token = (t_token *)(*node)->data;
 	while (token && token->type == E_SPACE)
 	{
 		*node = (*node)->next;
 		if (*node)
-			token = (t_token *) (*node)->data;
+			token = (t_token *)(*node)->data;
 		else
 			return ;
 	}
@@ -135,15 +88,16 @@ static void	add_cmd(t_shell *shell, t_node **node)
 {
 	t_token		*token;
 	t_command	new;
-	
+
 	skip_space(node);
 	if (!*node)
-		return;
-	token = (t_token *) (*node)->data;
+		return ;
+	token = (t_token *)(*node)->data;
 	if (token->type == PIPE)
 		return (shell_error(shell, syntax_error, token->str, 258));
 	new.arg_list = list_create(shell, sizeof(char *), free_arg, comp_arg);
-	new.redir_list = list_create(shell, sizeof(t_redir), free_redir, comp_redir);
+	new.redir_list = list_create(shell, sizeof(t_redir),
+			free_redir, comp_redir);
 	*node = fill_command(shell, *node, &new);
 	new.args = arg_list_to_array(&new);
 	list_add_new_node(shell, shell->command_list, &new);
@@ -155,7 +109,8 @@ void	make_command_table(t_shell *shell)
 
 	if (!shell->token_list)
 		return ;
-    shell->command_list = list_create(shell, sizeof(t_command), free_command, comp_command);
+	shell->command_list = list_create(shell, sizeof(t_command),
+			free_command, comp_command);
 	if (!shell->command_list)
 		return ;
 	node = shell->token_list->head;

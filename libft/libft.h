@@ -7,6 +7,7 @@
 # include <stdio.h>
 # include <limits.h>
 
+char	*ft_append(char *str1, char *str2);
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);

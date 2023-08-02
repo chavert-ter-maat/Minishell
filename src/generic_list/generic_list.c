@@ -136,7 +136,6 @@ void	list_remove_node(t_list *list, void *data)
 		target = target->next;
 		if (list->ft_comp(target->data, data) == 0)
 		{
-			printf("CHECK found node\n");
 			previous->next = target->next;
 			if (!target->next)
 				list->tail = previous;

@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   lexer.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/02 13:30:09 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/02 17:58:30 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-typedef void	(*ft_find_end_token)(char *, size_t *, int);
-
+typedef void	(*t_find_end_token)(char *, size_t *, int);
 
 int	get_token_type(char c)
 {
-	const char		set[] = "x|\'\"><$";
+	const char	set[] = "x|\'\"><$";
 	int			i;
 
 	i = 1;
@@ -26,9 +37,10 @@ Get_token_info gets the data for the string in the token structure.
 It uses a jumptable.
 */
 
-static void	get_token_info(t_shell *shell, t_token *token, char *cmd_line, size_t *i)
+static void	get_token_info(t_shell *shell, t_token *token,
+		char *cmd_line, size_t *i)
 {
-	const ft_find_end_token	func[9] = {
+	const t_find_end_token	func[9] = {
 	[0] = NULL,
 	[1] = &find_end_pipe,
 	[2] = &find_end_quote,
@@ -59,7 +71,8 @@ void	lexer(t_shell *shell)
 	size_t	i;
 	t_token	new;
 
-	shell->token_list = list_create(shell, sizeof(t_token), free_token, comp_token);
+	shell->token_list = list_create(shell, sizeof(t_token),
+			free_token, comp_token);
 	i = 0;
 	while (shell->cmd_line[i])
 	{
@@ -68,7 +81,7 @@ void	lexer(t_shell *shell)
 	}
 }
 
-void parser(t_shell *shell)
+void	parser(t_shell *shell)
 {
 	lexer(shell);
 	expander(shell);

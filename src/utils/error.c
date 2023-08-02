@@ -51,3 +51,10 @@ void	exit_numeric_arg(const char *str)
     ft_putstr_fd(str, 2);
     ft_putendl_fd(": numeric argument required", 2);
 }
+
+void	export_error(const char *str)
+{
+	ft_putstr_fd("export: '", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
+}

@@ -33,20 +33,28 @@ static char	**get_path_environment(t_shell *shell)
 {
 	char	*path;
 	char	**split_path;
-	int		index;
 
-	index = 0;
-	while (shell->envp[index])
-	{
-		path = ft_strnstr(shell->envp[index], "PATH=", 5);
-		if (path)
-			break ;
-		index++;
-	}
-	split_path = ft_split(&path[5], ':');
+
+	path = env_get_var_value(shell, "PATH");
+	if (!path)
+		return (NULL);
+	split_path = ft_split(path, ':');
 	if (!split_path)
-		return(NULL);
+		return (shell_error(shell, malloc_error, "get_path_environment", 1), NULL);
 	return (split_path);
+
+	// index = 0;
+	// while (shell->envp[index])
+	// {
+	// 	path = ft_strnstr(shell->envp[index], "PATH=", 5);
+	// 	if (path)
+	// 		break ;
+	// 	index++;
+	// }
+	// split_path = ft_split(&path[5], ':');
+	// if (!split_path)
+	// 	return(NULL);
+	// return (split_path);
 }
 
 // execute_non_builtin() finds path in environment, splits it and looks then looks if
