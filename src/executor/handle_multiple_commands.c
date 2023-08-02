@@ -75,6 +75,7 @@ void	handle_multiple_commands(t_shell *shell)
     int     	read_end;
     t_node  	*current;
 	t_command	*command;
+	int			status;
 
     read_end = 0;
     current = shell->command_list->head;
@@ -89,6 +90,7 @@ void	handle_multiple_commands(t_shell *shell)
         current = current->next;
     }
     pid = execute_last_command(shell, current->data, read_end);	
-	if (waitpid(pid, &shell->return_value, 0) == FAILED)
-		error_exit_fork(shell, "waitpid");
+	if (waitpid(pid, &status, 0) == FAILED)
+			error_exit_fork(shell, "waitpid");
+		shell->return_value = WEXITSTATUS(status);
 }

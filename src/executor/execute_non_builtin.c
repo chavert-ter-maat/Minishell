@@ -35,6 +35,7 @@ static char	**get_path_environment(t_shell *shell)
 	char	**split_path;
 	int		index;
 
+	path = env_get_var_value(shell, "PATH");
 	index = 0;
 	while (shell->envp[index])
 	{

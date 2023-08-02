@@ -2,7 +2,6 @@
 
 void	error_exit_fork(t_shell *shell, char *input)
 {
-	ft_putstr_fd("function ", STDERR_FILENO);
 	perror(input);
 	ft_putstr_fd("failed\n ", STDERR_FILENO);
 	free_shell(shell);
