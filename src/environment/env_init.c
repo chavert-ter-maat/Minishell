@@ -1,39 +1,45 @@
 #include "../../include/minishell.h"
 
-static char	*get_var_name(t_shell *shell, char *var)
+static int	get_var_name(t_shell *shell, char *var, char **name)
 {
-	char	*name;
-	int		index;
+	int		i;
 
 	if (!var)
-		return (NULL);
-	index = 0;
-	while (var[index] && var[index] != '=')
-		index++;
-	name = ft_substr(var, 0, (index));
-	if(!name)
+		return (0);
+	i = 0;
+	if (!var[i] || (!ft_isalpha(var[i]) && var[i] != '_'))
+		return (0);
+	i++;
+	while (var[i] && var[i] != '=')
+	{
+		if (!ft_isalnum(var[i]) && var[i] != '_')
+			return (0);
+		i++;
+	}
+	*name = ft_substr(var, 0, (i));
+	if(!*name)
 		shell_error(shell, malloc_error, "get_var_name", 1);
-	return(name);
+	return(1);
 }
-static char	*get_var_value(t_shell *shell, char *var)
+static int	get_var_value(t_shell *shell, char *var, char **value)
 {
-	char	*value;
 	int		start;
 	int		end;
 
 	if (!var)
-		return (NULL);
+		return (0);
 	start = 0;
 	end = 0;
 	while(var[start] && var[start] != '=')
 		start++;
+	if (var[start] != '=')
+		return (0);
 	while (var[end])
 		end++;
-	value = NULL;
-	value = ft_substr(var, (start + 1), (end - 1));
-	if(!value)
+	*value = ft_substr(var, (start + 1), (end - start));
+	if(!*value)
 		shell_error(shell, malloc_error, "get_env_value", 1);
-	return(value);
+	return(1);
 }
 
 int	add_var_to_environment(t_shell *shell, char *var)
@@ -43,14 +49,14 @@ int	add_var_to_environment(t_shell *shell, char *var)
 
 	name = NULL;
 	value = NULL;
-	name = get_var_name(shell, var);
+	if (!get_var_name(shell, var, &name))
+		return (shell_error(shell, export_error, var, 1), -1);
 	if (!name)
 		return (-1);
-	value = get_var_value(shell, var);
-	if (!value)
+	if (get_var_value(shell, var, &value))
 	{
-		free(name);
-		return (-1);
+		if (!value)
+			return (free(name), -1);
 	}
 	env_set_var_value1(shell, name, value);
 	return (0);
@@ -60,6 +66,8 @@ void	init_env(t_shell *shell, char **envp)
 {
 	int		index;
 
+	init_signals();
+	ft_bzero(shell, sizeof(t_shell));
 	shell->environment = list_create(shell, sizeof(t_var), free_var, comp_var);
 	if (!shell->environment)
 		exit(EXIT_FAILURE);
