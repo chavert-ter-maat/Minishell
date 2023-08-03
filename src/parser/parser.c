@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 13:29:49 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/02 20:57:02 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/03 13:35:32 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static void	add_cmd(t_shell *shell, t_node **node)
 		return ;
 	token = (t_token *)(*node)->data;
 	if (token->type == PIPE)
-		return (shell_error(shell, syntax_error, token->str, 258));
+		return (shell_error(shell, syntax_error, token->str, NULL, 258));
 	new.arg_list = list_create(shell, sizeof(char *), free_arg, comp_arg);
 	new.redir_list = list_create(shell, sizeof(t_redir),
 			free_redir, comp_redir);

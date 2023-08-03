@@ -2,13 +2,13 @@
 
 int	comp_token(void *data1, void *data2)
 {
-	t_token *token1;
+	t_token	*token1;
 	t_token	*token2;
 
 	if (!data1 || !data2)
 		return (-1);
-	token1 = (t_token*) data1;
-	token2 = (t_token*) data2;
+	token1 = (t_token *) data1;
+	token2 = (t_token *) data2;
 	if (token1->type != token2->type)
 		return (-1);
 	return (ft_strcmp(token1->str, token2->str));
@@ -21,8 +21,8 @@ int	comp_command(void *data1, void *data2)
 
 	if (!data1 || !data2)
 		return (-1);
-	command1 = (t_command*) data1;
-	command2 = (t_command*) data2;
+	command1 = (t_command *) data1;
+	command2 = (t_command *) data2;
 	if (list_is_identical(command1->arg_list, command2->arg_list) == false)
 		return (-1);
 	if (list_is_identical(command1->redir_list, command2->redir_list) == false)
@@ -42,15 +42,15 @@ int	comp_arg(void *data1, void *data2)
 	return (ft_strcmp(*arg1, *arg2));
 }
 
-int		comp_redir(void *data1, void *data2)
+int	comp_redir(void *data1, void *data2)
 {
-	t_redir *redir1;
+	t_redir	*redir1;
 	t_redir	*redir2;
 
 	if (!data1 || !data2)
 		return (-1);
-	redir1 = (t_redir*) data1;
-	redir2 = (t_redir*) data2;
+	redir1 = (t_redir *) data1;
+	redir2 = (t_redir *) data2;
 	if (redir1->type != redir2->type)
 		return (-1);
 	return (ft_strcmp(redir1->file, redir2->file));

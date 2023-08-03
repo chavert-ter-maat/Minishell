@@ -5,7 +5,7 @@ static void	print_export(t_shell*shell)
 	t_node	*temp;
 	t_var	*var;
 
-	if(!shell->environment | !shell->environment->head)
+	if (!shell->environment | !shell->environment->head)
 		return ;
 	temp = shell->environment->head;
 	while (temp)
@@ -27,14 +27,14 @@ static void	print_export(t_shell*shell)
 
 void	ft_export(t_shell *shell, t_command *command)
 {
-    size_t  index;
+	size_t	index;
 
-    index = 1;
-    if(!command->args[1])
+	index = 1;
+	if (!command->args[1])
 		return (print_export(shell));
-    while(command->args[index])
-    {
+	while (command->args[index])
+	{
 		if (add_var_to_environment(shell, command->args[index++]) != 0)
 			return ;
-    }
+	}
 }
