@@ -36,12 +36,12 @@ void	ft_exit(t_shell *shell, t_command *command)
 	}
 	if (numeric(command->args[1]) == false)
 	{
-		shell_error(shell, exit_numeric_arg, command->args[1], 255);
+		shell_error(shell, exit_numeric_arg, command->args[1], NULL, 255);
 		clean_exit(shell);
 	}
 	if (command->arg_list->count > 2)
 	{
-		shell_error(shell, too_many_args, "exit", 1);
+		shell_error(shell, too_many_args, "exit", NULL, 1);
 		return ;
 	}
 	else

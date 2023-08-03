@@ -1,86 +1,111 @@
 #include "../../include/minishell.h"
 
-int	go_path(t_shell *shell, char *path, char *cwd)
-
+void	cd_path	(t_shell *shell, char *path, char *oldpwd)
 {
-	char *pwd;
+	char	*pwd;
 
 	pwd = NULL;
 	if (chdir(path) == FAILED)
-		return (ERROR);
-	pwd = getcwd(pwd, 0);
-	if(!pwd)
 	{
-		free(cwd);
-		return(ERROR);
+		perror(NULL);
+		shell->return_value = 1;
+		return (free(oldpwd));
 	}
-    env_set_var_value2(shell, "OLDPWD", cwd);
+	pwd = getcwd(pwd, 0);
+	if (!pwd)
+	{
+		perror(NULL);
+		shell->return_value = 1;
+		return (free(oldpwd));
+	}
+    env_set_var_value2(shell, "OLDPWD", oldpwd);
     env_set_var_value2(shell, "PWD", pwd);
-	return (SUCCESS);
 }
 
-int	go_home_dir(t_shell *shell, char *cwd)
+void	cd_home(t_shell *shell, char *oldpwd)
 {
 	char	*home_path;
 
 	home_path = env_get_var_value(shell, "HOME");
-	if (!home_path || chdir(home_path) == FAILED)
-    {
-        free(cwd);
-        if (home_path)
-            free(home_path);
-		return (ERROR);
-    }
-    env_set_var_value2(shell, "OLDPWD", cwd);
+	if (!home_path)
+		return (free(oldpwd), shell_error(shell, dir_unset, "cd", "HOME", 1));
+	if (chdir(home_path) == FAILED)
+	{
+		perror(NULL);
+		shell->return_value = 1;
+		return (free(oldpwd));
+	}
+	home_path = ft_strdup(home_path);
+	if (!home_path)
+	{
+		free(oldpwd);
+		shell_error(shell, malloc_error, "cd_home", NULL, 1);
+		return ;
+	}
+    env_set_var_value2(shell, "OLDPWD", oldpwd);
     env_set_var_value2(shell, "PWD", home_path);
-	return(SUCCESS);
 }
 
-int	go_previous_dir(t_shell *shell, char *cwd)
+void	cd_previous_dir(t_shell *shell, char *oldpwd)
 {
 	int		str_len;
-	char	*new_path;
+	char	*pwd;
 
-	new_path = NULL;
-	str_len = ft_strlen(cwd) - 1;
-	while (cwd[str_len])
+	pwd = NULL;
+	str_len = ft_strlen(oldpwd) - 1;
+	while (oldpwd[str_len])
 	{
-		if (cwd[str_len] == '/')
+		if (oldpwd[str_len] == '/')
 		{
-			new_path = ft_strndup(cwd, str_len);
+			pwd = ft_strndup(oldpwd, str_len);
 			break ;
 		}
 		str_len--;
 	}
-	if (!new_path || chdir(new_path) == FAILED)
+	if (!pwd)
+		return(free(oldpwd), shell_error(shell, malloc_error,
+				"cd_previous_dir", NULL, 1));
+	if (chdir(pwd) == FAILED)
     {
-        free(cwd);
-        if (new_path)
-            free(new_path);
-		return (ERROR);
+		perror(NULL);
+		shell->return_value = 1;
+		return (free(oldpwd), free(pwd));
     }
-    env_set_var_value2(shell, "OLDPWD", cwd);
-    env_set_var_value2(shell, "PWD", new_path);
-	return (SUCCESS);
+    env_set_var_value2(shell, "OLDPWD", oldpwd);
+    env_set_var_value2(shell, "PWD", pwd);
 }
 
-int	go_oldpwd(t_shell *shell) 
+void	cd_oldpwd(t_shell *shell, char *oldpwd) 
 {
-	char	*oldpwd;
 	char	*pwd;
 
-	pwd = NULL;
-	pwd = getcwd(pwd, 0);
-	oldpwd = env_get_var_value(shell, "OLDPWD");
-	if (!pwd || ! oldpwd || chdir(oldpwd) == FAILED)
+	pwd = env_get_var_value(shell, "OLDPWD");
+	if (!pwd)
+		return (free(oldpwd), shell_error(shell, dir_unset,
+				"cd", "OLDPWD", 1));
+	if (chdir(pwd) == FAILED)
 	{
-        if (pwd)
-    		free(pwd);
-        if (oldpwd)
-            free(oldpwd);
-		return (ERROR);
+   		perror(NULL);
+		shell->return_value = 1;
+		return (free(oldpwd));
 	}
-    env_set_var_value2(shell, "OLDPWD", pwd);
-    env_set_var_value2(shell, "PWD", oldpwd);
-	return (SUCCESS);
+	pwd = ft_strdup(pwd);
+	if (!pwd)
+		return (free(oldpwd), shell_error(shell, malloc_error,
+				"cd_oldpwd", NULL, 1));
+	ft_putendl_fd(pwd, 1);
+    env_set_var_value2(shell, "OLDPWD", oldpwd);
+    env_set_var_value2(shell, "PWD", pwd);
+}
+
+void	cd_stay(t_shell *shell, char *oldpwd)
+{
+	char *pwd;
+
+	pwd = ft_strdup(oldpwd);
+	if (!pwd)
+		return (free(oldpwd), shell_error(shell, malloc_error,
+				"cd_stay", NULL, 1));
+	env_set_var_value2(shell, "OLDPWD", oldpwd);
+    env_set_var_value2(shell, "PWD", pwd);
 }

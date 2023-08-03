@@ -1,11 +1,11 @@
-# include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	print_environment(t_list *environment)
 {
 	t_node	*temp;
 	t_var	*var;
 
-	if(!environment | !environment->head)
+	if (!environment | !environment->head)
 		return ;
 	temp = environment->head;
 	while (temp)
@@ -22,7 +22,7 @@ void	print_environment(t_list *environment)
 	}
 }
 
-char *env_get_var_value(t_shell *shell, char *name)
+char	*env_get_var_value(t_shell *shell, char *name)
 {
 	t_node	*target;
 	t_var	*var;
@@ -62,7 +62,8 @@ void	env_set_var_value1(t_shell *shell, char *name, char *value)
 	var->value = value;
 }
 
-void	env_set_var_value2(t_shell *shell, char *not_allocated_name, char *value)
+void	env_set_var_value2(t_shell *shell, char *not_allocated_name,
+		char *value)
 {
 	t_node	*target;
 	t_var	*var;
@@ -77,7 +78,7 @@ void	env_set_var_value2(t_shell *shell, char *not_allocated_name, char *value)
 		if (!name)
 		{
 			free(value);
-			return(shell_error(shell, malloc_error, "env_set_var_value2", 1));
+			return (shell_error(shell, malloc_error, "env_set_var_value2", NULL, 1));
 		}
 		env_add_new_var(shell, name, value);
 		return ;

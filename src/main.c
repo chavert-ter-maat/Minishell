@@ -66,7 +66,7 @@ void	print_token_list(t_shell *shell) //for testing purpose
 	t_token	*token;
 
 	if (!shell->token_list || !shell->token_list->head)
-		return;
+		return ;
 	temp = shell->token_list->head;
 	printf("Token list: (%d)\n", shell->token_list->count);
 	while (temp)
@@ -75,7 +75,6 @@ void	print_token_list(t_shell *shell) //for testing purpose
 		printf("%s\n", token->str);
 		temp = temp->next;
 	}
-	
 }
 
 void	f(void)
@@ -84,9 +83,9 @@ void	f(void)
 }
 
 // executor tester
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_shell shell;
+	t_shell	shell;
 
 	(void) argv;
 	if (argc > 1)

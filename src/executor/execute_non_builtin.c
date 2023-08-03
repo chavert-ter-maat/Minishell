@@ -40,7 +40,7 @@ static char	**get_path_environment(t_shell *shell)
 		return (NULL);
 	split_path = ft_split(path, ':');
 	if (!split_path)
-		return (shell_error(shell, malloc_error, "get_path_environment", 1), NULL);
+		return (shell_error(shell, malloc_error, "get_path_environment", NULL, 1), NULL);
 	return (split_path);
 
 	// index = 0;
@@ -72,8 +72,8 @@ void	execute_non_builtin(t_shell *shell, t_command *command)
 	{
 		command_path = get_path_executable(split_path, command->args);
 		if (execve(command_path, command->args, shell->envp) == FAILED)
-			error_no_command(shell, command->args[0]);
+			error_perm_denied(shell, command->args[0]); //permission denied
 	}
 	else if (execve(command->args[0], command->args, shell->envp) == FAILED)
-		error_no_command(shell, command->args[0]);
+		error_no_command(shell, command->args[0]); //no such file or directory
 }

@@ -48,6 +48,8 @@ SRC = 	SRC/main.c \
 		SRC/generic_list/generic_list.c \
 		SRC/generic_list/free_functions.c \
 		SRC/generic_list/compare_functions.c \
+		SRC/generic_list/generic_list_utils_1.c \
+		SRC/generic_list/generic_list_utils_2.c \
 		SRC/executor/executor.c \
 		SRC/executor/handle_errors.c \
 		SRC/executor/handle_multiple_commands.c \
@@ -76,12 +78,19 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./libft/ft_printf
-	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME)  
+	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
+	# $(RM) $(OBJ)
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
+	@echo "$(RED)      _______. __    __   _______  __       __         ____    ____  _______     ___       __    __  "
+	@echo "$(ORANGE)     /       ||  |  |  | |   ____||  |     |  |        \   \  /   / |   ____|   /   \     |  |  |  | "
+	@echo "$(YELLOW)    |   (----|   |__|  | |  |__   |  |     |  |         \   \/   /  |  |__     /  ^  \    |  |__|  | "
+	@echo "$(GREEN)     \   \    |   __   | |   __|  |  |     |  |          \_    _/   |   __|   /  /_\  \   |   __   | "
+	@echo "$(BLUE) .----)   |   |  |  |  | |  |____ |   ----.|   ----.       |  |     |  |____ /  _____  \  |  |  |  | "
+	@echo "$(VIOLET) |_______/    |__|  |__| |_______||_______||_______|       |__|     |_______/__/     \__\ |__|  |__| "
 
 make go: $(OBJ)
 	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
-	$(RM) $(OBJ)
+	
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 	@echo "$(RED)      _______. __    __   _______  __       __         ____    ____  _______     ___       __    __  "
 	@echo "$(ORANGE)     /       ||  |  |  | |   ____||  |     |  |        \   \  /   / |   ____|   /   \     |  |  |  | "

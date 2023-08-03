@@ -74,21 +74,19 @@ void	handle_multiple_commands(t_shell *shell)
     pid_t   	pid;
     int     	read_end;
     t_node  	*current;
-	t_command	*command;
+	int			status;
 
+	status = 0;
     read_end = 0;
     current = shell->command_list->head;
     while(current->next)
     {
-		command = (t_command *) current->data;
-        if (check_if_builtin(command->args[0]) == TRUE)
-            execute_builtin(shell, command);
-        else
-			create_forks(shell, command, read_end, pipe_fd);
+		create_forks(shell, current->data, read_end, pipe_fd);
         read_end = handle_fds(shell, pipe_fd, read_end);
         current = current->next;
     }
     pid = execute_last_command(shell, current->data, read_end);	
-	if (waitpid(pid, &shell->return_value, 0) == FAILED)
-		error_exit_fork(shell, "waitpid");
+	if (waitpid(pid, &status, 0) == FAILED)
+			error_exit_fork(shell, "waitpid");
+	shell->return_value = WEXITSTATUS(status);
 }
