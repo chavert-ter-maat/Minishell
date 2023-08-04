@@ -147,6 +147,8 @@ char 	*expand_var(t_shell *shell, char *name);
 void	list_cat_words(t_shell *shell, t_list *list);
 void	list_add_new_word(t_shell *shell, t_list *list, char *str, size_t *i);
 void	list_add_token_copy(t_shell *shell, t_list *list, t_token *token);
+void	list_add_expand_var(t_shell *shell, t_list *list, char *var_name);
+
 
 //parser
 void	parser(t_shell *shell);
@@ -174,7 +176,7 @@ void	print_command_table(t_shell *shell);
 void	print_token_list(t_shell *shell);
 
 // executor
-int		executor(t_shell *shell);
+void	executor(t_shell *shell);
 void	execute_non_builtin(t_shell *shell, t_command *command);
 void	handle_multiple_commands(t_shell *shell);
 void	handle_single_command(t_shell *shell, t_command *command);
@@ -186,8 +188,9 @@ void	infile_as_stdin(t_shell *shell);
 void	outfile_as_stdout(t_shell *shell);
 void	input_error(void);
 void	error_exit(t_shell *shell, char *input);
-void	perror_exit(t_shell *shell, char *input);
+void	error_exit_fork(t_shell *shell, char *input);
 void	error_no_command(t_shell *shell, char *argv);
+void	export_error(const char *str);
 
 // environment
 t_var 	*create_new_node(char *new_var_variable);
@@ -241,6 +244,7 @@ void	free_token(void *data);
 void	free_command(void *data);
 void	free_redir(void *data);
 void	free_var(void *data);
+void	free_arg(void *data);
 
 //generic list compare functions
 int		comp_command(void *data1, void *data2);

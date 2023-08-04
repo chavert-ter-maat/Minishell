@@ -1,27 +1,5 @@
 #include "../../include/minishell.h"
 
-/* like strcat() but the string str1 does not need to have
-sufficient space to hold the result */
-
-static char	*ft_append(char *str1, char *str2)
-{
-	char	*append;
-	size_t	size;
-
-	if (!str2)
-		return(str1);
-	if (!str1)
-		return(str2);
-	size = ft_strlen(str1) + ft_strlen(str2) + 1;
-	append = ft_calloc(size, sizeof(char));
-	if (!append)
-		return (free(str1), NULL);
-	append[0] = '\0';
-	ft_strlcat(append, str1, size);
-	ft_strlcat(append, str2, size);
-	return (free(str1), append);
-}
-
 /* if two censecutive tokens are of type WORD
 it concatenates the words in the first token string,
 removes the second token from the list and frees that token
@@ -58,9 +36,12 @@ char *expand_var(t_shell *shell, char *name)
 
 	if (!name)
 		return (NULL);
-	if (name[0] == '?')
+	if (name[0] == '\0' || name[0] == '?')
 	{
-		value = ft_itoa(shell->return_value);
+		if (name[0] == '\0')
+			value = ft_strdup("$");
+		else
+			value = ft_itoa(shell->return_value);
 		if (!value)
 			shell_error(shell, malloc_error, "expand_var", 1);
 		return (value);
@@ -87,6 +68,18 @@ void	list_add_new_word(t_shell *shell, t_list *list, char *str, size_t *i)
 	new.str = ft_strndup(&(str[save_i]), *i - save_i);
 	if (!new.str)
 		return (shell_error(shell, malloc_error, "list_add_new_word()", 1));
+	list_add_new_node(shell, list, &new);
+
+}
+
+void	list_add_expand_var(t_shell *shell, t_list *list, char *var_name)
+{
+	t_token	new;
+
+	new.str = expand_var(shell, var_name);
+	new.type = WORD;
+	if (!new.str)
+		return ;
 	list_add_new_node(shell, list, &new);
 }
 

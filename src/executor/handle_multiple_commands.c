@@ -4,11 +4,11 @@
 static int handle_fds(t_shell *shell, int *pipe_fd, int read_end)
 {
     if (close(pipe_fd[WRITE_END]) == FAILED)
-		perror_exit(shell, "close");
+		error_exit_fork(shell, "close");
 	if (read_end != STDIN_FILENO)
 	{
 		if (close(read_end) == FAILED)
-			perror_exit(shell, "close");
+			error_exit_fork(shell, "close");
     }
 	read_end = pipe_fd[READ_END];
 	return (read_end);
@@ -22,15 +22,15 @@ int	execute_last_command(t_shell *shell, t_command *command, int read_end)
 
 	pid = fork();
 	if (pid == FAILED)
-		perror_exit(shell, "fork");
+		error_exit_fork(shell, "fork");
 	if (pid == SUCCESS)
 	{
 		if (dup2(read_end, STDIN_FILENO) == FAILED)
-			perror_exit(shell, "dup2");
+			error_exit_fork(shell, "dup2");
 		execute_non_builtin(shell, command);
 	}
 	if (close(read_end) == FAILED)
-		perror_exit(shell, "close");
+		error_exit_fork(shell, "close");
 	return(pid);
 }
 
@@ -39,9 +39,9 @@ int	execute_last_command(t_shell *shell, t_command *command, int read_end)
 void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_fd)
 {
 	if (dup2(read_end, STDIN_FILENO) == FAILED)
-		perror_exit(shell, "dup2");
+		error_exit_fork(shell, "dup2");
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
-		perror_exit(shell, "dup2");
+		error_exit_fork(shell, "dup2");
 	if (check_if_builtin(command->args[0]) == TRUE)
 	{
 		execute_builtin(shell, command);
@@ -50,7 +50,7 @@ void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_
 	else
 		execute_non_builtin(shell, command);
 	if (close(pipe_fd[WRITE_END]) == FAILED)
-		perror_exit(shell, "close");
+		error_exit_fork(shell, "close");
 }
 
 void	create_forks(t_shell *shell, t_command *command, int read_end, int *pipe_fd)
@@ -58,10 +58,10 @@ void	create_forks(t_shell *shell, t_command *command, int read_end, int *pipe_fd
 	pid_t	pid;
 
 	if (pipe(pipe_fd) == FAILED)
-        perror_exit(shell, "pipe");
+        error_exit_fork(shell, "pipe");
     pid = fork();
     if (pid == FAILED)
-        perror_exit(shell, "fork");
+        error_exit_fork(shell, "fork");
     if (pid == SUCCESS)
         execute_childs(shell, command, read_end, pipe_fd);
 }
@@ -75,20 +75,19 @@ void	handle_multiple_commands(t_shell *shell)
     int     	read_end;
     t_node  	*current;
 	t_command	*command;
+	int			status;
 
     read_end = 0;
     current = shell->command_list->head;
     while(current->next)
     {
 		command = (t_command *) current->data;
-        if (check_if_builtin(command->args[0]) == TRUE)
-            execute_builtin(shell, command);
-        else
-			create_forks(shell, command, read_end, pipe_fd);
+		create_forks(shell, command, read_end, pipe_fd);
         read_end = handle_fds(shell, pipe_fd, read_end);
         current = current->next;
     }
     pid = execute_last_command(shell, current->data, read_end);	
-	if (waitpid(pid, &shell->return_value, 0) == FAILED)
-		perror_exit(shell, "waitpid");
+	if (waitpid(pid, &status, 0) == FAILED)
+			error_exit_fork(shell, "waitpid");
+		shell->return_value = WEXITSTATUS(status);
 }

@@ -1,48 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   expander.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/02 13:32:00 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/02 19:57:24 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-static void	list_add_expand_var(t_shell *shell, t_list *list, char *name)
+static char	*list_get_expand_var(t_shell *shell, char *str, size_t *i)
 {
-	t_token new;
+	size_t	save_i;
+	char *	var_name;
 
-	new.str = expand_var(shell, name);
-	new.type = WORD;
-	if (!new.str)
-		return ;
-	list_add_new_node(shell, list, &new);
+	save_i = *i;
+	*i = 0;
+	find_end_var(&(str[save_i]), i, VAR);
+	*i += save_i++;
+	var_name = ft_strndup(&(str[save_i]), *i - save_i);
+	if (!var_name)
+		shell_error(shell, malloc_error, "exp_str()", 1), free(str);
+	return (var_name);
 }
 
 /* splits the string in WORDS and VAR tokens,
 expands the VARs to their value and adds them
 to the list */
 
-static void	split_str_in_tokens(t_shell *shell, t_list *list, char *str)
+static void	expand_str(t_shell *shell, t_list *list, char *str)
 {
 	size_t	i;
-	size_t	save_i;
 	char	*var_name;
 
 	i = 0;
 	if (str[i] == '\0')
 		list_add_new_word(shell, list, str, &i);
-	while(str[i])
+	while (str[i] && shell->token_list)
 	{
-		save_i = i;
 		if (str[i] != '$')
 			list_add_new_word(shell, list, str, &i);
 		else
 		{
-			save_i++;
-			i = 0;
-			find_end_var(&(str[save_i]), &i, VAR);
-			i += save_i;
-			var_name = ft_strndup(&(str[save_i]), i - save_i);
+			var_name = list_get_expand_var(shell, str, &i);
+			printf("CHeck %s\n", var_name);
 			if (!var_name)
-				return (shell_error(shell, malloc_error, "split_str_in_tokens()", 1), free(str));
+				return (free(str));
 			list_add_expand_var(shell, list, var_name);
 			free(var_name);
 		}
-		if (!shell->token_list)
-			break ;
 	}
 	free(str);
 }
@@ -72,7 +81,7 @@ static void	expand_quote(t_shell *shell, t_list *list, t_token *token)
 		list_add_new_node(shell, list, &new);
 	}
 	else if (token->type == DQUOTE)
-		split_str_in_tokens(shell, list, str);
+		expand_str(shell, list, str);
 }
 
 static t_list	*expand_token_list(t_shell *shell, t_list *list)
@@ -93,7 +102,7 @@ static t_list	*expand_token_list(t_shell *shell, t_list *list)
 		else
 			list_add_token_copy(shell, list, token);
 		if (shell->token_list == NULL)
-			return(free_list(list));
+			return (free_list(list));
 		current = current->next;
 	}
 	return (list);

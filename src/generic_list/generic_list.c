@@ -6,7 +6,7 @@ t_list	*list_create(t_shell *shell, size_t data_size, func_ptr_free ft_free, fun
 
 	list = ft_calloc(1, sizeof(t_list));
 	if (!list)
-		return (shell_error(shell, malloc_error, "create_list()", 1), NULL);
+		return (shell_error(shell, malloc_error, "list_create()", 1), NULL);
 	list->data_size = data_size;
 	list->ft_free = ft_free;
 	list->ft_comp = ft_comp;
@@ -136,7 +136,6 @@ void	list_remove_node(t_list *list, void *data)
 		target = target->next;
 		if (list->ft_comp(target->data, data) == 0)
 		{
-			printf("CHECK found node\n");
 			previous->next = target->next;
 			if (!target->next)
 				list->tail = previous;

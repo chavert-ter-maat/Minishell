@@ -92,3 +92,16 @@ void	free_var(void *data)
 	free(var);
 	var = NULL;
 }
+void	free_arg(void *data)
+{
+	char **arg;
+
+	if (!data)
+		return;
+	arg = (char **) data;
+	if (*arg)
+		free(*arg);
+	free(arg);
+	arg = NULL;
+
+}

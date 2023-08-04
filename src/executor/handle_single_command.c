@@ -15,11 +15,11 @@ void	handle_single_command(t_shell *shell, t_command *command)
 	{
 		pid = fork();
 		if (pid == FAILED)
-			perror_exit(shell, "fork");
+			error_exit_fork(shell, "fork");
 		if (pid == SUCCESS)
 			execute_non_builtin(shell, shell->command_list->head->data);
 		if (waitpid(pid, &status, 0) == FAILED)
-				perror_exit(shell, "waitpid");
+				error_exit_fork(shell, "waitpid");
 		 shell->return_value = WEXITSTATUS(status);
 	}
 }
