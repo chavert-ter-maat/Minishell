@@ -72,7 +72,6 @@ void	init_env(t_shell *shell, char **envp)
 	shell->environment = list_create(shell, sizeof(t_var), free_var, comp_var);
 	if (!shell->environment)
 		exit(EXIT_FAILURE);
-	shell->envp = envp;
 	index = 0;
 	while (envp[index])
 	{

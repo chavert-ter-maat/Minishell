@@ -9,14 +9,15 @@ void	cd_path	(t_shell *shell, char *path, char *oldpwd)
 	{
 		perror(NULL);
 		shell->return_value = 1;
-		return (free(oldpwd));
+		// return (free(oldpwd));
+		return ;
 	}
 	pwd = getcwd(pwd, 0);
 	if (!pwd)
 	{
 		perror(NULL);
 		shell->return_value = 1;
-		return (free(oldpwd));
+		return ;
 	}
     env_set_var_value2(shell, "OLDPWD", oldpwd);
     env_set_var_value2(shell, "PWD", pwd);
@@ -31,14 +32,16 @@ void	cd_home(t_shell *shell, char *oldpwd)
 		return (free(oldpwd), shell_error(shell, dir_unset, "cd", "HOME", 1));
 	if (chdir(home_path) == FAILED)
 	{
-		perror(NULL);
+		perror("chdir");
 		shell->return_value = 1;
-		return (free(oldpwd));
+		// return (free(oldpwd));
+		return ;
 	}
 	home_path = ft_strdup(home_path);
 	if (!home_path)
 	{
 		free(oldpwd);
+		// free(oldpwd);
 		shell_error(shell, malloc_error, "cd_home", NULL, 1);
 		return ;
 	}
@@ -46,7 +49,7 @@ void	cd_home(t_shell *shell, char *oldpwd)
     env_set_var_value2(shell, "PWD", home_path);
 }
 
-void	cd_previous_dir(t_shell *shell, char *oldpwd)
+void	cd_dir_up(t_shell *shell, char *oldpwd)
 {
 	int		str_len;
 	char	*pwd;
@@ -69,7 +72,8 @@ void	cd_previous_dir(t_shell *shell, char *oldpwd)
     {
 		perror(NULL);
 		shell->return_value = 1;
-		return (free(oldpwd), free(pwd));
+		return ;
+		// return (free(oldpwd), free(pwd));
     }
     env_set_var_value2(shell, "OLDPWD", oldpwd);
     env_set_var_value2(shell, "PWD", pwd);
@@ -80,6 +84,8 @@ void	cd_oldpwd(t_shell *shell, char *oldpwd)
 	char	*pwd;
 
 	pwd = env_get_var_value(shell, "OLDPWD");
+	ft_putstr_fd("test\n", 1);
+	ft_putstr_fd(pwd, 1);
 	if (!pwd)
 		return (free(oldpwd), shell_error(shell, dir_unset,
 				"cd", "OLDPWD", 1));
@@ -87,7 +93,8 @@ void	cd_oldpwd(t_shell *shell, char *oldpwd)
 	{
    		perror(NULL);
 		shell->return_value = 1;
-		return (free(oldpwd));
+		// return (free(oldpwd));
+		return ;
 	}
 	pwd = ft_strdup(pwd);
 	if (!pwd)

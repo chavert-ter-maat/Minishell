@@ -79,7 +79,6 @@ $(NAME): $(OBJ)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./libft/ft_printf
 	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
-	# $(RM) $(OBJ)
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 	@echo "$(RED)      _______. __    __   _______  __       __         ____    ____  _______     ___       __    __  "
 	@echo "$(ORANGE)     /       ||  |  |  | |   ____||  |     |  |        \   \  /   / |   ____|   /   \     |  |  |  | "
@@ -90,7 +89,7 @@ $(NAME): $(OBJ)
 
 make go: $(OBJ)
 	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
-	
+	$(RM) $(OBJ)
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 	@echo "$(RED)      _______. __    __   _______  __       __         ____    ____  _______     ___       __    __  "
 	@echo "$(ORANGE)     /       ||  |  |  | |   ____||  |     |  |        \   \  /   / |   ____|   /   \     |  |  |  | "
@@ -98,7 +97,8 @@ make go: $(OBJ)
 	@echo "$(GREEN)     \   \    |   __   | |   __|  |  |     |  |          \_    _/   |   __|   /  /_\  \   |   __   | "
 	@echo "$(BLUE) .----)   |   |  |  |  | |  |____ |   ----.|   ----.       |  |     |  |____ /  _____  \  |  |  |  | "
 	@echo "$(VIOLET) |_______/    |__|  |__| |_______||_______||_______|       |__|     |_______/__/     \__\ |__|  |__| "
-
+	
+	
 
 
 

@@ -10,3 +10,4 @@ void    executor(t_shell *shell)
 		handle_multiple_commands(shell);
 	return ;
 }
+

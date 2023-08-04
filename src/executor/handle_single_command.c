@@ -23,6 +23,6 @@ void	handle_single_command(t_shell *shell, t_command *command)
 		 shell->return_value = WEXITSTATUS(status);
 	}
 }
-	// restore_std(shell->executor);
-	// print_status_waidpid(pid, status);
-// }
+// 	// restore_std(shell->executor);
+// 	print_status_waidpid(pid, status);
+// // }
