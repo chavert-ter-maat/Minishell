@@ -22,15 +22,16 @@ void	list_cat_words(t_shell *shell, t_list *list)
 		{
 			token->str = ft_append(token->str, next_token->str);
 			if (!token->str)
-				return (shell_error(shell, malloc_error, "list_cat_words()", 1));
+				return (shell_error(shell, malloc_error,
+						"list_cat_words()", NULL, 1));
 			list_remove_node(list, next_token);
 		}
 		else
-		temp = temp->next;
+			temp = temp->next;
 	}
 }
 
-char *expand_var(t_shell *shell, char *name)
+char	*expand_var(t_shell *shell, char *name)
 {
 	char	*value;
 
@@ -43,7 +44,7 @@ char *expand_var(t_shell *shell, char *name)
 		else
 			value = ft_itoa(shell->return_value);
 		if (!value)
-			shell_error(shell, malloc_error, "expand_var", 1);
+			shell_error(shell, malloc_error, "expand_var", NULL, 1);
 		return (value);
 	}
 	else
@@ -52,7 +53,7 @@ char *expand_var(t_shell *shell, char *name)
 		return (value);
 	value = ft_strdup(value);
 	if (!value)
-		shell_error(shell, malloc_error, "expand_var()", 1);
+		shell_error(shell, malloc_error, "expand_var()", NULL, 1);
 	return (value);
 }
 
@@ -67,9 +68,8 @@ void	list_add_new_word(t_shell *shell, t_list *list, char *str, size_t *i)
 		(*i)++;
 	new.str = ft_strndup(&(str[save_i]), *i - save_i);
 	if (!new.str)
-		return (shell_error(shell, malloc_error, "list_add_new_word()", 1));
+		return (shell_error(shell, malloc_error, "list_add_new_word()", NULL, 1));
 	list_add_new_node(shell, list, &new);
-
 }
 
 void	list_add_expand_var(t_shell *shell, t_list *list, char *var_name)
@@ -85,11 +85,11 @@ void	list_add_expand_var(t_shell *shell, t_list *list, char *var_name)
 
 void	list_add_token_copy(t_shell *shell, t_list *list, t_token *token)
 {
-	t_token new;
+	t_token	new;
 
 	new.type = token->type;
 	new.str = ft_strdup(token->str);
 	if (!new.str)
-		return(shell_error(shell, malloc_error, "expander()", 1));
+		return (shell_error(shell, malloc_error, "expander()", NULL, 1));
 	list_add_new_node(shell, list, &new);
 }

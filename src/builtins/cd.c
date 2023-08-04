@@ -1,38 +1,27 @@
 #include "../../include/minishell.h"
 
-void	cd_error(char *argument)
-{
-	ft_putstr_fd("cd: no such file or directory:",1);
-	ft_putstr_fd(argument, 1);
-	ft_putchar_fd('\n', 1);
-}
 
-static int	check_argument(t_shell *shell, char *argument, char *cwd)
+static void	check_argument(t_shell *shell, char *argument, char *oldpwd)
 {
-	if(!argument)
-		return (go_home_dir(shell, cwd));
-	if (ft_strncmp(argument, ".", 2) == 0)
-		return (SUCCESS);
-	if (ft_strncmp(argument, "..", 3) == 0)
-		return (go_previous_dir(shell, cwd));
-	if (ft_strncmp(argument, "-", 2) == 0)
-		return (go_oldpwd(shell));
+	if (!argument || ft_strncmp(argument, "~", 2) == 0)
+		cd_home(shell, oldpwd);
+	else if (ft_strncmp(argument, ".", 2) == 0)
+		cd_stay(shell, oldpwd);
+	else if (ft_strncmp(argument, "..", 3) == 0)
+		cd_previous_dir(shell, oldpwd);
+	else if (ft_strncmp(argument, "-", 2) == 0)
+		cd_oldpwd(shell, oldpwd);
 	else
-		return(go_path(shell, argument, cwd));
-	return(ERROR);
-}	
+		cd_path(shell, argument, oldpwd);
+}
 
 void	ft_cd(t_shell *shell, t_command *command)
 {
-	char	*cwd;
+	char	*oldpwd;
 
-	cwd = NULL;
-	cwd = getcwd(cwd, 0);
-	if(!cwd)
+	oldpwd = NULL;
+	oldpwd = getcwd(oldpwd, 0);
+	if (!oldpwd) //kunnen we hier dan perror gebruiken??
 		return ;
-	if(check_argument(shell, command->args[1], cwd) == ERROR)
-	{
-		cd_error(command->args[1]);
-		free(cwd);
-	}
+	check_argument(shell, command->args[1], oldpwd);
 }

@@ -162,14 +162,17 @@ char	**arg_list_to_array(t_command *command);
 // utils
 void	return_to_promt(t_shell *shell);
 void	free_shell(t_shell *shell);
-void	shell_error(t_shell *shell, void (*func)(const char *), const char *str, int ret);
-void	print_error(const char *str);
-void	malloc_error(const char *str);
-void	syntax_error(const char *str);
-void 	env_error(const char *str);
-void	too_little_args(const char *str);
-void	too_many_args(const char *str);
-void	exit_numeric_arg(const char *str);
+void	shell_error(t_shell *shell, void (*func)(const char *, const char *),
+				const char *str1, const char *str2, int ret);
+void	print_error(const char *str1, const char *str2);
+void	malloc_error(const char *str1, const char *str2);
+void	syntax_error(const char *str1, const char *str2);
+void 	dir_error(const char *str1, const char *str2);
+void	too_little_args(const char *str1, const char *str2);
+void	too_many_args(const char *str1, const char *str2);
+void	exit_numeric_arg(const char *str1, const char *str2);
+void	dir_unset(const char *str1, const char *str2);
+void	export_error(const char *str1, const char *str2);
 
 //test functions
 void	print_command_table(t_shell *shell);
@@ -190,7 +193,7 @@ void	input_error(void);
 void	error_exit(t_shell *shell, char *input);
 void	error_exit_fork(t_shell *shell, char *input);
 void	error_no_command(t_shell *shell, char *argv);
-void	export_error(const char *str);
+void	error_perm_denied(t_shell *shell, char *cmd);
 
 // environment
 t_var 	*create_new_node(char *new_var_variable);
@@ -203,12 +206,13 @@ int		add_var_to_environment(t_shell *shell, char *var);
 
 
 // builtin cd
-int		go_path(t_shell *shell, char *path, char *cwd);
-int		go_home_dir(t_shell *shell, char *cwd);
-int		go_previous_dir(t_shell *shell, char *cwd);
-int		go_oldpwd(t_shell *shell);
+void	cd_path(t_shell *shell, char *path, char *oldpwd);
+void	cd_home(t_shell *shell, char *oldpwd);
+void	cd_previous_dir(t_shell *shell, char *oldpwd);
+void	cd_oldpwd(t_shell *shell, char *oldpwd);
 void	cd_error(char *argument);
 void	ft_cd(t_shell *shell, t_command *command);
+void	cd_stay(t_shell *shell, char *oldpwd);
 
 // builtins
 void	ft_echo(char **args, int fd);

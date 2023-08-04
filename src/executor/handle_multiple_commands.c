@@ -74,15 +74,14 @@ void	handle_multiple_commands(t_shell *shell)
     pid_t   	pid;
     int     	read_end;
     t_node  	*current;
-	t_command	*command;
 	int			status;
 
+	status = 0;
     read_end = 0;
     current = shell->command_list->head;
     while(current->next)
     {
-		command = (t_command *) current->data;
-		create_forks(shell, command, read_end, pipe_fd);
+		create_forks(shell, current->data, read_end, pipe_fd);
         read_end = handle_fds(shell, pipe_fd, read_end);
         current = current->next;
     }
