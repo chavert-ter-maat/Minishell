@@ -34,7 +34,6 @@ static char	**get_path_environment(t_shell *shell)
 	char	*path;
 	char	**split_path;
 
-
 	path = env_get_var_value(shell, "PATH");
 	if (!path)
 		return (NULL);

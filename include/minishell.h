@@ -91,6 +91,8 @@ typedef struct s_redir
 typedef struct s_command
 {
 	char	**args;
+	int		read_fd;
+	int		write_fd;
 	t_list	*arg_list;
 	t_list	*redir_list;
 }	t_command;
@@ -178,12 +180,12 @@ void	executor(t_shell *shell);
 void	execute_non_builtin(t_shell *shell, t_command *command);
 void	handle_multiple_commands(t_shell *shell);
 void	handle_single_command(t_shell *shell, t_command *command);
-int		ft_here_doc(char *delimiter, int fd_write_end);
 
+// redirections
+void	handle_here_doc(t_shell *shell, t_command *command, char *delimiter);
+int		check_if_redir(t_shell *shell, t_command *command);
 
 void	print_status_waidpid(pid_t pid, int options);
-void	infile_as_stdin(t_shell *shell);
-void	outfile_as_stdout(t_shell *shell);
 void	input_error(void);
 void	error_exit(t_shell *shell, char *input);
 void	error_exit_fork(t_shell *shell, char *input);

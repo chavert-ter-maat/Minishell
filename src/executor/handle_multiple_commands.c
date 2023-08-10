@@ -48,7 +48,10 @@ void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_
 		_exit(0);
 	}
 	else
+	{
+		check_if_redir(shell, command);
 		execute_non_builtin(shell, command);
+	}
 	if (close(pipe_fd[WRITE_END]) == FAILED)
 		error_exit_fork(shell, "close");
 }
