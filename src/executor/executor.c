@@ -3,7 +3,7 @@
 void	executor(t_shell *shell)
 {
 	t_command	*command;
-	
+
 	if (!shell->command_list || shell->command_list->count == 0)
 		return ;
 	command = shell->command_list->head->data;
