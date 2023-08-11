@@ -1,5 +1,12 @@
 #include "../../include/minishell.h"
 
+void	perror_return_promt(t_shell *shell, char *input)
+{
+	perror(input);
+	shell->return_value = errno;
+	return ;
+}
+
 void	error_exit_fork(t_shell *shell, char *input)
 {
 	ft_putstr_fd("function ", STDERR_FILENO);

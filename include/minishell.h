@@ -182,8 +182,8 @@ void	handle_multiple_commands(t_shell *shell);
 void	handle_single_command(t_shell *shell, t_command *command);
 
 // redirections
-void	handle_here_doc(t_shell *shell, t_command *command, char *delimiter);
-int		check_if_redir(t_shell *shell, t_command *command);
+void	handle_here_doc(t_shell *shell, t_command *command, char *delimiter, char *f);
+int		check_if_redir(t_shell *shell, t_command *command, char *flag);
 
 void	print_status_waidpid(pid_t pid, int options);
 void	input_error(void);
@@ -253,5 +253,9 @@ int		comp_arg(void *data1, void *data2);
 int		comp_redir(void *data1, void *data2);
 int		comp_token(void *data1, void *data2);
 int		comp_var(void *data, void *comp_name);
+
+
+void	restore_std(int tmp_std_in, int tmp_std_out);
+void	perror_return_promt(t_shell *shell, char *input);
 
 #endif
