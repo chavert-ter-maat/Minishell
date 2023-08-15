@@ -58,7 +58,6 @@ typedef enum e_redir_type
 typedef	void(*func_ptr_free)(void *);
 typedef int(*func_ptr_comp)(void *, void *);
 
-
 //structs
 typedef struct s_node
 {
@@ -111,7 +110,6 @@ typedef struct s_var
 
 typedef struct s_shell
 {
-	int					return_value;
 	char				*cmd_line;
 	struct s_builtins	*builtins;
 	char				**envp;
@@ -126,6 +124,9 @@ typedef struct s_builtins
 	const char	*type_builtin;
 	void		(*function)(t_shell *shell, char **arguments);
 }	t_builtins;
+
+//globial variable
+extern int	g_status;
 
 // lexer
 void	lexer(t_shell *shell);
@@ -168,6 +169,7 @@ void	too_many_args(const char *str1, const char *str2);
 void	exit_numeric_arg(const char *str1, const char *str2);
 void	dir_unset(const char *str1, const char *str2);
 void	export_error(const char *str1, const char *str2);
+void    init_shell(t_shell *shell, char **envp);
 
 //test functions
 void	print_command_table(t_shell *shell);
@@ -198,6 +200,7 @@ void	env_set_var_value1(t_shell *shell, char *name, char *value);
 void	env_set_var_value2(t_shell *shell, char *not_allocated_name, char *value);
 char 	*env_get_var_value(t_shell *shell, char *name);
 int		add_var_to_environment(t_shell *shell, char *var);
+void	update_env(t_shell *shell);
 
 
 // builtin cd
@@ -222,8 +225,9 @@ void	clean_exit(t_shell *shell);
 
 //signals
 void	init_signals(void);
-void	sigquit_handler(t_shell *shell);
+void	eof_handler(t_shell *shell);
 void	sigint_handler(int signum);
+void	sigquit_handler(int signum);
 
 //generic list
 t_list	*list_create(t_shell *shell, size_t data_size, func_ptr_free ft_free, func_ptr_comp ft_comp);

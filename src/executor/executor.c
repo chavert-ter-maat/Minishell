@@ -2,6 +2,8 @@
 
 void    executor(t_shell *shell)
 {
+	signal(SIGQUIT, sigquit_handler);
+	signal(SIGINT, sigint_handler);
 	if (!shell->command_list || shell->command_list->count == 0)
 		return ;
 	if (shell->command_list->count == 1)

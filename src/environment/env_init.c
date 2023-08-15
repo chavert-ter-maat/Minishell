@@ -63,12 +63,39 @@ int	add_var_to_environment(t_shell *shell, char *var)
 	return (0);
 }
 
+static void	set_env(t_shell *shell)
+{
+	t_var	*var;
+	t_node	*target;
+	int		shlvl;
+
+	target = list_get_node(shell->environment, "OLDPWD");
+	if (target)
+	{
+		var = (t_var *)target->data;
+		free(var->value);
+		var->value = NULL;
+	}
+	target = list_get_node(shell->environment, "SHLVL");
+	if (target)
+	{
+		var = (t_var *)target->data;
+		shlvl = ft_atoi(var->value);
+		shlvl++;
+		free(var->value);
+		var->value = ft_itoa(shlvl);
+		if (!var->value)
+		{
+			shell_error(shell, malloc_error, "list_get_node", NULL, 1);
+			clean_exit(shell);
+		}
+	}
+}
+
 void	init_env(t_shell *shell, char **envp)
 {
 	int		index;
 
-	init_signals();
-	ft_bzero(shell, sizeof(t_shell));
 	shell->environment = list_create(shell, sizeof(t_var), free_var, comp_var);
 	if (!shell->environment)
 		exit(EXIT_FAILURE);
@@ -77,8 +104,9 @@ void	init_env(t_shell *shell, char **envp)
 	{
 		if (add_var_to_environment(shell, envp[index++]) != 0)
 		{
-			shell->return_value = 1;
+			g_status = 1;
 			clean_exit(shell);
 		}
 	}
+	set_env(shell);
 }

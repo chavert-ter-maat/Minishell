@@ -20,7 +20,8 @@ void	handle_single_command(t_shell *shell, t_command *command)
 			execute_non_builtin(shell, shell->command_list->head->data);
 		if (waitpid(pid, &status, 0) == FAILED)
 				error_exit_fork(shell, "waitpid");
-		 shell->return_value = WEXITSTATUS(status);
+		if (WIFEXITED(status))
+		 	g_status = WEXITSTATUS(status);
 	}
 }
 // 	// restore_std(shell->executor);
