@@ -45,4 +45,5 @@ void	ft_echo(char **args, int fd)
 	}
 	if (n_flag == NOT_FOUND)
 		ft_putchar_fd('\n', fd);
+	g_status = 0;
 }

@@ -90,13 +90,14 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv;
 	if (argc > 1)
 		exit(1);
-	atexit(f);
-	init_env(&shell, envp);
+	atexit(f); //remove later
+	init_shell(&shell, envp);
 	while (1)
 	{
+		init_signals();
 		shell.cmd_line = readline("shellyeah$ ");
 		if (shell.cmd_line == NULL)
-			sigquit_handler(&shell);
+			eof_handler(&shell);
 		add_history(shell.cmd_line);
 		parser(&shell);
 		executor(&shell);

@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 13:32:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/03 13:35:03 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/09 10:44:46 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	expand_str(t_shell *shell, t_list *list, char *str)
 		else
 		{
 			var_name = list_get_expand_var(shell, str, &i);
-			printf("CHeck %s\n", var_name);
 			if (!var_name)
 				return (free(str));
 			list_add_expand_var(shell, list, var_name);

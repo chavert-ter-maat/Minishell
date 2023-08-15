@@ -42,19 +42,6 @@ static char	**get_path_environment(t_shell *shell)
 	if (!split_path)
 		return (shell_error(shell, malloc_error, "get_path_environment", NULL, 1), NULL);
 	return (split_path);
-
-	// index = 0;
-	// while (shell->envp[index])
-	// {
-	// 	path = ft_strnstr(shell->envp[index], "PATH=", 5);
-	// 	if (path)
-	// 		break ;
-	// 	index++;
-	// }
-	// split_path = ft_split(&path[5], ':');
-	// if (!split_path)
-	// 	return(NULL);
-	// return (split_path);
 }
 
 // execute_non_builtin() finds path in environment, splits it and looks then looks if
@@ -67,13 +54,14 @@ void	execute_non_builtin(t_shell *shell, t_command *command)
 
 	command_path = NULL;
 	split_path = get_path_environment(shell);
+	update_env(shell);
 	if (command->args[0] && (ft_strncmp(command->args[0], "/", 1) 
-		|| ft_strncmp(command->args[0], "./", 2)))
+		&& ft_strncmp(command->args[0], "./", 2)))
 	{
 		command_path = get_path_executable(split_path, command->args);
 		if (execve(command_path, command->args, shell->envp) == FAILED)
-			error_perm_denied(shell, command->args[0]); //permission denied
+			error_no_command(shell, command->args[0]); //command not found
 	}
 	else if (execve(command->args[0], command->args, shell->envp) == FAILED)
-		error_no_command(shell, command->args[0]); //no such file or directory
+		error_perm_denied(shell, command->args[0]); //no such file or directory OF permission denied
 }

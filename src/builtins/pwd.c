@@ -2,13 +2,21 @@
 
 void	ft_pwd(t_shell *shell)
 {
-	char	*cwd;
+	char	*pwd;
 
-	cwd = NULL;
-	cwd = getcwd(cwd, 0);
-	if (!cwd)
-		error_exit_fork(shell, "cwd: ");
-	write(STDOUT_FILENO, cwd, ft_strlen(cwd));
+	pwd = NULL;
+	pwd = getcwd(pwd, 0);
+	if (!pwd && errno == ENOENT)
+		pwd = ft_strdup(env_get_var_value(shell, "PWD"));
+	else if (!pwd)
+	{
+		perror(NULL);
+		g_status = 1;
+	}
+	if (!pwd)
+		return (shell_error(shell, malloc_error, "ft_pwd", NULL, 1));
+	write(STDOUT_FILENO, pwd, ft_strlen(pwd));
 	write(STDOUT_FILENO, "\n", 1);
-	free(cwd);
+	free(pwd);
+	g_status = 0;
 }

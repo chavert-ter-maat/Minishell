@@ -9,4 +9,5 @@ void	free_shell(t_shell *shell)
 	}
 	shell->token_list = free_list(shell->token_list);
 	shell->command_list = free_list(shell->command_list);
+	ft_free_2d_array(&shell->envp);
 }

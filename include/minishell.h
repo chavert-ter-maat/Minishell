@@ -58,7 +58,6 @@ typedef enum e_redir_type
 typedef	void(*func_ptr_free)(void *);
 typedef int(*func_ptr_comp)(void *, void *);
 
-
 //structs
 typedef struct s_node
 {
@@ -99,14 +98,9 @@ typedef struct s_executor
 {	
   	int 		temp_stdin;
 	int 		temp_stdout;
-	char		*cmd_line;
 	int			argc;
 	char		**argv;
-	char		**envp;
-	char		*infile;
-	char		*outfile;
-	int			pipe_infile[2];
-}	t_executor;
+	}	t_executor;
 
 typedef struct s_var
 {
@@ -116,7 +110,6 @@ typedef struct s_var
 
 typedef struct s_shell
 {
-	int					return_value;
 	char				*cmd_line;
 	struct s_builtins	*builtins;
 	char				**envp;
@@ -131,6 +124,9 @@ typedef struct s_builtins
 	const char	*type_builtin;
 	void		(*function)(t_shell *shell, char **arguments);
 }	t_builtins;
+
+//globial variable
+extern int	g_status;
 
 // lexer
 void	lexer(t_shell *shell);
@@ -173,6 +169,7 @@ void	too_many_args(const char *str1, const char *str2);
 void	exit_numeric_arg(const char *str1, const char *str2);
 void	dir_unset(const char *str1, const char *str2);
 void	export_error(const char *str1, const char *str2);
+void    init_shell(t_shell *shell, char **envp);
 
 //test functions
 void	print_command_table(t_shell *shell);
@@ -185,7 +182,7 @@ void	handle_multiple_commands(t_shell *shell);
 void	handle_single_command(t_shell *shell, t_command *command);
 int		ft_here_doc(char *delimiter, int fd_write_end);
 
-// void	input_handling(t_shell *shell, int argc, char **argv, char **envp);
+
 void	print_status_waidpid(pid_t pid, int options);
 void	infile_as_stdin(t_shell *shell);
 void	outfile_as_stdout(t_shell *shell);
@@ -203,12 +200,13 @@ void	env_set_var_value1(t_shell *shell, char *name, char *value);
 void	env_set_var_value2(t_shell *shell, char *not_allocated_name, char *value);
 char 	*env_get_var_value(t_shell *shell, char *name);
 int		add_var_to_environment(t_shell *shell, char *var);
+void	update_env(t_shell *shell);
 
 
 // builtin cd
 void	cd_path(t_shell *shell, char *path, char *oldpwd);
 void	cd_home(t_shell *shell, char *oldpwd);
-void	cd_previous_dir(t_shell *shell, char *oldpwd);
+void	cd_dir_up(t_shell *shell, char *oldpwd);
 void	cd_oldpwd(t_shell *shell, char *oldpwd);
 void	cd_error(char *argument);
 void	ft_cd(t_shell *shell, t_command *command);
@@ -227,8 +225,9 @@ void	clean_exit(t_shell *shell);
 
 //signals
 void	init_signals(void);
-void	sigquit_handler(t_shell *shell);
+void	eof_handler(t_shell *shell);
 void	sigint_handler(int signum);
+void	sigquit_handler(int signum);
 
 //generic list
 t_list	*list_create(t_shell *shell, size_t data_size, func_ptr_free ft_free, func_ptr_comp ft_comp);

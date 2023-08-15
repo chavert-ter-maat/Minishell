@@ -2,7 +2,8 @@
 # VARIABLES
 NAME 	= minishell
 CC 		= gcc
-CFLAGS 	= -Wall -Wextra -Werror -I./libft -I./libft/ft_printf -I./include -I$(RL_PATH)/include
+CFLAGS 	= -Wall -Wextra -Werror
+
 ifdef DEBUG
 	CFLAGS += -g
 endif
@@ -20,7 +21,8 @@ RL_INC = -I $(RL_PATH)/include
 INCLUDES	= -I./libft -I./libft/ft_printf -I./include -I$(RL_PATH)/include
 
 # LIBRARIES
-LIBS = -lreadline -L$(RL_PATH)/lib 
+
+READLINE_LIB ?= -lreadline -L$(RL_PATH)/lib
 PRINTF = ./libft/ft_printf/libftprintf.a
 LIBFT = ./libft/libft.a
 
@@ -37,6 +39,7 @@ SRC = 	SRC/main.c \
 		SRC/builtins/handle_builtins.c \
 		SRC/environment/env_init.c \
 		SRC/environment/env_utils.c \
+		SRC/environment/update_env.c \
 		SRC/parser/lexer_jumptable.c \
 		SRC/parser/lexer.c \
 		SRC/parser/expander.c \
@@ -45,6 +48,7 @@ SRC = 	SRC/main.c \
 		SRC/utils/error.c \
 		SRC/utils/expander_utils.c \
 		SRC/utils/free.c \
+		SRC/utils/init_shell.c \
 		SRC/generic_list/generic_list.c \
 		SRC/generic_list/free_functions.c \
 		SRC/generic_list/compare_functions.c \
@@ -71,6 +75,7 @@ BLUE 		= \033[0;94m
 MAGENTA		= \033[0;95m
 CYAN 		= \033[0;96m
 WHITE 		= \033[0;97m
+RESET		= \033[0m
 	
 # RULES
 all: $(NAME)
@@ -78,8 +83,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(MAKE) -C ./libft
 	$(MAKE) -C ./libft/ft_printf
-	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
-	# $(RM) $(OBJ)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFT) $(READLINE_LIB) $(PRINTF) -o $(NAME) 
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 	@echo "$(RED)      _______. __    __   _______  __       __         ____    ____  _______     ___       __    __  "
 	@echo "$(ORANGE)     /       ||  |  |  | |   ____||  |     |  |        \   \  /   / |   ____|   /   \     |  |  |  | "
@@ -87,21 +91,23 @@ $(NAME): $(OBJ)
 	@echo "$(GREEN)     \   \    |   __   | |   __|  |  |     |  |          \_    _/   |   __|   /  /_\  \   |   __   | "
 	@echo "$(BLUE) .----)   |   |  |  |  | |  |____ |   ----.|   ----.       |  |     |  |____ /  _____  \  |  |  |  | "
 	@echo "$(VIOLET) |_______/    |__|  |__| |_______||_______||_______|       |__|     |_______/__/     \__\ |__|  |__| "
+	@echo "$(RESET)"
 
 make go: $(OBJ)
-	$(CC) $(CFLAGS) $(LIBS) $(OBJ) $(INCLUDES) $(LIBFT) $(PRINTF) -o $(NAME) 
-	
+	$(CC) $(CFLAGS) $(INCLUDES) $(READLINE_LIB) $(OBJ) $(LIBFT) $(PRINTF) -o $(NAME) 
+	$(RM) $(OBJ)
 	@echo "$(GREEN)minishell compiled $(DEF_COLOR)"
 	@echo "$(RED)      _______. __    __   _______  __       __         ____    ____  _______     ___       __    __  "
 	@echo "$(ORANGE)     /       ||  |  |  | |   ____||  |     |  |        \   \  /   / |   ____|   /   \     |  |  |  | "
 	@echo "$(YELLOW)    |   (----|   |__|  | |  |__   |  |     |  |         \   \/   /  |  |__     /  ^  \    |  |__|  | "
 	@echo "$(GREEN)     \   \    |   __   | |   __|  |  |     |  |          \_    _/   |   __|   /  /_\  \   |   __   | "
 	@echo "$(BLUE) .----)   |   |  |  |  | |  |____ |   ----.|   ----.       |  |     |  |____ /  _____  \  |  |  |  | "
-	@echo "$(VIOLET) |_______/    |__|  |__| |_______||_______||_______|       |__|     |_______/__/     \__\ |__|  |__| "
-
-
-
-
+	@echo "$(CYAN) |_______/    |__|  |__| |_______||_______||_______|       |__|     |_______/__/     \__\ |__|  |__| "
+	@echo "$(RESET)"
+	
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
+	
 debug:
 	$(MAKE) DEBUG=1
 
@@ -125,3 +131,6 @@ fclean: clean
 	@echo "$(YELLOW)minishell executable removed $(DEF_COLOR)"
 
 re: fclean all
+
+echo:
+	@echo $(OBJ)

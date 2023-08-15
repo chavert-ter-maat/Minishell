@@ -21,4 +21,5 @@ void	ft_unset(t_shell *shell, t_command *command)
 			list_remove_node(shell->environment, var->name);
 		}
 	}
+	g_status = 0;
 }

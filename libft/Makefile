@@ -57,6 +57,7 @@ SRC =	ft_append.c \
 		ft_substr.c \
 		ft_tolower.c \
 		ft_toupper.c \
+		ft_free_2d_array.c \
 
 # OBJECTS
 OBJ			= $(SRC:.c=.o)

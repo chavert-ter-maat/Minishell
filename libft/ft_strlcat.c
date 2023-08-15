@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/10 15:50:29 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/06/19 12:21:36 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/10 11:14:12 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	size_t	len_src;
 	char	*string;
 
+	if (!dst || !src)
+		return (0);
 	string = (char *)src;
 	len_dst = ft_strlen(dst);
 	len_src = ft_strlen(src);
