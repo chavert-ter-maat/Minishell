@@ -157,7 +157,7 @@ t_node	*skip_token(t_shell *shell, t_node *node, t_command *new);
 char	**arg_list_to_array(t_command *command);
 
 // utils
-void	perror_return_promt(t_shell *shell, char *input_name);
+void	perror_return_promt(char *input_name);
 void	free_shell(t_shell *shell);
 void	shell_error(t_shell *shell, void (*func)(const char *, const char *),
 				const char *str1, const char *str2, int ret);
