@@ -18,7 +18,9 @@ void	handle_single_command(t_shell *shell, t_command *command)
 
 	tmp_std_in = dup(STDIN_FILENO);
 	tmp_std_out = dup(STDOUT_FILENO);
-	handle_redirection(shell, command, "YES_COMMAND");
+	handle_redirection(shell, command, 1);
+	if (command->arg_list->count == 0)
+		return;
 	if (check_if_builtin(command->args[0]))
 		return (execute_builtin(shell, command));
 	else

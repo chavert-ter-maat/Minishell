@@ -27,7 +27,7 @@ int	execute_last_command(t_shell *shell, t_command *command, int read_end)
 	{
 		if (dup2(read_end, STDIN_FILENO) == FAILED)
 			error_exit_fork(shell, "dup2");
-		handle_redirection(shell, command, "YES_COMMAND");
+		handle_redirection(shell, command, pid);
 		execute_non_builtin(shell, command);
 	}
 	if (close(read_end) == FAILED)
@@ -37,11 +37,11 @@ int	execute_last_command(t_shell *shell, t_command *command, int read_end)
 
 // runs the command, the output of the command is written to the write end
 // of the pipe.
-void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_fd)
+void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_fd, pid_t pid)
 {
 	if (dup2(read_end, STDIN_FILENO) == FAILED)
 		error_exit_fork(shell, "dup2");
-	handle_redirection(shell, command, "YES_COMMAND");
+	handle_redirection(shell, command, pid);
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
 		error_exit_fork(shell, "dup2");
 	if (check_if_builtin(command->args[0]) == TRUE)
@@ -64,7 +64,7 @@ void	create_forks(t_shell *shell, t_command *command, int read_end, int *pipe_fd
     if (pid == FAILED)
         error_exit_fork(shell, "fork");
     if (pid == SUCCESS)
-        execute_childs(shell, command, read_end, pipe_fd);
+        execute_childs(shell, command, read_end, pipe_fd, pid);
 }
 
 // creates forks for the amount of commands and pipes the output of a

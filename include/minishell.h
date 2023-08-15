@@ -184,8 +184,8 @@ void	handle_single_command(t_shell *shell, t_command *command);
 void	print_status_waidpid(pid_t pid, int options);
 
 // redirections
-void	handle_here_doc(t_shell *shell, char *delimiter, char *f);
-void	handle_redirection(t_shell *shell, t_command *command, char *flag);
+void	handle_here_doc(t_shell *shell, t_command *command, char *delimiter);
+void	handle_redirection(t_shell *shell, t_command *command, pid_t pid);
 void	restore_std(int tmp_std_in, int tmp_std_out);
 void	change_fd_to_in(int fd);
 void	change_fd_to_out(int fd);
