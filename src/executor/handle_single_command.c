@@ -37,5 +37,6 @@ void	handle_single_command(t_shell *shell, t_command *command)
 		 	g_status = WEXITSTATUS(status);
 	}
 	restore_std(tmp_std_in, tmp_std_out);
+	ft_putstr_fd("komt ie in single command?\n", 1);
 }
 // 	print_status_waidpid(pid, status);
