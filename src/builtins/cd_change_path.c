@@ -8,19 +8,19 @@ void	cd_path	(t_shell *shell, char *path, char *oldpwd)
 	if (chdir(path) == FAILED)
 	{
 		perror(NULL);
-		shell->return_value = 1;
-		// return (free(oldpwd));
-		return ;
+		g_status = 1;
+		return (free(oldpwd));
 	}
 	pwd = getcwd(pwd, 0);
 	if (!pwd)
 	{
 		perror(NULL);
-		shell->return_value = 1;
+		g_status = 1;
 		return ;
 	}
     env_set_var_value2(shell, "OLDPWD", oldpwd);
     env_set_var_value2(shell, "PWD", pwd);
+	g_status = 0;
 }
 
 void	cd_home(t_shell *shell, char *oldpwd)
@@ -33,20 +33,18 @@ void	cd_home(t_shell *shell, char *oldpwd)
 	if (chdir(home_path) == FAILED)
 	{
 		perror("chdir");
-		shell->return_value = 1;
-		// return (free(oldpwd));
-		return ;
+		g_status = 1;
+		return (free(oldpwd));
 	}
 	home_path = ft_strdup(home_path);
 	if (!home_path)
 	{
-		free(oldpwd);
-		// free(oldpwd);
 		shell_error(shell, malloc_error, "cd_home", NULL, 1);
-		return ;
+		return (free(oldpwd));
 	}
     env_set_var_value2(shell, "OLDPWD", oldpwd);
     env_set_var_value2(shell, "PWD", home_path);
+	g_status = 0;
 }
 
 void	cd_dir_up(t_shell *shell, char *oldpwd)
@@ -55,15 +53,14 @@ void	cd_dir_up(t_shell *shell, char *oldpwd)
 	char	*pwd;
 
 	pwd = NULL;
-	str_len = ft_strlen(oldpwd) - 1;
-	while (oldpwd[str_len])
+	str_len = ft_strlen(oldpwd);
+	while (oldpwd[--str_len])
 	{
 		if (oldpwd[str_len] == '/')
 		{
 			pwd = ft_strndup(oldpwd, str_len);
 			break ;
 		}
-		str_len--;
 	}
 	if (!pwd)
 		return(free(oldpwd), shell_error(shell, malloc_error,
@@ -71,12 +68,12 @@ void	cd_dir_up(t_shell *shell, char *oldpwd)
 	if (chdir(pwd) == FAILED)
     {
 		perror(NULL);
-		shell->return_value = 1;
-		return ;
-		// return (free(oldpwd), free(pwd));
+		g_status = 1;
+		return (free(oldpwd), free(pwd));
     }
     env_set_var_value2(shell, "OLDPWD", oldpwd);
     env_set_var_value2(shell, "PWD", pwd);
+	g_status = 0;
 }
 
 void	cd_oldpwd(t_shell *shell, char *oldpwd) 
@@ -84,17 +81,14 @@ void	cd_oldpwd(t_shell *shell, char *oldpwd)
 	char	*pwd;
 
 	pwd = env_get_var_value(shell, "OLDPWD");
-	ft_putstr_fd("test\n", 1);
-	ft_putstr_fd(pwd, 1);
 	if (!pwd)
 		return (free(oldpwd), shell_error(shell, dir_unset,
 				"cd", "OLDPWD", 1));
 	if (chdir(pwd) == FAILED)
 	{
    		perror(NULL);
-		shell->return_value = 1;
-		// return (free(oldpwd));
-		return ;
+		g_status = 1;
+		return (free(oldpwd));
 	}
 	pwd = ft_strdup(pwd);
 	if (!pwd)
@@ -103,6 +97,7 @@ void	cd_oldpwd(t_shell *shell, char *oldpwd)
 	ft_putendl_fd(pwd, 1);
     env_set_var_value2(shell, "OLDPWD", oldpwd);
     env_set_var_value2(shell, "PWD", pwd);
+	g_status = 0;
 }
 
 void	cd_stay(t_shell *shell, char *oldpwd)
@@ -115,4 +110,5 @@ void	cd_stay(t_shell *shell, char *oldpwd)
 				"cd_stay", NULL, 1));
 	env_set_var_value2(shell, "OLDPWD", oldpwd);
     env_set_var_value2(shell, "PWD", pwd);
+	g_status = 0;
 }

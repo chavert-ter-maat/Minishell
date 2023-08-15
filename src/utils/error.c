@@ -3,7 +3,7 @@
 void	shell_error(t_shell *shell, void (*func)(const char *, const char *),
 		const char *str1, const char *str2, int ret)
 {
-	shell->return_value = ret;
+	g_status = ret;
 	ft_putstr_fd("shellyeah: ", 2);
 	func(str1, str2);
 	free_shell(shell);

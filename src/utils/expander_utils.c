@@ -42,7 +42,7 @@ char	*expand_var(t_shell *shell, char *name)
 		if (name[0] == '\0')
 			value = ft_strdup("$");
 		else
-			value = ft_itoa(shell->return_value);
+			value = ft_itoa(g_status);
 		if (!value)
 			shell_error(shell, malloc_error, "expand_var", NULL, 1);
 		return (value);

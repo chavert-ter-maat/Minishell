@@ -3,8 +3,9 @@
 void	clean_exit(t_shell *shell)
 {
 	shell->environment = free_list(shell->environment);
+	
 	free_shell(shell);
-	exit(shell->return_value);
+	exit(g_status);
 }
 
 static bool	numeric(char *str)
@@ -31,7 +32,7 @@ void	ft_exit(t_shell *shell, t_command *command)
 {
 	if (command->arg_list->count == 1)
 	{
-		shell->return_value = 0;
+		g_status = 0;
 		clean_exit(shell);
 	}
 	if (numeric(command->args[1]) == false)
@@ -46,9 +47,9 @@ void	ft_exit(t_shell *shell, t_command *command)
 	}
 	else
 	{
-		shell->return_value = ft_atoi(command->args[1]) % 256;
-		if (shell->return_value < 0)
-			shell->return_value += 256;
+		g_status = ft_atoi(command->args[1]) % 256;
+		if (g_status < 0)
+			g_status += 256;
 		clean_exit(shell);
 	}
 }

@@ -91,6 +91,7 @@ void	handle_multiple_commands(t_shell *shell)
     }
     pid = execute_last_command(shell, current->data, read_end);	
 	if (waitpid(pid, &status, 0) == FAILED)
-			error_exit_fork(shell, "waitpid");
-		shell->return_value = WEXITSTATUS(status);
+		error_exit_fork(shell, "waitpid");
+	if (WIFEXITED(status))
+		g_status = WEXITSTATUS(status);
 }
