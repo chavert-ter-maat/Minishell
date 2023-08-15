@@ -1,114 +1,87 @@
 #include "../../include/minishell.h"
 
 // redirects file to stdin
-static int	redir_in(t_shell *shell, t_command *command, char *file, char *f)
+void	redir_in(t_shell *shell, char *file, char *flag)
 {
-	command->read_fd = open(file, O_RDONLY);
-	if (command->read_fd == FAILED)
+	int fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd == FAILED)
 	{
 		perror_return_promt(shell, file);
-		return (ERROR);
+		return ;
 	}
-	if(ft_strncmp("YES_COMMAND", f, 12) == 0)
-	{
-		if (dup2(command->read_fd, STDIN_FILENO) == FAILED)
-		{
-			ft_putstr_fd ("fix error function", 1); 
-			_exit (1);
-		}
-		if (close (command->read_fd) == FAILED)
-		{
-			ft_putstr_fd ("fix error function", 1); 
-			_exit (1);
-		}
-	}
-	return (SUCCESS);
+	if(ft_strncmp("YES_COMMAND", flag, 12) == 0)
+		change_fd_to_in(fd);
+	return ;
 }
 
 // redirects stfout to file
-int	redir_out(t_shell *shell, t_command *command, char *file, char *f)
+void	redir_out(t_shell *shell, char *file, char *flag)
 {
-	command->write_fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (command->write_fd == FAILED)
+	int fd;
+	
+	fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == FAILED)
+	{
+		perror_return_promt(shell, file);
+		return ;
+	}
+	if(ft_strncmp("YES_COMMAND", flag, 12) == 0)
+		change_fd_to_out(fd);
+	return ;
+}
+
+static int	redir_append(t_shell *shell, char *file, char *flag)
+{
+	int	fd;
+
+	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (fd == FAILED)
 	{
 		perror_return_promt(shell, file);
 		return (FAILED);
 	}
-	if(ft_strncmp("YES_COMMAND", f, 12) == 0)
-	{
-		if (dup2(command->write_fd, STDOUT_FILENO) == FAILED)
-		{
-			ft_putstr_fd ("fix error function", 1); 
-			_exit(1);
-		}
-		if (close(command->write_fd) == FAILED)
-		{
-			ft_putstr_fd("fix error function", 1); 
-			_exit (1);
-		}
-	}
+	if (ft_strncmp("YES_COMMAND", flag, 12) == 0)
+		change_fd_to_out(fd);
 	return (SUCCESS);
 }
 
-static int	redir_append(t_shell *shell, t_command *command, char *file, char *f)
-{
-	command->write_fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	if (command->write_fd == FAILED)
-	{
-		perror_return_promt(shell, file);
-		return (1) ;
-	}
-	if(ft_strncmp("YES_COMMAND", f, 12) == 0)
-	{
-		if (dup2(command->write_fd, STDOUT_FILENO) == FAILED)
-		{
-			ft_putstr_fd ("fix error function", 1); 
-			_exit(1);
-		}
-		if (close(command->write_fd) == FAILED)
-		{
-			ft_putstr_fd("fix error function", 1); 
-			_exit (1);
-		}
-	}
-	return (0);
-}
-
-static int	handle_redir(t_shell *shell, t_command *command, t_redir *redir, char *f)
+static int	handle_redir(t_shell *shell, t_redir *redir, char *flag)
 {
 	if (redir->type == IN)
 	{
-		redir_in(shell, command, redir->file, f);
+		redir_in(shell, redir->file, flag);
 		return (FOUND);
 	}
 	if (redir->type == OUT)
 	{
-		redir_out(shell, command, redir->file, f);
+		redir_out(shell, redir->file, flag);
 		return (FOUND);
 	}
 	if (redir->type == HEREDOC)
 	{
-		handle_here_doc(shell, command, redir->file, f);
+		handle_here_doc(shell, redir->file, flag);
 		return (FOUND);
 	}
 	if (redir->type == APPEND)
 	{
-		redir_append(shell, command, redir->file, f);
+		redir_append(shell, redir->file, flag);
 		return (FOUND);
 	}
 	return (NOT_FOUND);
 }
 
-int	check_if_redir(t_shell *shell, t_command *command, char *flag)
+void	handle_redirection(t_shell *shell, t_command *command, char *flag)
 {
 	t_node	*node;
 
 	node = command->redir_list->head;
 	while (node)
 	{
-		if (handle_redir(shell, command, node->data, flag) == FOUND)
-			return (FOUND);
+		if (handle_redir(shell, node->data, flag) == FOUND)
+			return ;
 		node = node->next;
 	}
-	return (NOT_FOUND);
+	return ;
 }

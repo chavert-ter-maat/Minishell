@@ -58,6 +58,7 @@ SRC = 	SRC/main.c \
 		SRC/executor/execute_non_builtin.c \
 		SRC/executor/redirections.c \
 		SRC/executor/utils_executor.c \
+		SRC/executor/utils_redirections.c \
 		SRC/signals/signals.c \
 
 # OBJECTS

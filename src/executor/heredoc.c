@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	handle_here_doc(t_shell *shell, t_command *command, char *delimiter, char *f)
+void	handle_here_doc(t_shell *shell, char *delimiter, char *flag)
 {
 	int		pipe_fd[2];
 	char	*line;
@@ -9,8 +9,8 @@ void	handle_here_doc(t_shell *shell, t_command *command, char *delimiter, char *
 		return(shell_error(shell, syntax_error, "\\n", NULL, 139));
 	if (pipe(pipe_fd) == FAILED)
 	{
-		ft_putstr_fd("heredoc line failed", 1);
-		exit(EXIT_FAILURE); //check for right exit!!!!
+		perror_return_promt("pipe"); //check for right exit!!!!
+		return ;
 	}
 	line = readline("> ");
 	while (line && !(ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0))
@@ -23,21 +23,8 @@ void	handle_here_doc(t_shell *shell, t_command *command, char *delimiter, char *
 	if (line)
 		free (line);
 	close (pipe_fd[WRITE_END]);
-	command->read_fd = pipe_fd[READ_END];
-	int check = 0;
-	if(ft_strncmp("YES_COMMAND", f, 12) == 0)
-	{
-	
-		if (dup2(command->read_fd, STDIN_FILENO) == FAILED)
-		{
-			ft_putstr_fd ("fix error function", 1); 
-			_exit(1);
-		}
-		if (close(command->read_fd) == FAILED)
-		{
-			ft_putstr_fd("fix error function", 1); 
-			_exit (1);
-		}
-	}
+
+	if(ft_strncmp("YES_COMMAND", flag, 12) == 0)
+		change_fd_to_in(pipe_fd[READ_END]);
 }
 	

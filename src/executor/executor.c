@@ -9,7 +9,7 @@ void	executor(t_shell *shell)
 	command = shell->command_list->head->data;
 	if(command->arg_list->count == 0 && command->redir_list)
 	{
-		check_if_redir(shell, shell->command_list->head->data, "NO_COMMAND");
+		handle_redirection(shell, shell->command_list->head->data, "NO_COMMAND");
 		return ;
 	}
 	if (shell->command_list->count == 1)

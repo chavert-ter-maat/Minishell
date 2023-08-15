@@ -1,8 +1,8 @@
 #include "../../include/minishell.h"
 
-void	perror_return_promt(t_shell *shell, char *input)
+void	perror_return_promt(t_shell *shell, char *input_name)
 {
-	perror(input);
+	perror(input_name);
 	shell->return_value = errno;
 	return ;
 }

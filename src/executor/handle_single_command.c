@@ -18,7 +18,7 @@ void	handle_single_command(t_shell *shell, t_command *command)
 
 	tmp_std_in = dup(STDIN_FILENO);
 	tmp_std_out = dup(STDOUT_FILENO);
-	check_if_redir(shell, command, "YES_COMMAND");
+	handle_redirection(shell, command, "YES_COMMAND");
 	if (check_if_builtin(command->args[0]))
 	{
 		execute_builtin(shell, command);
@@ -38,4 +38,3 @@ void	handle_single_command(t_shell *shell, t_command *command)
 	restore_std(tmp_std_in, tmp_std_out);
 }
 // 	print_status_waidpid(pid, status);
-// // }

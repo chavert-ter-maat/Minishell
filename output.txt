@@ -1,0 +1,24 @@
+Appended Line
+[?2004hshellyeah$ echo "Appended Line" >> output.txt[C[C[C[C[C[C[C[C[C[C[Cgrep "sd" < input.txt > output.txt 2> error.txt[C[C[C[C[C[C[C[C[C[C[C[13Pecho "Appended Line" >> output.txt^C[?2004l
+shellyeah$ [?2004h[?2004l
+exit
+Process:         minishell [41847]
+Path:            /Volumes/VOLUME/*/minishell
+Load Address:    0x104149000
+Identifier:      minishell
+Version:         ???
+Code Type:       X86-64
+Parent Process:  zsh [38263]
+
+Date/Time:       2023-08-15 09:56:21.118 +0200
+Launch Time:     2023-08-15 09:50:29.588 +0200
+OS Version:      Mac OS X 10.14.6 (18G8022)
+Report Version:  7
+Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
+Analysis Tool Version:  Xcode 11.3.1 (11C505)
+----
+
+leaks Report Version: 4.0
+Process 41847: 406 nodes malloced for 341 KB
+Process 41847: 0 leaks for 0 total leaked bytes.
+
