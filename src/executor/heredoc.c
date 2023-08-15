@@ -1,12 +1,12 @@
 #include "../../include/minishell.h"
 
-void	handle_here_doc(t_shell *shell, char *delimiter, char *flag)
+void	handle_here_doc(t_shell *shell, t_command *command, char *delimiter)
 {
 	int		pipe_fd[2];
 	char	*line;
 
 	if (!delimiter || !(*delimiter))
-		return(shell_error(shell, syntax_error, "\\n", NULL, 139));
+		return (shell_error(shell, syntax_error, "\\n", NULL, 139));
 	if (pipe(pipe_fd) == FAILED)
 	{
 		perror_return_promt("pipe"); //check for right exit!!!!
@@ -23,7 +23,7 @@ void	handle_here_doc(t_shell *shell, char *delimiter, char *flag)
 	if (line)
 		free (line);
 	close (pipe_fd[WRITE_END]);
-	if(ft_strncmp("YES_COMMAND", flag, 12) == 0)
+	if (command->arg_list->count > 0)
 		change_fd_to_in(pipe_fd[READ_END]);
 }
 	

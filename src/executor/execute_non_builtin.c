@@ -51,6 +51,8 @@ void	execute_non_builtin(t_shell *shell, t_command *command)
 	char	*command_path;
 	char	**split_path;
 
+	if (command->arg_list->count == 0)
+		_exit(0);
 	command_path = NULL;
 	split_path = get_path_environment(shell);
 	update_env(shell);

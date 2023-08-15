@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-static void	redir_in(char *file, char *flag)
+static void	redir_in(char *file, t_command *command, pid_t pid)
 {
 	int fd;
 
@@ -8,15 +8,16 @@ static void	redir_in(char *file, char *flag)
 	if (fd == FAILED)
 	{
 		perror_return_promt(file);
+		if (pid == 0)
+			_exit(1);
 		return ;
 	}
-	if(ft_strncmp("YES_COMMAND", flag, 12) == 0)
+	if (command->arg_list->count > 0)
 		change_fd_to_in(fd);
-	return ;
 }
 
 // redirects stfout to file
-static void	redir_out(char *file, char *flag)
+static void	redir_out(char *file, t_command *command, pid_t pid)
 {
 	int fd;
 	
@@ -24,14 +25,15 @@ static void	redir_out(char *file, char *flag)
 	if (fd == FAILED)
 	{
 		perror_return_promt(file);
+		if (pid == 0)
+			_exit(1);
 		return ;
 	}
-	if(ft_strncmp("YES_COMMAND", flag, 12) == 0)
+	if (command->arg_list->count > 0)
 		change_fd_to_out(fd);
-	return ;
 }
 
-static void	redir_append(char *file, char *flag)
+static void	redir_append(char *file, t_command *command, pid_t pid)
 {
 	int	fd;
 
@@ -39,48 +41,34 @@ static void	redir_append(char *file, char *flag)
 	if (fd == FAILED)
 	{
 		perror_return_promt(file);
+		if (pid == 0)
+			_exit(1);
 		return ;
 	}
-	if (ft_strncmp("YES_COMMAND", flag, 12) == 0)
+	if (command->arg_list->count > 0)
 		change_fd_to_out(fd);
-	return ;
 }
 
-static int	handle_redir(t_shell *shell,t_redir *redir, char *flag)
+static void	handle_redir(t_shell *shell, t_command *command, t_redir *redir, pid_t pid)
 {
 	if (redir->type == IN)
-	{
-		redir_in(redir->file, flag);
-		return (FOUND);
-	}
+		return (redir_in(redir->file, command, pid));
 	if (redir->type == OUT)
-	{
-		redir_out(redir->file, flag);
-		return (FOUND);
-	}
+		return (redir_out(redir->file, command, pid));
 	if (redir->type == HEREDOC)
-	{
-		handle_here_doc(shell, redir->file, flag);
-		return (FOUND);
-	}
+		return (handle_here_doc(shell, command, redir->file));
 	if (redir->type == APPEND)
-	{
-		redir_append(redir->file, flag);
-		return (FOUND);
-	}
-	return (NOT_FOUND);
+		return (redir_append(redir->file, command, pid));
 }
 
-void	handle_redirection(t_shell *shell, t_command *command, char *flag)
+void	handle_redirection(t_shell *shell, t_command *command, pid_t pid)
 {
 	t_node	*node;
 
 	node = command->redir_list->head;
 	while (node)
 	{
-		if (handle_redir(shell, node->data, flag) == FOUND)
-			return ;
+		handle_redir(shell, command, node->data, pid);
 		node = node->next;
 	}
-	return ;
 }
