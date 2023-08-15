@@ -23,7 +23,6 @@ void	handle_here_doc(t_shell *shell, char *delimiter, char *flag)
 	if (line)
 		free (line);
 	close (pipe_fd[WRITE_END]);
-	ft_putstr_fd("komt ie hier in heredoc?\n", 1);
 	if(ft_strncmp("YES_COMMAND", flag, 12) == 0)
 		change_fd_to_in(pipe_fd[READ_END]);
 }
