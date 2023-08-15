@@ -90,6 +90,8 @@ typedef struct s_redir
 typedef struct s_command
 {
 	char	**args;
+	int		read_fd;
+	int		write_fd;
 	t_list	*arg_list;
 	t_list	*redir_list;
 }	t_command;
@@ -145,7 +147,6 @@ void	list_add_new_word(t_shell *shell, t_list *list, char *str, size_t *i);
 void	list_add_token_copy(t_shell *shell, t_list *list, t_token *token);
 void	list_add_expand_var(t_shell *shell, t_list *list, char *var_name);
 
-
 //parser
 void	parser(t_shell *shell);
 void	make_command_table(t_shell *shell);
@@ -156,7 +157,7 @@ t_node	*skip_token(t_shell *shell, t_node *node, t_command *new);
 char	**arg_list_to_array(t_command *command);
 
 // utils
-void	return_to_promt(t_shell *shell);
+void	perror_return_promt(t_shell *shell, char *input_name);
 void	free_shell(t_shell *shell);
 void	shell_error(t_shell *shell, void (*func)(const char *, const char *),
 				const char *str1, const char *str2, int ret);
@@ -180,14 +181,14 @@ void	executor(t_shell *shell);
 void	execute_non_builtin(t_shell *shell, t_command *command);
 void	handle_multiple_commands(t_shell *shell);
 void	handle_single_command(t_shell *shell, t_command *command);
-int		ft_here_doc(char *delimiter, int fd_write_end);
-
-
 void	print_status_waidpid(pid_t pid, int options);
-void	infile_as_stdin(t_shell *shell);
-void	outfile_as_stdout(t_shell *shell);
-void	input_error(void);
-void	error_exit(t_shell *shell, char *input);
+
+// redirections
+void	handle_here_doc(t_shell *shell, char *delimiter, char *f);
+void	handle_redirection(t_shell *shell, t_command *command, char *flag);
+void	restore_std(int tmp_std_in, int tmp_std_out);
+void	change_fd_to_in(int fd);
+void	change_fd_to_out(int fd);
 void	error_exit_fork(t_shell *shell, char *input);
 void	error_no_command(t_shell *shell, char *argv);
 void	error_perm_denied(t_shell *shell, char *cmd);
@@ -201,7 +202,6 @@ void	env_set_var_value2(t_shell *shell, char *not_allocated_name, char *value);
 char 	*env_get_var_value(t_shell *shell, char *name);
 int		add_var_to_environment(t_shell *shell, char *var);
 void	update_env(t_shell *shell);
-
 
 // builtin cd
 void	cd_path(t_shell *shell, char *path, char *oldpwd);

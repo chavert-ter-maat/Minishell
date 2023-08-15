@@ -58,8 +58,11 @@ SRC = 	SRC/main.c \
 		SRC/executor/handle_errors.c \
 		SRC/executor/handle_multiple_commands.c \
 		SRC/executor/handle_single_command.c \
+		SRC/executor/heredoc.c \
 		SRC/executor/execute_non_builtin.c \
+		SRC/executor/redirections.c \
 		SRC/executor/utils_executor.c \
+		SRC/executor/utils_redirections.c \
 		SRC/signals/signals.c \
 
 # OBJECTS
