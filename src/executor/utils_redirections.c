@@ -14,8 +14,6 @@ void	change_fd_to_in(int fd)
 	}
 }
 
-
-
 void	change_fd_to_out(int fd)
 {
 	if (dup2(fd, STDOUT_FILENO) == FAILED)

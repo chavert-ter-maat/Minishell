@@ -32,7 +32,6 @@ int	execute_last_command(t_shell *shell, t_command *command, int read_end)
 	}
 	if (close(read_end) == FAILED)
 		error_exit_fork(shell, "close");
-		ft_putstr_fd("en hier in last command?\n", 1);
 	return(pid);
 }
 
@@ -42,9 +41,9 @@ void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_
 {
 	if (dup2(read_end, STDIN_FILENO) == FAILED)
 		error_exit_fork(shell, "dup2");
+	handle_redirection(shell, command, "YES_COMMAND");
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
 		error_exit_fork(shell, "dup2");
-	handle_redirection(shell, command, "YES_COMMAND");
 	if (check_if_builtin(command->args[0]) == TRUE)
 	{
 		execute_builtin(shell, command);
@@ -59,7 +58,6 @@ void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_
 void	create_forks(t_shell *shell, t_command *command, int read_end, int *pipe_fd)
 {
 	pid_t	pid;
-
 	if (pipe(pipe_fd) == FAILED)
         error_exit_fork(shell, "pipe");
     pid = fork();
@@ -84,7 +82,6 @@ void	handle_multiple_commands(t_shell *shell)
     current = shell->command_list->head;
     while(current->next)
     {
-		ft_putstr_fd("hoe vaak komt ie hier?\n", 1);
 		create_forks(shell, current->data, read_end, pipe_fd);
         read_end = handle_fds(shell, pipe_fd, read_end);
         current = current->next;

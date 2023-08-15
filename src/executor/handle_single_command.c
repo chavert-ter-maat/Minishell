@@ -20,10 +20,7 @@ void	handle_single_command(t_shell *shell, t_command *command)
 	tmp_std_out = dup(STDOUT_FILENO);
 	handle_redirection(shell, command, "YES_COMMAND");
 	if (check_if_builtin(command->args[0]))
-	{
-		execute_builtin(shell, command);
-		return ;
-	}
+		return (execute_builtin(shell, command));
 	else
 	{
 		pid = fork();
@@ -37,6 +34,4 @@ void	handle_single_command(t_shell *shell, t_command *command)
 		 	g_status = WEXITSTATUS(status);
 	}
 	restore_std(tmp_std_in, tmp_std_out);
-	ft_putstr_fd("komt ie in single command?\n", 1);
 }
-// 	print_status_waidpid(pid, status);
