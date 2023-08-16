@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 13:30:09 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/03 13:35:08 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/16 15:47:49 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	get_token_info(t_shell *shell, t_token *token,
 	func[token->type](cmd_line, i, token->type);
 	token->str = ft_strndup(&(cmd_line[save_i]), *i - save_i);
 	if (!token->str)
-		shell_error(shell, malloc_error, "get_token_info()", NULL, 1);
+		shell_error(shell, malloc_error, "get_token_info()", 1);
 }
 
 /*

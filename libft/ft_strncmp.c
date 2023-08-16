@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/14 17:42:18 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/07/21 13:32:48 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/16 15:28:42 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	if (n == 0)
 		return (0);
 	while (s1[index] == s2[index] && index < n - 1)
-			index++;
+		index++;
 	return ((unsigned char)s1[index] - (unsigned char)s2[index]);
 }

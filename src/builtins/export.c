@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   export.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:17:51 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:17:52 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static void	print_export(t_shell*shell)
@@ -40,7 +52,7 @@ void	ft_export(t_shell *shell, t_command *command)
 		if (add_var_to_environment(shell, command->args[index++]) != 0)
 		{
 			g_status = 1;
-			return;
+			return ;
 		}
 	}
 	g_status = 0;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   pwd.c                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:17:33 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:46:31 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	ft_pwd(t_shell *shell)
@@ -14,7 +26,7 @@ void	ft_pwd(t_shell *shell)
 		g_status = 1;
 	}
 	if (!pwd)
-		return (shell_error(shell, malloc_error, "ft_pwd", NULL, 1));
+		return (shell_error(shell, malloc_error, "ft_pwd", 1));
 	write(STDOUT_FILENO, pwd, ft_strlen(pwd));
 	write(STDOUT_FILENO, "\n", 1);
 	free(pwd);

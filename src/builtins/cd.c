@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   cd.c                                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:20:16 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:20:17 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static void	check_argument(t_shell *shell, char *argument, char *pwd)
@@ -17,7 +29,7 @@ static void	check_argument(t_shell *shell, char *argument, char *pwd)
 void	ft_cd(t_shell *shell, t_command *command)
 {
 	char	*pwd;
-	
+
 	pwd = NULL;
 	pwd = getcwd(pwd, 0);
 	if (!pwd && errno == ENOENT)
@@ -26,4 +38,3 @@ void	ft_cd(t_shell *shell, t_command *command)
 		return ;
 	check_argument(shell, command->args[1], pwd);
 }
-

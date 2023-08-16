@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/14 15:05:02 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/01/13 10:18:23 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/16 15:29:59 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ char	*ft_strchr(const char *s, int c)
 		if (string[index] == '\0')
 			return (NULL);
 		index++;
-	}	
+	}
 	return (&string[index]);
 }

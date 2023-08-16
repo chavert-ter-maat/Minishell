@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   ft_strndup.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:28:23 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:28:24 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strndup(const char *str, size_t n)
@@ -18,6 +30,6 @@ char	*ft_strndup(const char *str, size_t n)
 		dup[i] = str[i];
 		i++;
 	}
-		dup[n] = '\0';
+	dup[n] = '\0';
 	return (dup);
 }

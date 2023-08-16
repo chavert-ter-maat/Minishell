@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   signals.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 14:58:02 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 14:58:03 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static void	sigint_handler_prompt(int signum)

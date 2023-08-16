@@ -6,12 +6,12 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/17 17:47:15 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/06/23 10:18:52 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/16 15:29:00 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* ft_strjoin allocates with ft_calloc and returns a new string,				  */
+/* ft_strjoin allocates with ft_calloc and returns a new string,		 	  */
 /* which is the result of the concatenation of ’s1’ and ’s2’.				  */
 /* ************************************************************************** */
 

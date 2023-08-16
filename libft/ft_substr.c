@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/10 15:50:29 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/06/23 10:19:33 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/16 15:27:41 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	{
 		sub_string[index] = s[start + index];
 		index++;
-	}		
+	}
 	sub_string[index] = '\0';
 	return (sub_string);
-	free (sub_string);
 }

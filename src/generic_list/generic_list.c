@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   generic_list.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 14:59:53 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:47:33 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-t_list	*list_create(t_shell *shell, size_t data_size, func_ptr_free ft_free,
-		func_ptr_comp ft_comp)
+t_list	*list_create(t_shell *shell, size_t data_size, t_func_ptr_free ft_free,
+		t_func_ptr_comp ft_comp)
 {
 	t_list	*list;
 
 	list = ft_calloc(1, sizeof(t_list));
 	if (!list)
-		return (shell_error(shell, malloc_error, "list_create()", NULL, 1), NULL);
+		return (shell_error(shell, malloc_error, "list_create()", 1), NULL);
 	list->data_size = data_size;
 	list->ft_free = ft_free;
 	list->ft_comp = ft_comp;
@@ -20,12 +32,12 @@ static t_node	*list_new_node(t_shell *shell, t_list *list, void *data)
 
 	new = ft_calloc(1, sizeof(t_node));
 	if (!new)
-		return (shell_error(shell, malloc_error, "list_new_node()", NULL, 1), NULL);
+		return (shell_error(shell, malloc_error, "list_new_node()", 1), NULL);
 	new->data = ft_calloc(1, list->data_size);
 	if (!new->data)
 	{
 		free(new);
-		return (shell_error(shell, malloc_error, "list_new_ode()", NULL, 1), NULL);
+		return (shell_error(shell, malloc_error, "list_new_ode()", 1), NULL);
 	}
 	ft_memcpy(new->data, data, list->data_size);
 	return (new);

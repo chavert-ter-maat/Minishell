@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   update_env.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:16:21 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:46:56 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static char	*strjoin_env_var(t_var *var)
@@ -30,7 +42,7 @@ void	update_env(t_shell *shell)
 		new_env[i] = strjoin_env_var(node->data);
 		if (!new_env[i])
 		{
-			shell_error(shell, malloc_error, "update_env", NULL, 1);
+			shell_error(shell, malloc_error, "update_env", 1);
 			ft_free_2d_array(&new_env);
 			free_shell(shell);
 			_exit(g_status);

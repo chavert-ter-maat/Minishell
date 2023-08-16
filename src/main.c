@@ -90,7 +90,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv;
 	if (argc > 1)
 		exit(1);
-	atexit(f); //remove later
+	// atexit(f); //remove later
 	init_shell(&shell, envp);
 	while (1)
 	{

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   generic_list_utils_2.c                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 14:59:09 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:34:51 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-void	free_node_data(func_ptr_free ft_free, void *data)
+void	free_node_data(t_func_ptr_free ft_free, void *data)
 {
 	if (ft_free)
 		ft_free(data);

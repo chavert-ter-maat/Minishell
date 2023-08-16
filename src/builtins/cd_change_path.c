@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   cd_change_path.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:19:57 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:46:06 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-void	cd_path	(t_shell *shell, char *path, char *oldpwd)
+void	cd_path(t_shell *shell, char *path, char *oldpwd)
 {
 	char	*pwd;
 
@@ -18,8 +30,8 @@ void	cd_path	(t_shell *shell, char *path, char *oldpwd)
 		g_status = 1;
 		return ;
 	}
-    env_set_var_value2(shell, "OLDPWD", oldpwd);
-    env_set_var_value2(shell, "PWD", pwd);
+	env_set_var_value2(shell, "OLDPWD", oldpwd);
+	env_set_var_value2(shell, "PWD", pwd);
 	g_status = 0;
 }
 
@@ -29,7 +41,7 @@ void	cd_home(t_shell *shell, char *oldpwd)
 
 	home_path = env_get_var_value(shell, "HOME");
 	if (!home_path)
-		return (free(oldpwd), shell_error(shell, dir_unset, "cd", "HOME", 1));
+		return (free(oldpwd), shell_error(shell, dir_unset, "HOME", 1));
 	if (chdir(home_path) == FAILED)
 	{
 		perror("chdir");
@@ -39,11 +51,11 @@ void	cd_home(t_shell *shell, char *oldpwd)
 	home_path = ft_strdup(home_path);
 	if (!home_path)
 	{
-		shell_error(shell, malloc_error, "cd_home", NULL, 1);
+		shell_error(shell, malloc_error, "cd_home", 1);
 		return (free(oldpwd));
 	}
-    env_set_var_value2(shell, "OLDPWD", oldpwd);
-    env_set_var_value2(shell, "PWD", home_path);
+	env_set_var_value2(shell, "OLDPWD", oldpwd);
+	env_set_var_value2(shell, "PWD", home_path);
 	g_status = 0;
 }
 
@@ -63,52 +75,49 @@ void	cd_dir_up(t_shell *shell, char *oldpwd)
 		}
 	}
 	if (!pwd)
-		return(free(oldpwd), shell_error(shell, malloc_error,
-				"cd_previous_dir", NULL, 1));
+		return (free(oldpwd), shell_error(shell, malloc_error,
+				"cd_previous_dir", 1));
 	if (chdir(pwd) == FAILED)
-    {
+	{
 		perror(NULL);
 		g_status = 1;
 		return (free(oldpwd), free(pwd));
-    }
-    env_set_var_value2(shell, "OLDPWD", oldpwd);
-    env_set_var_value2(shell, "PWD", pwd);
+	}
+	env_set_var_value2(shell, "OLDPWD", oldpwd);
+	env_set_var_value2(shell, "PWD", pwd);
 	g_status = 0;
 }
 
-void	cd_oldpwd(t_shell *shell, char *oldpwd) 
+void	cd_oldpwd(t_shell *shell, char *oldpwd)
 {
 	char	*pwd;
 
 	pwd = env_get_var_value(shell, "OLDPWD");
 	if (!pwd)
-		return (free(oldpwd), shell_error(shell, dir_unset,
-				"cd", "OLDPWD", 1));
+		return (free(oldpwd), shell_error(shell, dir_unset, "OLDPWD", 1));
 	if (chdir(pwd) == FAILED)
 	{
-   		perror(NULL);
+		perror(NULL);
 		g_status = 1;
 		return (free(oldpwd));
 	}
 	pwd = ft_strdup(pwd);
 	if (!pwd)
-		return (free(oldpwd), shell_error(shell, malloc_error,
-				"cd_oldpwd", NULL, 1));
+		return (free(oldpwd), shell_error(shell, malloc_error, "cd_oldpwd", 1));
 	ft_putendl_fd(pwd, 1);
-    env_set_var_value2(shell, "OLDPWD", oldpwd);
-    env_set_var_value2(shell, "PWD", pwd);
+	env_set_var_value2(shell, "OLDPWD", oldpwd);
+	env_set_var_value2(shell, "PWD", pwd);
 	g_status = 0;
 }
 
 void	cd_stay(t_shell *shell, char *oldpwd)
 {
-	char *pwd;
+	char	*pwd;
 
 	pwd = ft_strdup(oldpwd);
 	if (!pwd)
-		return (free(oldpwd), shell_error(shell, malloc_error,
-				"cd_stay", NULL, 1));
+		return (free(oldpwd), shell_error(shell, malloc_error, "cd_stay", 1));
 	env_set_var_value2(shell, "OLDPWD", oldpwd);
-    env_set_var_value2(shell, "PWD", pwd);
+	env_set_var_value2(shell, "PWD", pwd);
 	g_status = 0;
 }

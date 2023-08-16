@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/04 16:26:40 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/01/11 17:29:01 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/16 15:31:56 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@
 #include "libft.h"
 
 int	ft_isdigit(int b)
-{	
+{
 	return ((b >= '0' && b <= '9'));
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   env_init.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:16:25 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:46:45 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static int	get_var_name(t_shell *shell, char *var, char **name)
@@ -18,7 +30,7 @@ static int	get_var_name(t_shell *shell, char *var, char **name)
 	}
 	*name = ft_substr(var, 0, (i));
 	if (!*name)
-		shell_error(shell, malloc_error, "get_var_name", NULL, 1);
+		shell_error(shell, malloc_error, "get_var_name", 1);
 	return (1);
 }
 
@@ -39,7 +51,7 @@ static int	get_var_value(t_shell *shell, char *var, char **value)
 		end++;
 	*value = ft_substr(var, (start + 1), (end - start));
 	if (!*value)
-		shell_error(shell, malloc_error, "get_env_value", NULL, 1);
+		shell_error(shell, malloc_error, "get_env_value", 1);
 	return (1);
 }
 
@@ -51,7 +63,7 @@ int	add_var_to_environment(t_shell *shell, char *var)
 	name = NULL;
 	value = NULL;
 	if (!get_var_name(shell, var, &name))
-		return (shell_error(shell, export_error, var, NULL, 1), -1);
+		return (shell_error(shell, export_error, var, 1), -1);
 	if (!name)
 		return (-1);
 	if (get_var_value(shell, var, &value))
@@ -86,7 +98,7 @@ static void	set_env(t_shell *shell)
 		var->value = ft_itoa(shlvl);
 		if (!var->value)
 		{
-			shell_error(shell, malloc_error, "list_get_node", NULL, 1);
+			shell_error(shell, malloc_error, "list_get_node", 1);
 			clean_exit(shell);
 		}
 	}
