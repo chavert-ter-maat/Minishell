@@ -41,9 +41,18 @@ void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_
 {
 	if (dup2(read_end, STDIN_FILENO) == FAILED)
 		error_exit_fork(shell, "dup2");
-	handle_redirection(shell, command, pid);
-	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
-		error_exit_fork(shell, "dup2");
+	if (check_redir_type(shell, command) != HEREDOC)
+	{
+		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
+			error_exit_fork(shell, "dup2");
+		handle_redirection(shell, command, pid);
+	}
+	else if (check_redir_type(shell, command) == HEREDOC)
+	{
+		handle_redirection(shell, command, pid);
+		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
+			error_exit_fork(shell, "dup2");
+	}
 	if (check_if_builtin(command->args[0]) == TRUE)
 	{
 		execute_builtin(shell, command);
@@ -75,20 +84,23 @@ void	handle_multiple_commands(t_shell *shell)
     pid_t   	pid;
     int     	read_end;
     t_node  	*current;
-	int			status;
+	int			count_childs;
+	// int status;
 	
-	status = 0;
     read_end = 0;
+	count_childs = 0;
     current = shell->command_list->head;
     while(current->next)
     {
+		count_childs++;
 		create_forks(shell, current->data, read_end, pipe_fd);
         read_end = handle_fds(shell, pipe_fd, read_end);
         current = current->next;
     }
-    pid = execute_last_command(shell, current->data, read_end);	
-	if (waitpid(pid, &status, 0) == FAILED)
-		error_exit_fork(shell, "waitpid");
-	if (WIFEXITED(status))
-		g_status = WEXITSTATUS(status);
+	pid = execute_last_command(shell, current->data, read_end);
+	// if (waitpid(pid, &status, 0) == FAILED)
+	// 	error_exit_fork(shell, "waitpid");
+	// if (WIFEXITED(status))
+	// 	g_status = WEXITSTATUS(status);
+	wait_function(shell, pid, count_childs);
 }

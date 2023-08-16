@@ -186,12 +186,14 @@ void	print_status_waidpid(pid_t pid, int options);
 // redirections
 void	handle_here_doc(t_shell *shell, t_command *command, char *delimiter);
 void	handle_redirection(t_shell *shell, t_command *command, pid_t pid);
+int		check_redir_type(t_shell *shell, t_command *command);
 void	restore_std(int tmp_std_in, int tmp_std_out);
 void	change_fd_to_in(int fd);
 void	change_fd_to_out(int fd);
 void	error_exit_fork(t_shell *shell, char *input);
 void	error_no_command(t_shell *shell, char *argv);
 void	error_perm_denied(t_shell *shell, char *cmd);
+void	wait_function(t_shell *shell, int count_childs, pid_t pid);
 
 // environment
 t_var 	*create_new_node(char *new_var_variable);
