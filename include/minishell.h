@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:52:57 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -29,10 +41,9 @@
 # define ERROR		1
 # define TRUE		1
 # define FALSE		0
- 
+
 // enums
 typedef enum e_token_type {
-
 	TOKEN = 0,
 	PIPE,
 	QUOTE,
@@ -55,8 +66,8 @@ typedef enum e_redir_type
 
 // functions
 
-typedef	void(*func_ptr_free)(void *);
-typedef int(*func_ptr_comp)(void *, void *);
+typedef void	(*t_func_ptr_free)(void *);
+typedef int		(*t_func_ptr_comp)(void *, void *);
 
 //structs
 typedef struct s_node
@@ -71,9 +82,9 @@ typedef struct s_list
 	int				count;
 	t_node			*head;
 	t_node			*tail;
-	func_ptr_free	ft_free;
-	func_ptr_comp	ft_comp;
-} t_list;
+	t_func_ptr_free	ft_free;
+	t_func_ptr_comp	ft_comp;
+}	t_list;
 
 typedef struct s_token
 {
@@ -97,12 +108,12 @@ typedef struct s_command
 }	t_command;
 
 typedef struct s_executor
-{	
-  	int 		temp_stdin;
-	int 		temp_stdout;
-	int			argc;
-	char		**argv;
-	}	t_executor;
+{
+	int		temp_stdin;
+	int		temp_stdout;
+	int		argc;
+	char	**argv;
+}	t_executor;
 
 typedef struct s_var
 {
@@ -117,18 +128,18 @@ typedef struct s_shell
 	char				**envp;
 	t_list				*command_list;
 	t_list				*environment;
-  	t_executor	 		*executor;
+	t_executor			*executor;
 	t_list				*token_list;
 }	t_shell;
 
-typedef struct s_builtins
+typedef struct s_builtins ///GEBRUIKEN WE DEZE NOG?
 {
 	const char	*type_builtin;
 	void		(*function)(t_shell *shell, char **arguments);
 }	t_builtins;
 
 //globial variable
-extern int	g_status;
+extern int		g_status;
 
 // lexer
 void	lexer(t_shell *shell);
@@ -141,7 +152,7 @@ void	find_end_consec(char *cmd_line, size_t *i, int type);
 
 //expander
 void	expander(t_shell *shell);
-char 	*expand_var(t_shell *shell, char *name);
+char	*expand_var(t_shell *shell, char *name);
 void	list_cat_words(t_shell *shell, t_list *list);
 void	list_add_new_word(t_shell *shell, t_list *list, char *str, size_t *i);
 void	list_add_token_copy(t_shell *shell, t_list *list, t_token *token);
@@ -159,18 +170,18 @@ char	**arg_list_to_array(t_command *command);
 // utils
 void	perror_return_promt(char *input_name);
 void	free_shell(t_shell *shell);
-void	shell_error(t_shell *shell, void (*func)(const char *, const char *),
-				const char *str1, const char *str2, int ret);
-void	print_error(const char *str1, const char *str2);
-void	malloc_error(const char *str1, const char *str2);
-void	syntax_error(const char *str1, const char *str2);
-void 	dir_error(const char *str1, const char *str2);
-void	too_little_args(const char *str1, const char *str2);
-void	too_many_args(const char *str1, const char *str2);
-void	exit_numeric_arg(const char *str1, const char *str2);
-void	dir_unset(const char *str1, const char *str2);
-void	export_error(const char *str1, const char *str2);
-void    init_shell(t_shell *shell, char **envp);
+void	shell_error(t_shell *shell, void (*func)(const char *),
+			const char *str1, int ret);
+void	print_error(const char *str1);
+void	malloc_error(const char *str1);
+void	syntax_error(const char *str1);
+void	dir_error(const char *str1);
+void	too_little_args(const char *str1);
+void	too_many_args(const char *str1);
+void	exit_numeric_arg(const char *str1);
+void	dir_unset(const char *str1);
+void	export_error(const char *str1);
+void	init_shell(t_shell *shell, char **envp);
 
 //test functions
 void	print_command_table(t_shell *shell);
@@ -184,9 +195,10 @@ void	handle_single_command(t_shell *shell, t_command *command);
 void	print_status_waidpid(pid_t pid, int options);
 
 // redirections
-void	handle_here_doc(t_shell *shell, t_command *command, char *delimiter);
+void	handle_here_doc(t_shell *shell, t_command *command,
+			char *delimiter, pid_t pid);
 void	handle_redirection(t_shell *shell, t_command *command, pid_t pid);
-int		check_redir_type(t_shell *shell, t_command *command);
+int		check_redir_type(t_command *command);
 void	restore_std(int tmp_std_in, int tmp_std_out);
 void	change_fd_to_in(int fd);
 void	change_fd_to_out(int fd);
@@ -196,12 +208,13 @@ void	error_perm_denied(t_shell *shell, char *cmd);
 void	wait_function(t_shell *shell, int count_childs, pid_t pid);
 
 // environment
-t_var 	*create_new_node(char *new_var_variable);
+t_var	*create_new_node(char *new_var_variable);
 void	init_env(t_shell *shell, char **varp);
 void	print_environment(t_list *environment);
 void	env_set_var_value1(t_shell *shell, char *name, char *value);
-void	env_set_var_value2(t_shell *shell, char *not_allocated_name, char *value);
-char 	*env_get_var_value(t_shell *shell, char *name);
+void	env_set_var_value2(t_shell *shell,
+			char *not_allocated_name, char *value);
+char	*env_get_var_value(t_shell *shell, char *name);
 int		add_var_to_environment(t_shell *shell, char *var);
 void	update_env(t_shell *shell);
 
@@ -216,7 +229,7 @@ void	cd_stay(t_shell *shell, char *oldpwd);
 
 // builtins
 void	ft_echo(char **args, int fd);
-void 	ft_env(t_shell *shell, t_command *command);
+void	ft_env(t_shell *shell, t_command *command);
 void	ft_export(t_shell *shell, t_command *command);
 int		check_if_builtin(char *command);
 void	execute_builtin(t_shell *shell, t_command *command);
@@ -232,7 +245,8 @@ void	sigint_handler(int signum);
 void	sigquit_handler(int signum);
 
 //generic list
-t_list	*list_create(t_shell *shell, size_t data_size, func_ptr_free ft_free, func_ptr_comp ft_comp);
+t_list	*list_create(t_shell *shell, size_t data_size,
+			t_func_ptr_free ft_free, t_func_ptr_comp ft_comp);
 void	list_add_new_node(t_shell *shell, t_list *list, void *data);
 void	list_remove_head(t_list *list);
 void	list_remove_node(t_list *list, void *data);
@@ -243,7 +257,7 @@ bool	list_is_identical(t_list *list1, t_list *list2);
 t_node	*list_get_node(t_list *list, void *data);
 
 //generic list free functions
-void	free_node_data(func_ptr_free ft_free, void *data);
+void	free_node_data(t_func_ptr_free ft_free, void *data);
 t_list	*free_list(t_list *list);
 void	free_token(void *data);
 void	free_command(void *data);

@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 18:12:27 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/02 18:12:50 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/16 15:32:56 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,15 @@ sufficient space to hold the result */
 
 #include "libft.h"
 
-
 char	*ft_append(char *str1, char *str2)
 {
 	char	*append;
 	size_t	size;
 
 	if (!str2)
-		return(str1);
+		return (str1);
 	if (!str1)
-		return(str2);
+		return (str2);
 	size = ft_strlen(str1) + ft_strlen(str2) + 1;
 	append = ft_calloc(size, sizeof(char));
 	if (!append)

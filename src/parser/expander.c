@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 13:32:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/09 10:44:46 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/16 15:47:44 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*list_get_expand_var(t_shell *shell, char *str, size_t *i)
 	var_name = ft_strndup(&(str[save_i]), *i - save_i);
 	if (!var_name)
 	{
-		shell_error(shell, malloc_error, "exp_str()", NULL, 1);
+		shell_error(shell, malloc_error, "exp_str()", 1);
 		free(str);
 	}
 	return (var_name);
@@ -72,10 +72,10 @@ static void	expand_quote(t_shell *shell, t_list *list, t_token *token)
 	str = token->str;
 	len = ft_strlen(str);
 	if (len < 2 || str[0] != quote || str[len - 1] != quote)
-		return (shell_error(shell, print_error, "unclosed quotes", NULL, 1));
+		return (shell_error(shell, print_error, "unclosed quotes", 1));
 	str = ft_strndup(str + 1, ft_strlen(str) - 2);
 	if (!str)
-		return (shell_error(shell, malloc_error, "expand_quote()", NULL, 1));
+		return (shell_error(shell, malloc_error, "expand_quote()", 1));
 	if (token->type == QUOTE)
 	{
 		new.str = str;

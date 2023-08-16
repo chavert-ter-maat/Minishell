@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   unset.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:17:18 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:46:34 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	ft_unset(t_shell *shell, t_command *command)
@@ -8,7 +20,7 @@ void	ft_unset(t_shell *shell, t_command *command)
 
 	if (!command->args[1])
 	{
-		shell_error(shell, too_little_args, "unset", NULL, 1);
+		shell_error(shell, too_little_args, "unset", 1);
 		return ;
 	}
 	index = 1;

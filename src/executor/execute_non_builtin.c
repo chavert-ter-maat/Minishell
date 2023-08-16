@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   execute_non_builtin.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:16:04 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:50:26 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 // Checks if the executable can be found
@@ -39,13 +51,15 @@ static char	**get_path_environment(t_shell *shell)
 		return (NULL);
 	split_path = ft_split(path, ':');
 	if (!split_path)
-		return (shell_error(shell, malloc_error, "get_path_environment", NULL, 1), NULL);
+		return (shell_error(shell, malloc_error,
+				"get_path_environment", 1), NULL);
 	return (split_path);
 }
 
-// execute_non_builtin() finds path in environment, splits it and looks then looks if
-// executable is present in the minishell directory, if not it looks for
-// a path either in the environment or in the input.
+/* execute_non_builtin() finds path in environment,
+splits it and looks then looks if executable is present
+in the minishell directory, if not it looks for
+a path either in the environment or in the input. */
 void	execute_non_builtin(t_shell *shell, t_command *command)
 {
 	char	*command_path;
@@ -57,7 +71,7 @@ void	execute_non_builtin(t_shell *shell, t_command *command)
 	split_path = get_path_environment(shell);
 	update_env(shell);
 	if (command->args[0] && (ft_strncmp(command->args[0], "/", 1) 
-		&& ft_strncmp(command->args[0], "./", 2)))
+			&& ft_strncmp(command->args[0], "./", 2)))
 	{
 		command_path = get_path_executable(split_path, command->args);
 		if (execve(command_path, command->args, shell->envp) == FAILED)

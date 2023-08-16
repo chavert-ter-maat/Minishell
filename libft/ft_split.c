@@ -6,12 +6,12 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/11/02 11:57:54 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/06/23 10:18:13 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/16 15:30:09 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* ft_split allocates with ft_calloc and returns an array of strings 			  */
+/* ft_split allocates with ft_calloc and returns an array of strings 		  */
 /* obtained by splitting ’s’ using the character ’c’ as a delimiter. 		  */
 /* ************************************************************************** */
 

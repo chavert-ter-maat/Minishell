@@ -45,7 +45,8 @@ SRC = 	SRC/main.c \
 		SRC/parser/expander.c \
 		SRC/parser/parser.c \
 		SRC/parser/parser_jumptable.c \
-		SRC/utils/error.c \
+		SRC/utils/error1.c \
+		SRC/utils/error2.c \
 		SRC/utils/expander_utils.c \
 		SRC/utils/free.c \
 		SRC/utils/init_shell.c \
@@ -61,6 +62,7 @@ SRC = 	SRC/main.c \
 		SRC/executor/heredoc.c \
 		SRC/executor/execute_non_builtin.c \
 		SRC/executor/redirections.c \
+		SRC/executor/redirections_utils.c \
 		SRC/executor/utils_executor.c \
 		SRC/signals/signals.c \
 

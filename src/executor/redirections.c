@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   redirections.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:04:12 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:04:45 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static void	redir_in(char *file, t_command *command, pid_t pid)
 {
-	int fd;
+	int	fd;
 
 	fd = open(file, O_RDONLY);
 	if (fd == FAILED)
@@ -19,8 +31,8 @@ static void	redir_in(char *file, t_command *command, pid_t pid)
 // redirects stfout to file
 static void	redir_out(char *file, t_command *command, pid_t pid)
 {
-	int fd;
-	
+	int	fd;
+
 	(void) command;
 	fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == FAILED)
@@ -50,14 +62,15 @@ static void	redir_append(char *file, t_command *command, pid_t pid)
 		change_fd_to_out(fd);
 }
 
-static void	handle_redir(t_shell *shell, t_command *command, t_redir *redir, pid_t pid)
+static void	handle_redir(t_shell *shell, t_command *command,
+		t_redir *redir, pid_t pid)
 {
 	if (redir->type == IN)
 		return (redir_in(redir->file, command, pid));
 	if (redir->type == OUT)
 		return (redir_out(redir->file, command, pid));
 	if (redir->type == HEREDOC)
-		return (handle_here_doc(shell, command, redir->file));
+		return (handle_here_doc(shell, command, redir->file, pid));
 	if (redir->type == APPEND)
 		return (redir_append(redir->file, command, pid));
 }
@@ -72,31 +85,4 @@ void	handle_redirection(t_shell *shell, t_command *command, pid_t pid)
 		handle_redir(shell, command, node->data, pid);
 		node = node->next;
 	}
-}
-
-static int	check_redir_type2(t_redir *redir)
-{
-	if (redir->type == IN)
-		return (IN);
-	if (redir->type == OUT)
-		return (OUT);
-	if (redir->type == HEREDOC)
-		return (HEREDOC);
-	if (redir->type == APPEND)
-		return (APPEND);
-	return(NOT_FOUND);
-}
-
-int	check_redir_type(t_shell *shell, t_command *command)
-{
-	t_node	*node;
-	(void) shell;
-	int		redir_type;
-	node = command->redir_list->head;
-	while (node)
-	{
-		redir_type = check_redir_type2(node->data);
-		node = node->next;
-	}
-	return(redir_type);
 }

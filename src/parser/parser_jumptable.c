@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 13:50:31 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/03 13:35:26 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/16 15:49:59 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_redir_type	get_redir_type(t_shell *shell, t_node *node)
 		if (token->str[1] == '\0')
 			return (IN);
 	}
-	shell_error(shell, syntax_error, (const char *)token->str, NULL, 1);
+	shell_error(shell, syntax_error, (const char *)token->str, 1);
 	return (REDIR);
 }
 
@@ -53,14 +53,14 @@ t_node	*add_cmd_redir(t_shell *shell, t_node *node, t_command *new_cmd)
 	node = node->next;
 	skip_space(&node);
 	if (!node)
-		return (shell_error(shell, syntax_error, "newline", NULL, 1), NULL);
+		return (shell_error(shell, syntax_error, "newline", 1), NULL);
 	token = (t_token *) node->data;
 	if (token->type != WORD)
-		return (shell_error(shell, syntax_error, token->str, NULL, 1), NULL);
+		return (shell_error(shell, syntax_error, token->str, 1), NULL);
 	new_redir.file = ft_strdup(token->str);
 	if (!(new_redir.file))
 		return (shell_error(shell, malloc_error,
-				"add_cmd_redir() @ ft_strdup", NULL, 1), NULL);
+				"add_cmd_redir() @ ft_strdup", 1), NULL);
 	list_add_new_node(shell, new_cmd->redir_list, &new_redir);
 	return (node->next);
 }
@@ -74,7 +74,7 @@ t_node	*add_cmd_arg(t_shell *shell, t_node *node, t_command *new)
 	arg = ft_strdup(token->str);
 	if (!arg)
 		return (shell_error(shell, malloc_error,
-				"add_cmd_arg() @ ft_strdup", NULL, 1), NULL);
+				"add_cmd_arg() @ ft_strdup", 1), NULL);
 	list_add_new_node(shell, new->arg_list, &arg);
 	return (node->next);
 }

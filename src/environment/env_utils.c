@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   env_utils.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/16 15:16:23 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/16 15:46:52 by fhuisman      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	print_environment(t_list *environment)
@@ -78,7 +90,7 @@ void	env_set_var_value2(t_shell *shell, char *not_allocated_name,
 		if (!name)
 		{
 			free(value);
-			return (shell_error(shell, malloc_error, "env_set_var_value2", NULL, 1));
+			return (shell_error(shell, malloc_error, "env_set_var_value2", 1));
 		}
 		env_add_new_var(shell, name, value);
 		return ;
