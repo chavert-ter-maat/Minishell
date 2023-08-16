@@ -21,6 +21,7 @@ static void	redir_out(char *file, t_command *command, pid_t pid)
 {
 	int fd;
 	
+	(void) command;
 	fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == FAILED)
 	{
@@ -71,4 +72,31 @@ void	handle_redirection(t_shell *shell, t_command *command, pid_t pid)
 		handle_redir(shell, command, node->data, pid);
 		node = node->next;
 	}
+}
+
+static int	check_redir_type2(t_redir *redir)
+{
+	if (redir->type == IN)
+		return (IN);
+	if (redir->type == OUT)
+		return (OUT);
+	if (redir->type == HEREDOC)
+		return (HEREDOC);
+	if (redir->type == APPEND)
+		return (APPEND);
+	return(NOT_FOUND);
+}
+
+int	check_redir_type(t_shell *shell, t_command *command)
+{
+	t_node	*node;
+	(void) shell;
+	int		redir_type;
+	node = command->redir_list->head;
+	while (node)
+	{
+		redir_type = check_redir_type2(node->data);
+		node = node->next;
+	}
+	return(redir_type);
 }

@@ -1,5 +1,47 @@
 #include "../../include/minishell.h"
 
+void	wait_function(t_shell *shell, int count_childs, pid_t pid)
+{
+	int status;	
+	// if (waitpid(pid, &status, 0) == FAILED)
+	// 	error_exit_fork(shell, "waitpid");
+	while(count_childs > 0)
+	{
+		wait(NULL);
+		count_childs--;
+	}
+	if (WIFEXITED(status))
+		g_status = WEXITSTATUS(status);
+}
+
+void	change_fd_to_in(int fd)
+{
+	if (dup2(fd, STDIN_FILENO) == FAILED)
+	{
+		ft_putstr_fd ("fix error function", 1); 
+		_exit (1);
+	}
+	if (close (fd) == FAILED)
+	{
+		ft_putstr_fd ("fix error function", 1); 
+		_exit (1);
+	}
+}
+
+void	change_fd_to_out(int fd)
+{
+	if (dup2(fd, STDOUT_FILENO) == FAILED)
+	{
+		ft_putstr_fd ("fix error function", 1); 
+		_exit(1);
+	}
+	if (close(fd) == FAILED)
+	{
+		ft_putstr_fd("fix error function", 1); 
+		_exit (1);
+	}
+}
+
 // prints the status of waidpid.
 // void	print_status_waidpid(pid_t pid, int options) 
 // {
