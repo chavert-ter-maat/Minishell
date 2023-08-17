@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:07:38 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:32:31 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/17 15:11:04 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ static void	execute_childs(t_shell *shell, t_command *command,
 	{
 		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
 			perror_exit_fork(shell, "dup2");
-		handle_redirection(shell, command, 0);
+		handle_redirection(shell, command);
 	}
 	else if (check_redir_type(command) == HEREDOC)
 	{
-		handle_redirection(shell, command, 0);
+		handle_redirection(shell, command);
 		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
 			perror_exit_fork(shell, "dup2");
 	}
