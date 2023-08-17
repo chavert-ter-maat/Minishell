@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:07:38 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:13:09 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 10:59:08 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	handle_multiple_commands(t_shell *shell)
 	// int		status;
 
 	read_end = 0;
-	count_childs = 0;
+	count_childs = 1;
 	current = shell->command_list->head;
 	while (current->next)
 	{
@@ -114,9 +114,5 @@ void	handle_multiple_commands(t_shell *shell)
 		current = current->next;
 	}
 	pid = execute_last_command(shell, current->data, read_end);
-	// if (waitpid(pid, &status, 0) == FAILED)
-	// 	error_exit_fork(shell, "waitpid");
-	// if (WIFEXITED(status))
-	// 	g_status = WEXITSTATUS(status);
-	wait_function(shell, pid, count_childs);
+	wait_function(shell, count_childs, pid);
 }

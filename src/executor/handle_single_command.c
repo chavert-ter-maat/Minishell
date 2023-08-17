@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:07:07 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:07:08 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 10:47:12 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	handle_single_command(t_shell *shell, t_command *command)
 
 	tmp_std_in = dup(STDIN_FILENO);
 	tmp_std_out = dup(STDOUT_FILENO);
+	// if (check_redir_type(command) != HEREDOC)
 	handle_redirection(shell, command, 1);
 	if (command->arg_list->count == 0)
 		;

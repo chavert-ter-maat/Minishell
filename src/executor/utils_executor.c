@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:01:28 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:53:49 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 10:59:03 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,17 @@
 
 void	wait_function(t_shell *shell, int count_childs, pid_t pid)
 {
-	// int status;	
-	(void) shell;
-	(void) pid;
-	// if (waitpid(pid, &status, 0) == FAILED)
-	// 	error_exit_fork(shell, "waitpid");
+	int status;	
+
+	if (waitpid(pid, &status, 0) == FAILED)
+		error_exit_fork(shell, "waitpid");
 	while (count_childs > 0)
 	{
 		wait(NULL);
 		count_childs--;
 	}
-	// if (WIFEXITED(status)) //hiervoor hebben we welwaitpid nodig
-	// 	g_status = WEXITSTATUS(status);
+	if (WIFEXITED(status)) //hiervoor hebben we welwaitpid nodig
+		g_status = WEXITSTATUS(status);
 }
 
 void	change_fd_to_in(int fd)
