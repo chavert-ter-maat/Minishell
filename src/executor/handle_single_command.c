@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:07:07 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 15:44:36 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/17 16:33:37 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,4 @@ void	handle_single_command(t_shell *shell, t_command *command)
 	if (WIFEXITED(status))
 		g_status = WEXITSTATUS(status);
 	restore_fds(tmp_std_in, tmp_std_out);
-	printf("end of handle single command\n");
-	}
+}
