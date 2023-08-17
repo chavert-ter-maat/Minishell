@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:01:28 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 10:59:03 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/17 14:05:35 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	wait_function(t_shell *shell, int count_childs, pid_t pid)
 	int status;	
 
 	if (waitpid(pid, &status, 0) == FAILED)
-		error_exit_fork(shell, "waitpid");
+		perror_exit_fork(shell, "waitpid");
 	while (count_childs > 0)
 	{
 		wait(NULL);
@@ -30,29 +30,17 @@ void	wait_function(t_shell *shell, int count_childs, pid_t pid)
 void	change_fd_to_in(int fd)
 {
 	if (dup2(fd, STDIN_FILENO) == FAILED)
-	{
-		ft_putstr_fd ("fix error function", 1); 
-		_exit (1);
-	}
+		perror_exit_fork(shell, "dup2")
 	if (close (fd) == FAILED)
-	{
-		ft_putstr_fd ("fix error function", 1); 
-		_exit (1);
-	}
+		perror_exit_fork(shell, "close")
 }
 
 void	change_fd_to_out(int fd)
 {
 	if (dup2(fd, STDOUT_FILENO) == FAILED)
-	{
-		ft_putstr_fd ("fix error function", 1); 
-		_exit(1);
-	}
+		perror_exit_fork(shell, "dup2")
 	if (close(fd) == FAILED)
-	{
-		ft_putstr_fd("fix error function", 1); 
-		_exit (1);
-	}
+		perror_exit_fork(shell, "close")
 }
 // prints the status of waidpid.
 // void	print_status_waidpid(pid_t pid, int options) 
