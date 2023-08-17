@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/17 13:37:09 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 13:52:11 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 14:58:44 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	handle_heredoc(t_shell *shell)
 		while (redir_node)
 		{
 			if (check_redir_type2(redir_node->data) == HEREDOC)
-				create_here_doc(shell, redir);
+				create_heredoc(shell, redir_node->data);
 			redir_node = redir_node->next;
 		}
 		command_node = command_node->next;

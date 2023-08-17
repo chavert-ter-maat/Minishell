@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:19:57 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:31:47 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 14:56:47 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	cd_oldpwd(t_shell *shell, char *oldpwd)
 	}
 	if (chdir(pwd) == FAILED)
 	{
-		free(oldpwd)
+		free(oldpwd);
 		perror_exit_fork(shell, "chdir");
 	}
 	pwd = ft_strdup(pwd);
