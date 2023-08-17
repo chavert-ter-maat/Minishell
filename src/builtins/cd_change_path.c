@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   cd_change_path.c                                   :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/08/16 15:19:57 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:49:51 by cter-maa      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../include/minishell.h"
 
 void	cd_path(t_shell *shell, char *path, char *oldpwd)

@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:53:49 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/17 15:28:10 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,9 +201,10 @@ void	print_status_waidpid(pid_t pid, int options);
 void	create_heredoc(t_shell *shell, t_redir *redir);
 void	handle_redirection(t_shell *shell, t_command *command);
 int		check_redir_type(t_command *command);
+int		check_redir_type2(t_redir *redir);
 void	restore_fds(int tmp_std_in, int tmp_std_out);
-void	change_fd_to_in(int fd);
-void	change_fd_to_out(int fd);
+void	change_fd_to_in(t_shell *shell, int fd);
+void	change_fd_to_out(t_shell *shell, int fd);
 void	perror_exit_fork(t_shell *shell, char *input);
 void	error_no_command(t_shell *shell, char *argv);
 void	error_perm_denied(t_shell *shell, char *cmd);

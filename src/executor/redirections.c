@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:04:12 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:42:11 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/17 15:14:30 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	redir_heredoc(t_shell *shell, t_command *command, t_redir *redir)
 {
 	if (command->arg_list->count > 0)
-		change_fd_to_in(redir->heredoc_read_end);
+		change_fd_to_in(shell, redir->heredoc_read_end);
 }
 
 static void	redir_in(t_shell *shell, char *file, t_command *command)
@@ -26,7 +26,7 @@ static void	redir_in(t_shell *shell, char *file, t_command *command)
 	if (fd == FAILED)
 		perror_exit_fork(shell, "open");
 	if (command->arg_list->count > 0)
-		change_fd_to_in(fd);
+		change_fd_to_in(shell, fd);
 }
 
 // redirects stfout to file
@@ -38,7 +38,7 @@ static void	redir_out(t_shell *shell, char *file, t_command *command)
 	if (fd == FAILED)
 		perror_exit_fork(shell, "open");
 	if (command->arg_list->count > 0)
-		change_fd_to_out(fd);
+		change_fd_to_out(shell, fd);
 }
 
 static void	redir_append(t_shell *shell, char *file, t_command *command)
@@ -49,7 +49,7 @@ static void	redir_append(t_shell *shell, char *file, t_command *command)
 	if (fd == FAILED)
 		perror_exit_fork(shell, "open");
 	if (command->arg_list->count > 0)
-		change_fd_to_out(fd);
+		change_fd_to_out(shell, fd);
 }
 
 static void	handle_redir(t_shell *shell, t_command *command,

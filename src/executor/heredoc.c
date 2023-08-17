@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:06:17 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:02:03 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/17 15:11:31 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,6 @@ int	write_to_pipe(t_shell *shell, char *delimiter)
 
 void	create_heredoc(t_shell *shell, t_redir *redir)
 {
-	char	*line;
-	int		status;
-
 	if (!redir->file || redir->file[0])
 	{
 		shell_error(shell, syntax_error, "\\n", 139);
