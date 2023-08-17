@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:27:04 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 14:53:49 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*file;
-	int				here_fd;
+	int				heredoc_read_end;
 }	t_redir;
 
 typedef struct s_command
@@ -160,6 +160,7 @@ void	list_add_token_copy(t_shell *shell, t_list *list, t_token *token);
 void	list_add_expand_var(t_shell *shell, t_list *list, char *var_name);
 
 //parser
+void	handle_heredoc(t_shell *shell);
 void	parser(t_shell *shell);
 void	make_command_table(t_shell *shell);
 void	skip_space(t_node **node);
@@ -193,20 +194,19 @@ void	executor(t_shell *shell);
 void	execute_non_builtin(t_shell *shell, t_command *command);
 void	handle_multiple_commands(t_shell *shell);
 void	handle_single_command(t_shell *shell, t_command *command);
+void	wait_function(t_shell *shell, int count_childs, pid_t pid);
 void	print_status_waidpid(pid_t pid, int options);
 
 // redirections
-void	handle_here_doc(t_shell *shell);
-void	handle_redirection(t_shell *shell, t_command *command, pid_t pid);
+void	create_heredoc(t_shell *shell, t_redir *redir);
+void	handle_redirection(t_shell *shell, t_command *command);
 int		check_redir_type(t_command *command);
-int		check_redir_type2(t_redir *redir);
-void	restore_std(int tmp_std_in, int tmp_std_out);
+void	restore_fds(int tmp_std_in, int tmp_std_out);
 void	change_fd_to_in(int fd);
 void	change_fd_to_out(int fd);
-void	error_exit_fork(t_shell *shell, char *input);
+void	perror_exit_fork(t_shell *shell, char *input);
 void	error_no_command(t_shell *shell, char *argv);
 void	error_perm_denied(t_shell *shell, char *cmd);
-void	wait_function(t_shell *shell, int count_childs, pid_t pid);
 
 // environment
 t_var	*create_new_node(char *new_var_variable);

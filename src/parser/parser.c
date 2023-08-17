@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 13:29:49 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 13:47:20 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 14:53:02 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,5 @@ void	parser(t_shell *shell)
 	lexer(shell);
 	expander(shell);
 	make_command_table(shell);
-	handle_here_doc(shell);
+	handle_heredoc(shell);
 }

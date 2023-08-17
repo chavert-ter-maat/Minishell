@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:13:39 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 10:51:40 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 11:40:10 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	perror_return_promt(char *input_name)
 	return ;
 }
 
-void	error_exit_fork(t_shell *shell, char *input)
+void	perror_exit_fork(t_shell *shell, char *input)
 {
 	perror(input);
 	ft_putstr_fd("failed\n", STDERR_FILENO);
