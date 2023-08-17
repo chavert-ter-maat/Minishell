@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:52:57 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 14:27:04 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*file;
+	int				here_fd;
 }	t_redir;
 
 typedef struct s_command
@@ -195,10 +196,10 @@ void	handle_single_command(t_shell *shell, t_command *command);
 void	print_status_waidpid(pid_t pid, int options);
 
 // redirections
-void	handle_here_doc(t_shell *shell, t_command *command,
-			char *delimiter, pid_t pid);
+void	handle_here_doc(t_shell *shell);
 void	handle_redirection(t_shell *shell, t_command *command, pid_t pid);
 int		check_redir_type(t_command *command);
+int		check_redir_type2(t_redir *redir);
 void	restore_std(int tmp_std_in, int tmp_std_out);
 void	change_fd_to_in(int fd);
 void	change_fd_to_out(int fd);
@@ -226,6 +227,7 @@ void	cd_oldpwd(t_shell *shell, char *oldpwd);
 void	cd_error(char *argument);
 void	ft_cd(t_shell *shell, t_command *command);
 void	cd_stay(t_shell *shell, char *oldpwd);
+char	*get_dir_up(char *oldpwd);
 
 // builtins
 void	ft_echo(char **args, int fd);

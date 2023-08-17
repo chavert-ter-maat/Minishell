@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 13:30:09 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:47:49 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 13:39:44 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,4 @@ void	lexer(t_shell *shell)
 		get_token_info(shell, &new, shell->cmd_line, &i);
 		list_add_new_node(shell, shell->token_list, &new);
 	}
-}
-
-void	parser(t_shell *shell)
-{
-	lexer(shell);
-	expander(shell);
-	make_command_table(shell);
 }

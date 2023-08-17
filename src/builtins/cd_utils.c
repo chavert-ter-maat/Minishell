@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   env.c                                              :+:    :+:            */
+/*   cd_utils.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/08/16 15:18:14 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:39:33 by fhuisman      ########   odam.nl         */
+/*   Created: 2023/08/17 14:25:27 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/17 14:32:23 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_env(t_shell *shell, t_command *command)
+char	*get_dir_up(char *oldpwd)
 {
-	if (command->args[1])
+	int		str_len;
+	char	*pwd;
+
+	pwd = NULL;
+	str_len = ft_strlen(oldpwd);
+	while (oldpwd[--str_len])
 	{
-		shell_error(shell, dir_error, command->args[1], 127);
-		_exit(127);
+		if (oldpwd[str_len] == '/')
+		{
+			pwd = ft_strndup(oldpwd, str_len);
+			break ;
+		}
 	}
-	print_environment(shell->environment);
-	_exit(0);
+	return (pwd);
 }

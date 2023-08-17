@@ -6,13 +6,13 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:03:57 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:04:33 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 13:25:35 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	check_redir_type2(t_redir *redir)
+int	check_redir_type2(t_redir *redir)
 {
 	if (!redir)
 		return (NOT_FOUND);
@@ -27,7 +27,7 @@ static int	check_redir_type2(t_redir *redir)
 	return (NOT_FOUND);
 }
 
-int	check_redir_type(t_command *command)
+int	check_redir_type(t_command *command) //NOG even naar kijken
 {
 	t_node	*node;
 	int		redir_type;
