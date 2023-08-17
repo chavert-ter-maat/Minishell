@@ -6,7 +6,6 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:28:13 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +225,7 @@ void	cd_oldpwd(t_shell *shell, char *oldpwd);
 void	cd_error(char *argument);
 void	ft_cd(t_shell *shell, t_command *command);
 void	cd_stay(t_shell *shell, char *oldpwd);
+char	*get_dir_up(char *oldpwd);
 
 // builtins
 void	ft_echo(char **args, int fd);

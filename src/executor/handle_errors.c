@@ -29,7 +29,7 @@ void	perror_exit_fork(t_shell *shell, char *input)
 
 void	error_no_command(t_shell *shell, char *cmd)
 {
-	ft_putstr_fd("Shell_yeah: ", STDERR_FILENO);
+	ft_putstr_fd("shellyeah: ", STDERR_FILENO);
 	if (cmd != NULL)
 		ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
@@ -40,7 +40,7 @@ void	error_no_command(t_shell *shell, char *cmd)
 
 void	error_perm_denied(t_shell *shell, char *cmd)
 {
-	ft_putstr_fd("Shell_yeah: ", STDERR_FILENO);
+	ft_putstr_fd("shellyeah: ", STDERR_FILENO);
 	if (cmd != NULL)
 		ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);

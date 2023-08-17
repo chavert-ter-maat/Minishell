@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:20:16 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:20:17 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 14:38:13 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,12 @@ void	ft_cd(t_shell *shell, t_command *command)
 	pwd = getcwd(pwd, 0);
 	if (!pwd && errno == ENOENT)
 		pwd = ft_strdup(env_get_var_value(shell, "PWD"));
-	else if (!pwd)
-		return ;
+	if (!pwd)
+	{
+		if (errno == ENOENT)
+			perror_exit_fork(shell, "malloc");
+		else
+			perror_exit_fork(shell, "getcwd");
+	}
 	check_argument(shell, command->args[1], pwd);
 }

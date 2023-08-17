@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   env.c                                              :+:    :+:            */
+/*   handle_here_doc.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/08/16 15:18:14 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:39:33 by fhuisman      ########   odam.nl         */
+/*   Created: 2023/08/17 13:37:09 by fhuisman      #+#    #+#                 */
+/*   Updated: 2023/08/17 13:52:11 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_env(t_shell *shell, t_command *command)
+void	handle_heredoc(t_shell *shell)
 {
-	if (command->args[1])
+	t_node		*command_node;
+	t_command	*command;
+	t_node		*redir_node;
+
+	command_node = shell->command_list->head;
+	while (command_node)
 	{
-		shell_error(shell, dir_error, command->args[1], 127);
-		_exit(127);
+		command = command_node->data;
+		redir_node = command->redir_list->head;
+		while (redir_node)
+		{
+			if (check_redir_type2(redir_node->data) == HEREDOC)
+				create_here_doc(shell, redir);
+			redir_node = redir_node->next;
+		}
+		command_node = command_node->next;
 	}
-	print_environment(shell->environment);
-	_exit(0);
 }
