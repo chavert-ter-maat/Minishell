@@ -37,6 +37,7 @@ SRC = 	SRC/main.c \
 		SRC/builtins/pwd.c \
 		SRC/builtins/exit.c \
 		SRC/builtins/handle_builtins.c \
+		SRC/builtins/cd_utils.c \
 		SRC/environment/env_init.c \
 		SRC/environment/env_utils.c \
 		SRC/environment/update_env.c \
@@ -45,6 +46,8 @@ SRC = 	SRC/main.c \
 		SRC/parser/expander.c \
 		SRC/parser/parser.c \
 		SRC/parser/parser_jumptable.c \
+		SRC/parser/handle_here_doc.c \
+		SRC/parser/parser_utils.c \
 		SRC/utils/error1.c \
 		SRC/utils/error2.c \
 		SRC/utils/expander_utils.c \

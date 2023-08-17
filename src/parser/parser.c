@@ -6,38 +6,13 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 13:29:49 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:48:19 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 13:47:20 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 typedef t_node	*(*t_add_cmd_func)(t_shell *, t_node *, t_command *);
-
-char	**arg_list_to_array(t_command *command)
-{
-	char	**args;
-	char	**arg;
-	t_node	*temp;
-	int		i;
-
-	args = ft_calloc(command->arg_list->count + 1, sizeof(char *));
-	i = 0;
-	if (args && command->arg_list)
-	{
-		temp = command->arg_list->head;
-		while (temp)
-		{
-			arg = (char **) temp->data;
-			if (i == 0)
-				ft_strtolower(*arg);
-			args[i] = *arg;
-			temp = temp->next;
-			i++;
-		}
-	}
-	return (args);
-}
 
 static t_node	*fill_command(t_shell *shell, t_node *node, t_command *new)
 {
@@ -65,23 +40,6 @@ static t_node	*fill_command(t_shell *shell, t_node *node, t_command *new)
 	if (shell->token_list && node)
 		node = func[token->type](shell, node, new);
 	return (node);
-}
-
-void	skip_space(t_node **node)
-{
-	t_token	*token;
-
-	if (!*node)
-		return ;
-	token = (t_token *)(*node)->data;
-	while (token && token->type == E_SPACE)
-	{
-		*node = (*node)->next;
-		if (*node)
-			token = (t_token *)(*node)->data;
-		else
-			return ;
-	}
 }
 
 static void	add_cmd(t_shell *shell, t_node **node)
@@ -116,4 +74,11 @@ void	make_command_table(t_shell *shell)
 	node = shell->token_list->head;
 	while (shell->command_list && node)
 		add_cmd(shell, &node);
+}
+void	parser(t_shell *shell)
+{
+	lexer(shell);
+	expander(shell);
+	make_command_table(shell);
+	handle_here_doc(shell);
 }

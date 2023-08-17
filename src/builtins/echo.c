@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:18:18 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:18:19 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 14:38:38 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ void	ft_echo(char **args, int fd)
 	}
 	if (n_flag == NOT_FOUND)
 		ft_putchar_fd('\n', fd);
-	g_status = 0;
+	_exit(0);
 }
