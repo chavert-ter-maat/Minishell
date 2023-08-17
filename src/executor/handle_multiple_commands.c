@@ -38,7 +38,6 @@ int	execute_last_command(t_shell *shell, t_command *command, int read_end)
 
 // runs the command, the output of the command is written to the write end
 // of the pipe.
-
 void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_fd)
 {
 	if (dup2(read_end, STDIN_FILENO) == FAILED)
@@ -49,58 +48,10 @@ void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_
 	if (check_if_builtin(command->args[0]) == TRUE)
 		execute_builtin(shell, command);
 	else
-	{
-		printf("ex childs non_builtin\n");
 		execute_non_builtin(shell, command);
-	}
 	if (close(pipe_fd[WRITE_END]) == FAILED)
 		perror_exit_fork(shell, "close");
 }
-
-
-// static void	execute_childs(t_shell *shell, t_command *command,
-// 		int read_end, int *pipe_fd)
-// {
-// 	if (dup2(read_end, STDIN_FILENO) == FAILED)
-// 		perror_exit_fork(shell, "dup2");
-// 	// handle_redirection(shell, command);
-// 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
-// 		perror_exit_fork(shell, "dup2");
-// 	if (check_if_builtin(command->args[0]) == TRUE)
-// 		execute_builtin(shell, command);
-// 	else
-// 		execute_non_builtin(shell, command);
-// 	if (close(pipe_fd[WRITE_END]) == FAILED)
-// 		perror_exit_fork(shell, "close");
-// }
-
-// static void	execute_childs(t_shell *shell, t_command *command,
-// 		int read_end, int *pipe_fd)
-// {
-// 	if (dup2(read_end, STDIN_FILENO) == FAILED)
-// 		perror_exit_fork(shell, "dup2");
-// 	if (check_redir_type(command) != HEREDOC)
-// 	{
-// 		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
-// 			perror_exit_fork(shell, "dup2");
-// 		handle_redirection(shell, command);
-// 	}
-// 	else if (check_redir_type(command) == HEREDOC)
-// 	{
-// 		handle_redirection(shell, command);
-// 		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
-// 			perror_exit_fork(shell, "dup2");
-// 	}
-// 	if (check_if_builtin(command->args[0]) == TRUE)
-// 	{
-// 		execute_builtin(shell, command);
-// 		_exit(0);
-// 	}
-// 	else
-// 		execute_non_builtin(shell, command);
-// 	if (close(pipe_fd[WRITE_END]) == FAILED)
-// 		perror_exit_fork(shell, "close");
-// }
 
 void	create_forks(t_shell *shell, t_command *command, int read_end, int *fd)
 {
@@ -113,7 +64,6 @@ void	create_forks(t_shell *shell, t_command *command, int read_end, int *fd)
 		perror_exit_fork(shell, "fork");
 	if (pid == SUCCESS)
 		execute_childs(shell, command, read_end, fd);
-		printf("einde create forks\n");
 }
 
 // creates forks for the amount of commands and pipes the output of a
@@ -131,8 +81,6 @@ void	handle_multiple_commands(t_shell *shell)
 	current = shell->command_list->head;
 	while (current->next)
 	{
-
-		printf("hoe vaak komt ie in de while loop?\n");
 		count_childs++;
 		create_forks(shell, current->data, read_end, pipe_fd);
 		read_end = handle_fds(shell, pipe_fd, read_end);
@@ -140,5 +88,4 @@ void	handle_multiple_commands(t_shell *shell)
 	}
 	pid = execute_last_command(shell, current->data, read_end);
 	wait_function(shell, count_childs, pid);
-	printf("end of handle_multiple_commands\n");
 }
