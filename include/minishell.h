@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 15:28:10 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/17 17:02:32 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ void	print_status_waidpid(pid_t pid, int options);
 
 // redirections
 void	create_heredoc(t_shell *shell, t_redir *redir);
-void	handle_redirection(t_shell *shell, t_command *command);
+void	handle_redirection(t_shell *shell, t_command *command, pid_t pid);
 int		check_redir_type(t_command *command);
 int		check_redir_type2(t_redir *redir);
 void	restore_fds(int tmp_std_in, int tmp_std_out);
@@ -228,7 +228,6 @@ void	cd_oldpwd(t_shell *shell, char *oldpwd);
 void	cd_error(char *argument);
 void	ft_cd(t_shell *shell, t_command *command);
 void	cd_stay(t_shell *shell, char *oldpwd);
-char	*get_dir_up(char *oldpwd);
 
 // builtins
 void	ft_echo(char **args, int fd);
