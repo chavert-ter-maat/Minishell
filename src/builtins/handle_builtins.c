@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:17:28 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:17:29 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:31:29 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	execute_builtin(t_shell *shell, t_command *command)
 	if (ft_strncmp(command->args[0], "cd", 3) == 0)
 		return (ft_cd(shell, command));
 	if (ft_strncmp(command->args[0], "echo", 5) == 0)
-		return (ft_echo(command->args, 1));
+		return (ft_echo(shell, command->args, 1));
 	if (ft_strncmp(command->args[0], "env", 4) == 0)
 		return (ft_env(shell, command));
 	if (ft_strncmp(command->args[0], "export", 7) == 0)

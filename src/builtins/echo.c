@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:18:18 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 16:51:06 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:31:01 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	check_n_flag(char *str)
 		return (NOT_FOUND);
 }
 
-void	ft_echo(char **args, int fd)
+void	ft_echo(t_shell *shell, char **args, int fd)
 {
 	int	n_flag;
 	int	index;
@@ -57,5 +57,5 @@ void	ft_echo(char **args, int fd)
 	}
 	if (n_flag == NOT_FOUND)
 		ft_putchar_fd('\n', fd);
-	g_status = 0;
+	shell->status = 0;
 }

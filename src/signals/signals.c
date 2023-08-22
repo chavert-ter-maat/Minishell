@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 14:58:02 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 14:58:03 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:23:43 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	sigquit_handler(int signum)
 void	eof_handler(t_shell *shell)
 {
 	ft_putstr_fd("exit\n", 1);
-	g_status = 0;
+	shell->status = 0;
 	clean_exit(shell);
 }
 

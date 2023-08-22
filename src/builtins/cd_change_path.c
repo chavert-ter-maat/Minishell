@@ -8,19 +8,19 @@ void	cd_path(t_shell *shell, char *path, char *oldpwd)
 	if (chdir(path) == FAILED)
 	{
 		perror(NULL);
-		g_status = 1;
+		shell->status = 1;
 		return (free(oldpwd));
 	}
 	pwd = getcwd(pwd, 0);
 	if (!pwd)
 	{
 		perror(NULL);
-		g_status = 1;
+		shell->status = 1;
 		return ;
 	}
 	env_set_var_value2(shell, "OLDPWD", oldpwd);
 	env_set_var_value2(shell, "PWD", pwd);
-	g_status = 0;
+	shell->status = 0;
 }
 
 void	cd_home(t_shell *shell, char *oldpwd)
@@ -33,7 +33,7 @@ void	cd_home(t_shell *shell, char *oldpwd)
 	if (chdir(home_path) == FAILED)
 	{
 		perror("chdir");
-		g_status = 1;
+		shell->status = 1;
 		return (free(oldpwd));
 	}
 	home_path = ft_strdup(home_path);
@@ -44,7 +44,7 @@ void	cd_home(t_shell *shell, char *oldpwd)
 	}
 	env_set_var_value2(shell, "OLDPWD", oldpwd);
 	env_set_var_value2(shell, "PWD", home_path);
-	g_status = 0;
+	shell->status = 0;
 }
 
 void	cd_dir_up(t_shell *shell, char *oldpwd)
@@ -68,12 +68,12 @@ void	cd_dir_up(t_shell *shell, char *oldpwd)
 	if (chdir(pwd) == FAILED)
 	{
 		perror(NULL);
-		g_status = 1;
+		shell->status = 1;
 		return (free(oldpwd), free(pwd));
 	}
 	env_set_var_value2(shell, "OLDPWD", oldpwd);
 	env_set_var_value2(shell, "PWD", pwd);
-	g_status = 0;
+	shell->status = 0;
 }
 
 void	cd_oldpwd(t_shell *shell, char *oldpwd)
@@ -86,7 +86,7 @@ void	cd_oldpwd(t_shell *shell, char *oldpwd)
 	if (chdir(pwd) == FAILED)
 	{
 		perror(NULL);
-		g_status = 1;
+		shell->status = 1;
 		return (free(oldpwd));
 	}
 	pwd = ft_strdup(pwd);
@@ -95,7 +95,7 @@ void	cd_oldpwd(t_shell *shell, char *oldpwd)
 	ft_putendl_fd(pwd, 1);
 	env_set_var_value2(shell, "OLDPWD", oldpwd);
 	env_set_var_value2(shell, "PWD", pwd);
-	g_status = 0;
+	shell->status = 0;
 }
 
 void	cd_stay(t_shell *shell, char *oldpwd)
@@ -107,5 +107,5 @@ void	cd_stay(t_shell *shell, char *oldpwd)
 		return (free(oldpwd), shell_error(shell, malloc_error, "cd_stay", 1));
 	env_set_var_value2(shell, "OLDPWD", oldpwd);
 	env_set_var_value2(shell, "PWD", pwd);
-	g_status = 0;
+	shell->status = 0;
 }

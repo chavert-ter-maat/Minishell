@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:07:07 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/22 13:00:39 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:29:34 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	handle_single_command(t_shell *shell, t_command *command)
 			execute_non_builtin(shell, shell->command_list->head->data);
 		if (waitpid(pid, &status, 0) == FAILED)
 			perror_exit_fork(shell, "waitpid");
-		shell->status = WEXITSTATUS(status);
+		if(WIFSIGNALED(status))
+			shell->status = g_status;
+		else
+			shell->status = WEXITSTATUS(status);
 	}
 	restore_fds(tmp_std_in, tmp_std_out);
 }

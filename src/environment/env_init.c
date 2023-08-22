@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:16:25 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:46:45 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:19:37 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	init_env(t_shell *shell, char **envp)
 	{
 		if (add_var_to_environment(shell, envp[index++]) != 0)
 		{
-			g_status = 1;
+			shell->status = 1;
 			clean_exit(shell);
 		}
 	}
