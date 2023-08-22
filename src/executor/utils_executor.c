@@ -12,8 +12,10 @@ void	wait_function(t_shell *shell, int count_childs, pid_t pid)
 		wait(NULL);
 		count_childs--;
 	}
-	if (WIFEXITED(status)) //hiervoor hebben we welwaitpid nodig
-		g_status = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+		shell->status = g_status;
+	else
+		shell->status = WEXITSTATUS(status);
 }
 
 void	change_fd_to_in(t_shell *shell, int fd)

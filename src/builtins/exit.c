@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:18:08 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:46:28 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:18:47 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	clean_exit(t_shell *shell)
 {
 	shell->environment = free_list(shell->environment);
 	free_shell(shell);
-	exit(g_status);
+	exit(shell->status);
 }
 
 static bool	numeric(char *str)
@@ -43,7 +43,7 @@ void	ft_exit(t_shell *shell, t_command *command)
 {
 	if (command->arg_list->count == 1)
 	{
-		g_status = 0;
+		shell->status = 0;
 		clean_exit(shell);
 	}
 	if (numeric(command->args[1]) == false)
@@ -58,9 +58,9 @@ void	ft_exit(t_shell *shell, t_command *command)
 	}
 	else
 	{
-		g_status = ft_atoi(command->args[1]) % 256;
-		if (g_status < 0)
-			g_status += 256;
+		shell->status = ft_atoi(command->args[1]) % 256;
+		if (shell->status < 0)
+			shell->status += 256;
 		clean_exit(shell);
 	}
 }

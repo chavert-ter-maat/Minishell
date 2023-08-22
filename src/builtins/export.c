@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:17:51 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:17:52 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:19:02 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ void	ft_export(t_shell *shell, t_command *command)
 	index = 1;
 	if (!command->args[1])
 	{
-		g_status = 0;
+		shell->status = 0;
 		return (print_export(shell));
 	}
 	while (command->args[index])
 	{
 		if (add_var_to_environment(shell, command->args[index++]) != 0)
 		{
-			g_status = 1;
+			shell->status = 1;
 			return ;
 		}
 	}
-	g_status = 0;
+	shell->status = 0;
 }

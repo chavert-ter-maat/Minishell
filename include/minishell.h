@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/22 12:13:31 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:31:14 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ t_node	*skip_token(t_shell *shell, t_node *node, t_command *new);
 char	**arg_list_to_array(t_command *command);
 
 // utils
-void	perror_return_promt(char *input_name);
+void	perror_return_promt(t_shell *shell, char *input_name);
 void	free_shell(t_shell *shell);
 void	shell_error(t_shell *shell, void (*func)(const char *),
 			const char *str1, int ret);
@@ -224,7 +224,7 @@ void	ft_cd(t_shell *shell, t_command *command);
 void	cd_stay(t_shell *shell, char *oldpwd);
 
 // builtins
-void	ft_echo(char **args, int fd);
+void	ft_echo(t_shell *shell, char **args, int fd);
 void	ft_env(t_shell *shell, t_command *command);
 void	ft_export(t_shell *shell, t_command *command);
 int		check_if_builtin(char *command);

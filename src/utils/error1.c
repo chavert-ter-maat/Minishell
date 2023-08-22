@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 14:49:16 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:49:38 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:24:00 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	shell_error(t_shell *shell, void (*func)(const char *),
 		const char *str1, int ret)
 {
-	g_status = ret;
+	shell->status = ret;
 	ft_putstr_fd("shellyeah: ", 2);
 	func(str1);
 	free_shell(shell);

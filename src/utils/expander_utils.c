@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 14:56:42 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:49:25 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:24:26 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*expand_var(t_shell *shell, char *name)
 		if (name[0] == '\0')
 			value = ft_strdup("$");
 		else
-			value = ft_itoa(g_status);
+			value = ft_itoa(shell->status);
 		if (!value)
 			shell_error(shell, malloc_error, "expand_var", 1);
 		return (value);
