@@ -25,7 +25,7 @@ int	execute_last_command(t_shell *shell, t_command *command, int read_end)
 	{
 		if (dup2(read_end, STDIN_FILENO) == FAILED)
 			perror_exit_fork(shell, "dup2");
-		handle_redirection(shell, command);
+		handle_redirection(shell, command, pid);
 		if (check_if_builtin(command->args[0]))
 			execute_builtin(shell, command);
 		else
@@ -44,7 +44,7 @@ void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_
 		perror_exit_fork(shell, "dup2");
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
 		perror_exit_fork(shell, "dup2");
-	handle_redirection(shell, command);
+	handle_redirection(shell, command, 0);
 	if (check_if_builtin(command->args[0]) == TRUE)
 		execute_builtin(shell, command);
 	else

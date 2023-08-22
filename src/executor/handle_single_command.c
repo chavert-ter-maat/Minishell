@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:07:07 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 16:33:37 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:00:39 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,21 @@ void	handle_single_command(t_shell *shell, t_command *command)
 
 	tmp_std_in = dup(STDIN_FILENO);
 	tmp_std_out = dup(STDOUT_FILENO);
-	pid = fork();
-	if (pid == FAILED)
-		perror_exit_fork(shell, "fork");
-	if (pid == SUCCESS)
+	handle_redirection(shell, command, 1);
+	if (command->arg_list->count == 0)
+		shell->status = 0;
+	else if (check_if_builtin(command->args[0]))
+		execute_builtin(shell, command);
+	else
 	{
-		handle_redirection(shell, command);
-		if (command->arg_list->count == 0)
-			_exit(0);
-		if (check_if_builtin(command->args[0]))
-			execute_builtin(shell, command);
-		else
+		pid = fork();
+		if (pid == FAILED)
+			perror_exit_fork(shell, "fork"); // if fork failed use return instead of _exit?
+		if (pid == SUCCESS)
 			execute_non_builtin(shell, shell->command_list->head->data);
+		if (waitpid(pid, &status, 0) == FAILED)
+			perror_exit_fork(shell, "waitpid");
+		shell->status = WEXITSTATUS(status);
 	}
-	if (waitpid(pid, &status, 0) == FAILED)
-		perror_exit_fork(shell, "waitpid");
-	if (WIFEXITED(status))
-		g_status = WEXITSTATUS(status);
 	restore_fds(tmp_std_in, tmp_std_out);
 }
