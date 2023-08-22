@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 17:02:32 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/22 12:13:31 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,26 +118,20 @@ typedef struct s_executor
 
 typedef struct s_var
 {
-	char			*name;
-	char			*value;
+	char	*name;
+	char	*value;
 }	t_var;
 
 typedef struct s_shell
 {
-	char				*cmd_line;
-	struct s_builtins	*builtins;
-	char				**envp;
-	t_list				*command_list;
-	t_list				*environment;
-	t_executor			*executor;
-	t_list				*token_list;
+	char		*cmd_line;
+	char		**envp;
+	int			status;
+	t_list		*command_list;
+	t_list		*environment;
+	t_executor	*executor;
+	t_list		*token_list;
 }	t_shell;
-
-typedef struct s_builtins ///GEBRUIKEN WE DEZE NOG?
-{
-	const char	*type_builtin;
-	void		(*function)(t_shell *shell, char **arguments);
-}	t_builtins;
 
 //globial variable
 extern int		g_status;
