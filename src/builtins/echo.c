@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:18:18 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:38:38 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/17 16:51:06 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,24 @@ static int	check_n_flag(char *str)
 void	ft_echo(char **args, int fd)
 {
 	int	n_flag;
-	int	index1;
+	int	index;
 
 	n_flag = 0;
-	index1 = 1;
-	while (check_n_flag(args[index1]) == FOUND)
+	index = 1;
+	while (check_n_flag(args[index]) == FOUND)
 	{
 		n_flag = FOUND;
-		index1++;
+		index++;
 	}
-	while (args[index1])
+	while (args[index])
 	{
-		if (args[index1])
-			ft_putstr_fd(args[index1], fd);
-		if (args[index1 + fd])
+		if (args[index])
+			ft_putstr_fd(args[index], fd);
+		if (args[index + fd])
 			ft_putchar_fd(' ', fd);
-		index1++;
+		index++;
 	}
 	if (n_flag == NOT_FOUND)
 		ft_putchar_fd('\n', fd);
-	_exit(0);
+	g_status = 0;
 }

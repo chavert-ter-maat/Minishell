@@ -37,7 +37,6 @@ SRC = 	SRC/main.c \
 		SRC/builtins/pwd.c \
 		SRC/builtins/exit.c \
 		SRC/builtins/handle_builtins.c \
-		SRC/builtins/cd_utils.c \
 		SRC/environment/env_init.c \
 		SRC/environment/env_utils.c \
 		SRC/environment/update_env.c \
