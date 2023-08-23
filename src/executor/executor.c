@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:13:49 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 11:26:03 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/23 16:24:25 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	executor(t_shell *shell)
 	signal(SIGINT, sigint_handler);
 	if (!shell->command_list || shell->command_list->count == 0)
 		return ;
-	printf("in executor\n");
 	if (shell->command_list->count == 1)
 		handle_single_command(shell, shell->command_list->head->data);
 	else

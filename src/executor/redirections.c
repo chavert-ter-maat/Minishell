@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:04:12 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 13:11:31 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/23 16:26:25 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 static void	redir_heredoc(t_shell *shell, t_command *command, t_redir *redir)
 {
-	char buff[5];
-	read(redir->heredoc_read_end, buff, 5);
-	printf("%s = read_end\n", buff);
 	if (command->arg_list->count > 0)
 		change_fd_to_in(shell, redir->heredoc_read_end);
+		
 }
 
 static void	redir_in(t_shell *shell, char *file, t_command *command, pid_t pid)

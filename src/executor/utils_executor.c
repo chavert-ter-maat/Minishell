@@ -24,7 +24,6 @@ void	change_fd_to_in(t_shell *shell, int fd)
 		perror_exit_fork(shell, "dup2");
 	if (close (fd) == FAILED)
 		perror_exit_fork(shell, "close");
-	ft_putstr_fd("change_fd_to_in\n", 1);
 }
 
 void	change_fd_to_out(t_shell *shell, int fd)

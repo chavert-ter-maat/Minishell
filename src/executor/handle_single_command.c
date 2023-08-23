@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:07:07 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 13:14:03 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/23 16:21:24 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,9 @@ void	handle_single_command(t_shell *shell, t_command *command)
 		if (pid == FAILED)
 			return (perror_update_status(shell, "fork"));
 		if (pid == SUCCESS)
-		{
-			printf("%i = pid \n", pid);
-			printf("komt ie in execute_non_builtin\n");
 			execute_non_builtin(shell, shell->command_list->head->data);
-		}
-		printf("before wait\n");
 		if (waitpid(pid, &status, 0) == FAILED)
 			perror_exit_fork(shell, "waitpid");
-		printf("after wait\n");
 		if(WIFSIGNALED(status))
 			shell->status = g_status;
 		else
