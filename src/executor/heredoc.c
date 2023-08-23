@@ -15,7 +15,7 @@
 static void	here_wait(t_shell *shell, pid_t pid, int status)
 {
 	if (waitpid(pid, &status, 0) == FAILED)
-		perror_exit_fork(shell, "waitpid");
+		return (perror_update_status(shell, "waitpid"));
 	if (WIFSIGNALED(status))
 		shell->status = g_status;
 	else

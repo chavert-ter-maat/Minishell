@@ -186,7 +186,7 @@ void	init_shell(t_shell *shell, char **envp);
 // executor
 void	executor(t_shell *shell);
 void	execute_non_builtin(t_shell *shell, t_command *command);
-void	handle_multiple_commands(t_shell *shell);
+void	handle_multiple_commands(t_shell *shell, t_node *command_node);
 void	handle_single_command(t_shell *shell, t_command *command);
 void	wait_function(t_shell *shell, int count_childs, pid_t pid);
 
@@ -196,13 +196,11 @@ void	handle_redirection(t_shell *shell, t_command *command, pid_t pid);
 int		check_redir_type(t_command *command);
 int		check_redir_type2(t_redir *redir);
 void	restore_fds(int tmp_std_in, int tmp_std_out);
-void	change_fd_to_in(t_shell *shell, int fd);
-void	change_fd_to_out(t_shell *shell, int fd);
-void	redir_heredoc(t_shell *shell, t_command *command, t_redir *redir);
-void	redir_in(t_shell *shell, char *file, t_command *command, pid_t pid);
-void	redir_out(t_shell *shell, char *file, t_command *command, pid_t pid);
-void	redir_append(t_shell *shell, char *file, 
-			t_command *command, pid_t pid);
+void	change_fd_to_in(t_shell *shell, int fd, pid_t pid);
+void	change_fd_to_out(t_shell *shell, int fd, pid_t pid);
+void	perror_exit_fork(t_shell *shell, char *input);
+void	error_no_command(t_shell *shell, char *argv);
+void	error_perm_denied(t_shell *shell, char *cmd);
 
 // environment
 void	init_env(t_shell *shell, char **varp);
