@@ -6,16 +6,16 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:04:12 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 16:26:25 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/23 17:53:50 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	redir_heredoc(t_shell *shell, t_command *command, t_redir *redir)
+static void	redir_heredoc(t_shell *shell, t_command *command, t_redir *redir, pid_t pid)
 {
 	if (command->arg_list->count > 0)
-		change_fd_to_in(shell, redir->heredoc_read_end);
+		change_fd_to_in(shell, redir->heredoc_read_end, pid);
 		
 }
 
@@ -32,7 +32,7 @@ static void	redir_in(t_shell *shell, char *file, t_command *command, pid_t pid)
 			return (perror_update_status(shell, "open"));
 	}
 	if (command->arg_list->count > 0)
-		change_fd_to_in(shell, fd);
+		change_fd_to_in(shell, fd, pid);
 }
 
 // redirects stfout to file
@@ -49,7 +49,7 @@ static void	redir_out(t_shell *shell, char *file, t_command *command, pid_t pid)
 			return (perror_update_status(shell, "open"));
 	}
 	if (command->arg_list->count > 0)
-		change_fd_to_out(shell, fd);
+		change_fd_to_out(shell, fd, pid);
 }
 
 static void	redir_append(t_shell *shell, char *file, t_command *command, pid_t pid)
@@ -65,7 +65,7 @@ static void	redir_append(t_shell *shell, char *file, t_command *command, pid_t p
 			return (perror_update_status(shell, "open"));
 	}
 	if (command->arg_list->count > 0)
-		change_fd_to_out(shell, fd);
+		change_fd_to_out(shell, fd, pid);
 }
 
 static void	handle_redir(t_shell *shell, t_command *command,
@@ -76,7 +76,7 @@ static void	handle_redir(t_shell *shell, t_command *command,
 	if (redir->type == OUT)
 		return (redir_out(shell, redir->file, command, pid));
 	if (redir->type == HEREDOC)
-		return (redir_heredoc(shell, command, redir));
+		return (redir_heredoc(shell, command, redir, pid));
 	if (redir->type == APPEND)
 		return (redir_append(shell, redir->file, command, pid));
 }

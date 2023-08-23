@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 10:33:57 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/23 17:47:14 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ void	print_token_list(t_shell *shell);
 // executor
 void	executor(t_shell *shell);
 void	execute_non_builtin(t_shell *shell, t_command *command);
-void	handle_multiple_commands(t_shell *shell);
+void	handle_multiple_commands(t_shell *shell, t_node *command_node);
 void	handle_single_command(t_shell *shell, t_command *command);
 void	wait_function(t_shell *shell, int count_childs, pid_t pid);
 void	print_status_waidpid(pid_t pid, int options);
@@ -202,8 +202,8 @@ void	handle_redirection(t_shell *shell, t_command *command, pid_t pid);
 int		check_redir_type(t_command *command);
 int		check_redir_type2(t_redir *redir);
 void	restore_fds(int tmp_std_in, int tmp_std_out);
-void	change_fd_to_in(t_shell *shell, int fd);
-void	change_fd_to_out(t_shell *shell, int fd);
+void	change_fd_to_in(t_shell *shell, int fd, pid_t pid);
+void	change_fd_to_out(t_shell *shell, int fd, pid_t pid);
 void	perror_exit_fork(t_shell *shell, char *input);
 void	error_no_command(t_shell *shell, char *argv);
 void	error_perm_denied(t_shell *shell, char *cmd);

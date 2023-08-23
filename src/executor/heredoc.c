@@ -16,7 +16,7 @@
 static void	here_wait(t_shell *shell, pid_t pid, int status)
 {
 	if (waitpid(pid, &status, 0) == FAILED)
-		perror_exit_fork(shell, "waitpid");
+		return (perror_update_status(shell, "waitpid"));
 	if (WIFSIGNALED(status))
 		shell->status = g_status;
 	else
@@ -71,7 +71,7 @@ void	create_heredoc(t_shell *shell, t_redir *redir)
 		return ;
 	}
 	if (pipe(pipe_fd) == FAILED)
-		perror_exit_fork(shell, "pipe"); //binnen de fork of er buiten?
+		return (perror_update_status(shell, "pipe")); //binnen de fork of er buiten?
 	pid = fork();
 	if (pid == FAILED)
 		return (perror_update_status(shell, "fork"));

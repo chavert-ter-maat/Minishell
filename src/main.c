@@ -94,7 +94,7 @@ int	main(int argc, char **argv, char **envp)
 	init_shell(&shell, envp);
 	while (1)
 	{
-		init_signals();
+		init_signals(PROMPT);
 		shell.cmd_line = readline("shellyeah$ ");
 		if (shell.cmd_line == NULL)
 			eof_handler(&shell);

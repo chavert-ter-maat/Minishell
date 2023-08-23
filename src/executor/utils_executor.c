@@ -6,7 +6,7 @@ void	wait_function(t_shell *shell, int count_childs, pid_t pid)
 	int status;	
 
 	if (waitpid(pid, &status, 0) == FAILED)
-		perror_exit_fork(shell, "waitpid");
+		return (perror_update_status(shell, "waitpid"));
 	while (count_childs > 0)
 	{
 		wait(NULL);
@@ -18,20 +18,40 @@ void	wait_function(t_shell *shell, int count_childs, pid_t pid)
 		shell->status = WEXITSTATUS(status);
 }
 
-void	change_fd_to_in(t_shell *shell, int fd)
+void	change_fd_to_in(t_shell *shell, int fd, pid_t pid)
 {
 	if (dup2(fd, STDIN_FILENO) == FAILED)
-		perror_exit_fork(shell, "dup2");
+	{
+		if (pid == 0)
+			perror_exit_fork(shell, "dup2");
+		else
+			return (perror_update_status(shell, "dup2"));
+	}
 	if (close (fd) == FAILED)
-		perror_exit_fork(shell, "close");
+	{
+		if (pid == 0)
+			perror_exit_fork(shell, "close");
+		else
+			return (perror_update_status(shell, "close"));
+	}
 }
 
-void	change_fd_to_out(t_shell *shell, int fd)
+void	change_fd_to_out(t_shell *shell, int fd, pid_t pid)
 {
 	if (dup2(fd, STDOUT_FILENO) == FAILED)
-		perror_exit_fork(shell, "dup2");
+	{
+		if (pid == 0)
+			perror_exit_fork(shell, "dup2");
+		else
+			return (perror_update_status(shell, "dup2"));
+	}
 	if (close(fd) == FAILED)
-		perror_exit_fork(shell, "close");
+	{
+		if (pid == 0)
+			perror_exit_fork(shell, "close");
+		else
+			return (perror_update_status(shell, "close"));
+	}
 }
 // prints the status of waidpid.
 // void	print_status_waidpid(pid_t pid, int options) 
