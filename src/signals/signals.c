@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 14:58:02 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 16:44:56 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/23 18:05:48 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	sig_handler_prompt(int signum)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_status = 1;		
+		g_status = 1;
 	}
 }
 
@@ -40,6 +40,7 @@ static void	sig_handler_executor(int signum)
 		g_status = 131;
 	}
 }
+
 static void	sig_handler_heredoc(int signum)
 {
 	if (signum == SIGINT)

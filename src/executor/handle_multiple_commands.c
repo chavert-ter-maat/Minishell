@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 16:37:28 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/23 16:44:49 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/23 18:12:01 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static int	handle_fds(t_shell *shell, int *pipe_fd, int read_end)
 	return (read_end);
 }
 
-static int	execute_last_command(t_shell *shell, t_command *command, int read_end)
+static int	execute_last_command(t_shell *shell, t_command *command,
+		int read_end)
 {
 	pid_t	pid;
 
@@ -56,8 +57,7 @@ static int	execute_last_command(t_shell *shell, t_command *command, int read_end
 	return (pid);
 }
 
-
-ststic void	execute_childs(t_shell *shell, t_command *command, 
+static void	execute_childs(t_shell *shell, t_command *command, 
 		int read_end, int *pipe_fd)
 {
 	if (dup2(read_end, STDIN_FILENO) == FAILED)
@@ -73,7 +73,8 @@ ststic void	execute_childs(t_shell *shell, t_command *command,
 		perror_exit_fork(shell, "close");
 }
 
-static void	create_forks(t_shell *shell, t_command *command, int read_end, int *fd)
+static void	create_forks(t_shell *shell, t_command *command, int read_end,
+		int *fd)
 {
 	pid_t	pid;
 

@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 16:49:47 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/23 16:56:17 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/23 18:06:23 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,6 @@ static void	here_wait(t_shell *shell, pid_t pid, int status)
 		shell->status = g_status;
 	else
 		shell->status = WEXITSTATUS(status);
-}
-
-static void	sigint_handler_heredoc(int signum)
-{
-	(void) signum;
-	_exit(1);
-}
-
-static void	init_signals_heredoc(void)
-{
-	signal(SIGINT, &sigint_handler_heredoc);
-	signal(SIGTSTP, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 }
 
 static void	write_to_pipe(t_shell *shell, char *delimiter, int pipe_fd)
@@ -75,7 +62,7 @@ void	create_heredoc(t_shell *shell, t_redir *redir)
 	{
 		if (close (pipe_fd[READ_END] == FAILED))
 			return (perror_update_status(shell, "close"));
-		init_signals_heredoc();
+		init_signals(HEREDOC);
 		write_to_pipe(shell, redir->file, pipe_fd[WRITE_END]);
 	}
 	if (close(pipe_fd[WRITE_END]) == FAILED)
