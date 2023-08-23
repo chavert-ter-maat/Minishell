@@ -1,6 +1,16 @@
-#include "../../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parser.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/23 17:19:19 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/08/23 17:21:17 by cter-maa      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
-typedef t_node	*(*t_add_cmd_func)(t_shell *, t_node *, t_command *);
+#include "../../include/minishell.h"
 
 static t_node	*fill_command(t_shell *shell, t_node *node, t_command *new)
 {
@@ -51,7 +61,7 @@ static void	add_cmd(t_shell *shell, t_node **node)
 
 void	make_command_table(t_shell *shell)
 {
-	t_node		*node;
+	t_node	*node;
 
 	if (!shell->token_list)
 		return ;
@@ -63,6 +73,7 @@ void	make_command_table(t_shell *shell)
 	while (shell->command_list && node)
 		add_cmd(shell, &node);
 }
+
 void	parser(t_shell *shell)
 {
 	lexer(shell);

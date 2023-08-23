@@ -6,11 +6,21 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:07:07 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 16:21:24 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/23 17:17:05 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static void	wait_function_single_command(t_shell *shell, int status, int pid)
+{
+	if (waitpid(pid, &status, 0) == FAILED)
+		perror_exit_fork(shell, "waitpid");
+	if (WIFSIGNALED(status))
+		shell->status = g_status;
+	else
+		shell->status = WEXITSTATUS(status);
+}
 
 void	restore_fds(int tmp_std_in, int tmp_std_out)
 {
@@ -28,6 +38,7 @@ void	handle_single_command(t_shell *shell, t_command *command)
 	int		tmp_std_in;
 	int		tmp_std_out;
 
+	status = 0;
 	tmp_std_in = dup(STDIN_FILENO);
 	tmp_std_out = dup(STDOUT_FILENO);
 	handle_redirection(shell, command, 1);
@@ -42,12 +53,7 @@ void	handle_single_command(t_shell *shell, t_command *command)
 			return (perror_update_status(shell, "fork"));
 		if (pid == SUCCESS)
 			execute_non_builtin(shell, shell->command_list->head->data);
-		if (waitpid(pid, &status, 0) == FAILED)
-			perror_exit_fork(shell, "waitpid");
-		if(WIFSIGNALED(status))
-			shell->status = g_status;
-		else
-			shell->status = WEXITSTATUS(status);
+		wait_function_single_command(shell, status, pid);
 	}
 	restore_fds(tmp_std_in, tmp_std_out);
 }

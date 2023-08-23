@@ -1,45 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   redirections_utils.c                               :+:    :+:            */
+/*   redirections_check.c                               :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/08/16 15:03:57 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 17:18:41 by cter-maa      ########   odam.nl         */
+/*   Created: 2023/08/23 17:00:45 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/08/23 17:18:13 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	check_redir_type2(t_redir *redir)
+static void	handle_redir(t_shell *shell, t_command *command,
+		t_redir *redir, pid_t pid)
 {
-	if (!redir)
-		return (NOT_FOUND);
 	if (redir->type == IN)
-		return (IN);
+		return (redir_in(shell, redir->file, command, pid));
 	if (redir->type == OUT)
-		return (OUT);
+		return (redir_out(shell, redir->file, command, pid));
 	if (redir->type == HEREDOC)
-		return (HEREDOC);
+		return (redir_heredoc(shell, command, redir));
 	if (redir->type == APPEND)
-		return (APPEND);
-	return (NOT_FOUND);
+		return (redir_append(shell, redir->file, command, pid));
 }
 
-int	check_redir_type(t_command *command)
+void	handle_redirection(t_shell *shell, t_command *command, pid_t pid)
 {
 	t_node	*node;
-	int		redir_type;
 
-	redir_type = NOT_FOUND;
-	if (!command || !command->redir_list)
-		return (redir_type);
 	node = command->redir_list->head;
 	while (node)
 	{
-		redir_type = check_redir_type2(node->data);
+		handle_redir(shell, command, node->data, pid);
 		node = node->next;
 	}
-	return (redir_type);
 }
