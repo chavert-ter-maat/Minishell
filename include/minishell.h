@@ -6,15 +6,15 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 17:47:14 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/23 17:08:37 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <unistd.h>
 # include <stdio.h>
+# include <unistd.h>
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -23,7 +23,6 @@
 # include <sys/wait.h>
 # include <sys/ioctl.h>
 # include <signal.h>
-# include <string.h>
 # include <termios.h>
 # include <errno.h>
 # include <sys/errno.h>
@@ -184,17 +183,12 @@ void	dir_unset(const char *str1);
 void	export_error(const char *str1);
 void	init_shell(t_shell *shell, char **envp);
 
-//test functions
-void	print_command_table(t_shell *shell);
-void	print_token_list(t_shell *shell);
-
 // executor
 void	executor(t_shell *shell);
 void	execute_non_builtin(t_shell *shell, t_command *command);
 void	handle_multiple_commands(t_shell *shell, t_node *command_node);
 void	handle_single_command(t_shell *shell, t_command *command);
 void	wait_function(t_shell *shell, int count_childs, pid_t pid);
-void	print_status_waidpid(pid_t pid, int options);
 
 // redirections
 void	create_heredoc(t_shell *shell, t_redir *redir);
@@ -209,7 +203,6 @@ void	error_no_command(t_shell *shell, char *argv);
 void	error_perm_denied(t_shell *shell, char *cmd);
 
 // environment
-t_var	*create_new_node(char *new_var_variable);
 void	init_env(t_shell *shell, char **varp);
 void	print_environment(t_list *environment);
 void	env_set_var_value1(t_shell *shell, char *name, char *value);
@@ -219,12 +212,16 @@ char	*env_get_var_value(t_shell *shell, char *name);
 int		add_var_to_environment(t_shell *shell, char *var);
 void	update_env(t_shell *shell);
 
+// error handling
+void	perror_exit_fork(t_shell *shell, char *input);
+void	error_no_command(t_shell *shell, char *argv);
+void	error_perm_denied(t_shell *shell, char *cmd);
+
 // builtin cd
 void	cd_path(t_shell *shell, char *path, char *oldpwd);
 void	cd_home(t_shell *shell, char *oldpwd);
 void	cd_dir_up(t_shell *shell, char *oldpwd);
 void	cd_oldpwd(t_shell *shell, char *oldpwd);
-void	cd_error(char *argument);
 void	ft_cd(t_shell *shell, t_command *command);
 void	cd_stay(t_shell *shell, char *oldpwd);
 

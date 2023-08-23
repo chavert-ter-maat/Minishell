@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:04:12 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 17:53:50 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/23 17:20:55 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ static void	redir_heredoc(t_shell *shell, t_command *command, t_redir *redir, pi
 {
 	if (command->arg_list->count > 0)
 		change_fd_to_in(shell, redir->heredoc_read_end, pid);
-		
 }
 
-static void	redir_in(t_shell *shell, char *file, t_command *command, pid_t pid)
+void	redir_in(t_shell *shell, char *file, t_command *command, pid_t pid)
 {
 	int	fd;
 
@@ -35,8 +34,7 @@ static void	redir_in(t_shell *shell, char *file, t_command *command, pid_t pid)
 		change_fd_to_in(shell, fd, pid);
 }
 
-// redirects stfout to file
-static void	redir_out(t_shell *shell, char *file, t_command *command, pid_t pid)
+void	redir_out(t_shell *shell, char *file, t_command *command, pid_t pid)
 {
 	int	fd;
 
@@ -52,7 +50,8 @@ static void	redir_out(t_shell *shell, char *file, t_command *command, pid_t pid)
 		change_fd_to_out(shell, fd, pid);
 }
 
-static void	redir_append(t_shell *shell, char *file, t_command *command, pid_t pid)
+void	redir_append(t_shell *shell, char *file, 
+			t_command *command, pid_t pid)
 {
 	int	fd;
 

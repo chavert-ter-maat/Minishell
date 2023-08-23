@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   handle_multiple_commands.c                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/08/23 16:37:28 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/08/23 16:44:49 by cter-maa      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-// former read end becomes read end.
 static int	handle_fds(t_shell *shell, int *pipe_fd, int read_end)
 {
 	if (close(pipe_fd[WRITE_END]) == FAILED)
@@ -42,12 +53,12 @@ static int	execute_last_command(t_shell *shell, t_command *command, int read_end
 	}
 	if (close(read_end) == FAILED)
 		perror_exit_fork(shell, "close");
-	return(pid);
+	return (pid);
 }
 
-// runs the command, the output of the command is written to the write end
-// of the pipe.
-static void	execute_childs(t_shell *shell, t_command *command, int read_end, int *pipe_fd)
+
+ststic void	execute_childs(t_shell *shell, t_command *command, 
+		int read_end, int *pipe_fd)
 {
 	if (dup2(read_end, STDIN_FILENO) == FAILED)
 		perror_exit_fork(shell, "dup2");
@@ -75,8 +86,6 @@ static void	create_forks(t_shell *shell, t_command *command, int read_end, int *
 		execute_childs(shell, command, read_end, fd);
 }
 
-// creates forks for the amount of commands and pipes the output of a
-// command to the input of the next command.
 void	handle_multiple_commands(t_shell *shell, t_node *command_node)
 {
 	int		pipe_fd[2];

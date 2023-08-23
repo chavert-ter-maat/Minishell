@@ -63,6 +63,7 @@ SRC = 	SRC/main.c \
 		SRC/executor/handle_single_command.c \
 		SRC/executor/heredoc.c \
 		SRC/executor/execute_non_builtin.c \
+		SRC/executor/redirections_check.c \
 		SRC/executor/redirections.c \
 		SRC/executor/redirections_utils.c \
 		SRC/executor/utils_executor.c \

@@ -6,14 +6,12 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:16:04 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 13:31:30 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/23 16:44:07 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Checks if the executable can be found
-// and if the there is permission to run the executable
 static char	*get_path_executable(char **split_path, char **cmd)
 {
 	size_t	index;
@@ -38,9 +36,6 @@ static char	*get_path_executable(char **split_path, char **cmd)
 	return (tmp_path);
 }
 
-// get_path() looks for the path in the environment
-// where command executables can found
-// !!unset PATH works, but doesnt give the same error message as bash for 100% 
 static char	**get_path_environment(t_shell *shell)
 {
 	char	*path;
@@ -56,10 +51,6 @@ static char	**get_path_environment(t_shell *shell)
 	return (split_path);
 }
 
-/* execute_non_builtin() finds path in environment,
-splits it and looks then looks if executable is present
-in the minishell directory, if not it looks for
-a path either in the environment or in the input. */
 void	execute_non_builtin(t_shell *shell, t_command *command)
 {
 	char	*command_path;
@@ -75,8 +66,8 @@ void	execute_non_builtin(t_shell *shell, t_command *command)
 	{
 		command_path = get_path_executable(split_path, command->args);
 		if (execve(command_path, command->args, shell->envp) == FAILED)
-			error_no_command(shell, command->args[0]); //command not found
+			error_no_command(shell, command->args[0]);
 	}
 	else if (execve(command->args[0], command->args, shell->envp) == FAILED)
-		error_perm_denied(shell, command->args[0]); //no such file or directory OF permission denied
+		error_perm_denied(shell, command->args[0]);
 }

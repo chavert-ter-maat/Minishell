@@ -3,11 +3,10 @@
 /*                                                        ::::::::            */
 /*   heredoc.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
-
+/*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/08/16 15:06:17 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 15:40:30 by cter-maa      ########   odam.nl         */
+/*   Created: 2023/08/23 16:49:47 by cter-maa      #+#    #+#                 */
+/*   Updated: 2023/08/23 16:56:17 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +35,10 @@ static void	init_signals_heredoc(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-static void	write_to_pipe(t_shell *shell, char *delimiter, int	pipe_fd)
+static void	write_to_pipe(t_shell *shell, char *delimiter, int pipe_fd)
 {
 	char	*line;
-	(void) shell;
+
 	line = readline("> ");
 	while (line && !(ft_strncmp(line, delimiter,
 				ft_strlen(delimiter) + 1) == 0))
@@ -58,26 +57,24 @@ static void	write_to_pipe(t_shell *shell, char *delimiter, int	pipe_fd)
 
 void	create_heredoc(t_shell *shell, t_redir *redir)
 {
-	int status;
-	int	pipe_fd[2];
+	int		status;
+	int		pipe_fd[2];
 	pid_t	pid;
-	
+
 	status = 0;
 	if (redir->heredoc_read_end != 0)
-		close(redir->heredoc_read_end);
+		close (redir->heredoc_read_end);
 	if (!redir->file || redir->file[0] == '\0')
-	{
-		shell_error(shell, syntax_error, "\\n", 139);
-		return ;
-	}
+		return (perror_update_status(shell, "close"));
 	if (pipe(pipe_fd) == FAILED)
-		return (perror_update_status(shell, "pipe")); //binnen de fork of er buiten?
+		return (perror_update_status(shell, "pipe"));
 	pid = fork();
 	if (pid == FAILED)
 		return (perror_update_status(shell, "fork"));
 	if (pid == SUCCESS)
 	{
-		close(pipe_fd[READ_END]);
+		if (close (pipe_fd[READ_END] == FAILED))
+			return (perror_update_status(shell, "close"));
 		init_signals_heredoc();
 		write_to_pipe(shell, redir->file, pipe_fd[WRITE_END]);
 	}
