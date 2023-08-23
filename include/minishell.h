@@ -64,6 +64,12 @@ typedef enum e_redir_type
 	APPEND,
 }	t_redir_type;
 
+typedef enum e_signal_modes 
+{
+	PROMPT = 1,
+	EXECUTOR,
+}	t_signal_modes;
+
 // functions
 
 typedef void	(*t_func_ptr_free)(void *);
@@ -156,7 +162,6 @@ void	list_add_expand_var(t_shell *shell, t_list *list, char *var_name);
 //parser
 void	handle_heredoc(t_shell *shell);
 void	parser(t_shell *shell);
-void	make_command_table(t_shell *shell);
 void	skip_space(t_node **node);
 t_node	*add_cmd_arg(t_shell *shell, t_node *node, t_command *new);
 t_node	*add_cmd_redir(t_shell *shell, t_node *node, t_command *new_cmd);
@@ -235,7 +240,7 @@ void	ft_exit(t_shell *shell, t_command *command);
 void	clean_exit(t_shell *shell);
 
 //signals
-void	init_signals(void);
+void	init_signals(int mode);
 void	eof_handler(t_shell *shell);
 void	sigint_handler(int signum);
 void	sigquit_handler(int signum);
