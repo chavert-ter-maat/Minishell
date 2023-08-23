@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/22 13:31:14 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/23 16:48:37 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ typedef enum e_redir_type
 	HEREDOC,
 	APPEND,
 }	t_redir_type;
+
+typedef enum e_signal_modes 
+{
+	PROMPT = 1,
+	EXECUTOR,
+}	t_signal_modes;
 
 // functions
 
@@ -156,7 +162,6 @@ void	list_add_expand_var(t_shell *shell, t_list *list, char *var_name);
 //parser
 void	handle_heredoc(t_shell *shell);
 void	parser(t_shell *shell);
-void	make_command_table(t_shell *shell);
 void	skip_space(t_node **node);
 t_node	*add_cmd_arg(t_shell *shell, t_node *node, t_command *new);
 t_node	*add_cmd_redir(t_shell *shell, t_node *node, t_command *new_cmd);
@@ -235,7 +240,7 @@ void	ft_exit(t_shell *shell, t_command *command);
 void	clean_exit(t_shell *shell);
 
 //signals
-void	init_signals(void);
+void	init_signals(int mode);
 void	eof_handler(t_shell *shell);
 void	sigint_handler(int signum);
 void	sigquit_handler(int signum);
