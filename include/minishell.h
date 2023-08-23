@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 17:08:37 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/23 18:15:28 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,11 @@ void	change_fd_to_out(t_shell *shell, int fd, pid_t pid);
 void	perror_exit_fork(t_shell *shell, char *input);
 void	error_no_command(t_shell *shell, char *argv);
 void	error_perm_denied(t_shell *shell, char *cmd);
+void	redir_in(t_shell *shell, char *file, t_command *command, pid_t pid);
+void	redir_heredoc(t_shell *shell, t_command *command,
+			t_redir *redir, pid_t pid);
+void	redir_out(t_shell *shell, char *file, t_command *command, pid_t pid);
+void	redir_append(t_shell *shell, char *file, t_command *command, pid_t pid);
 
 // environment
 void	init_env(t_shell *shell, char **varp);

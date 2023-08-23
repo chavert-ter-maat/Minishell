@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 17:00:45 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/23 17:18:13 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/23 18:14:35 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	handle_redir(t_shell *shell, t_command *command,
 	if (redir->type == OUT)
 		return (redir_out(shell, redir->file, command, pid));
 	if (redir->type == HEREDOC)
-		return (redir_heredoc(shell, command, redir));
+		return (redir_heredoc(shell, command, redir, pid));
 	if (redir->type == APPEND)
 		return (redir_append(shell, redir->file, command, pid));
 }
