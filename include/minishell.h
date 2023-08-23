@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 16:48:37 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/23 10:33:57 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ t_node	*skip_token(t_shell *shell, t_node *node, t_command *new);
 char	**arg_list_to_array(t_command *command);
 
 // utils
-void	perror_return_promt(t_shell *shell, char *input_name);
+void	perror_update_status(t_shell *shell, char *input_name);
 void	free_shell(t_shell *shell);
 void	shell_error(t_shell *shell, void (*func)(const char *),
 			const char *str1, int ret);

@@ -29,7 +29,7 @@ int	execute_last_command(t_shell *shell, t_command *command, int read_end)
 		if (check_if_builtin(command->args[0]))
 			execute_builtin(shell, command);
 		else
-		execute_non_builtin(shell, command);
+			execute_non_builtin(shell, command);
 	}
 	if (close(read_end) == FAILED)
 		perror_exit_fork(shell, "close");
