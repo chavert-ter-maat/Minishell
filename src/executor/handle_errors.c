@@ -6,13 +6,13 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:13:39 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/22 13:20:50 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/23 10:33:57 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	perror_return_promt(t_shell *shell, char *input_name)
+void	perror_update_status(t_shell *shell, char *input_name)
 {
 	perror(input_name);
 	shell->status = errno;

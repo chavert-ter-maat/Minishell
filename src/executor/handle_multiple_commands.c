@@ -87,6 +87,5 @@ void	handle_multiple_commands(t_shell *shell)
 		current = current->next;
 	}
 	pid = execute_last_command(shell, current->data, read_end);
-	if (pid == 0)
 	wait_function(shell, count_childs, pid);
 }
