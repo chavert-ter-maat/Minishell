@@ -49,7 +49,8 @@ SRC = 	SRC/main.c \
 		SRC/parser/parser_utils.c \
 		SRC/utils/error1.c \
 		SRC/utils/error2.c \
-		SRC/utils/expander_utils.c \
+		SRC/utils/expander_utils1.c \
+		SRC/utils/expander_utils2.c \
 		SRC/utils/free.c \
 		SRC/utils/init_shell.c \
 		SRC/generic_list/generic_list.c \

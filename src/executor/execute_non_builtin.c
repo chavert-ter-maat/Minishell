@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:16:04 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/24 13:03:34 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 17:54:12 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	**get_path_environment(t_shell *shell)
 	if (!split_path)
 	{
 		shell_error(shell, malloc_error, "get_path_environment", 1);
-		_exit(1);		
+		_exit(1);
 	}
 	return (split_path);
 }
@@ -73,7 +73,8 @@ void	execute_non_builtin(t_shell *shell, t_command *command)
 		command_path = get_path_executable(split_path, command->args);
 		if (!command_path)
 		{
-			shell_error(shell, print_error, "failed to get path to executable", 1);
+			shell_error(shell, print_error,
+				"failed to get path to executable", 1);
 			_exit(1);
 		}
 		if (execve(command_path, command->args, shell->envp) == FAILED)

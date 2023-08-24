@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/17 13:39:24 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 17:21:32 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/24 17:12:58 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	skip_space(t_node **node)
 	}
 }
 
-char	**arg_list_to_array(t_command *command)
+char	**arg_list_to_array(t_shell *shell, t_command *command)
 {
 	char	**args;
 	char	**arg;
@@ -37,6 +37,8 @@ char	**arg_list_to_array(t_command *command)
 	int		i;
 
 	args = ft_calloc(command->arg_list->count + 1, sizeof(char *));
+	if (!args)
+		return (shell_error(shell, malloc_error, "arg_list_to_array", 1), NULL);
 	i = 0;
 	if (args && command->arg_list)
 	{

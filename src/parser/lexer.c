@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 13:30:09 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 13:39:44 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 17:59:56 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ int	get_token_type(char c)
 	return (i);
 }
 
-/*
-Get_token_info gets the data for the string in the token structure.
-It uses a jumptable.
-*/
-
 static void	get_token_info(t_shell *shell, t_token *token,
 		char *cmd_line, size_t *i)
 {
@@ -61,22 +56,23 @@ static void	get_token_info(t_shell *shell, t_token *token,
 		shell_error(shell, malloc_error, "get_token_info()", 1);
 }
 
-/*
-The lexer function takes the command line input
-and returns a linked list of tokens.
-*/
-
 void	lexer(t_shell *shell)
 {
 	size_t	i;
-	t_token	new;
+	t_token	*new;
 
 	shell->token_list = list_create(shell, sizeof(t_token),
 			free_token, comp_token);
 	i = 0;
-	while (shell->cmd_line[i])
+	while (shell->token_list && shell->cmd_line[i])
 	{
-		get_token_info(shell, &new, shell->cmd_line, &i);
-		list_add_new_node(shell, shell->token_list, &new);
+		new = ft_calloc(1, sizeof(t_token));
+		if (!new)
+			return (shell_error(shell, malloc_error, "lexer", 1));
+		get_token_info(shell, new, shell->cmd_line, &i);
+		if (list_add_new_node(shell, shell->token_list, new))
+			free(new);
+		else
+			free_token(new);
 	}
 }

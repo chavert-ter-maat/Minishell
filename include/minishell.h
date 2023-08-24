@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/24 13:38:19 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 17:11:38 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ void	list_cat_words(t_shell *shell, t_list *list);
 void	list_add_new_word(t_shell *shell, t_list *list, char *str, size_t *i);
 void	list_add_token_copy(t_shell *shell, t_list *list, t_token *token);
 void	list_add_expand_var(t_shell *shell, t_list *list, char *var_name);
+void	list_add_exp_quote(t_shell *shell, t_list *list, char *str);
 
 //parser
 void	handle_heredoc(t_shell *shell);
@@ -165,7 +166,7 @@ void	skip_space(t_node **node);
 t_node	*add_cmd_arg(t_shell *shell, t_node *node, t_command *new);
 t_node	*add_cmd_redir(t_shell *shell, t_node *node, t_command *new_cmd);
 t_node	*skip_token(t_shell *shell, t_node *node, t_command *new);
-char	**arg_list_to_array(t_command *command);
+char	**arg_list_to_array(t_shell *shell, t_command *command);
 
 // utils
 void	perror_update_status(t_shell *shell, char *input_name);
@@ -190,19 +191,19 @@ void	wait_function(t_shell *shell, int count_childs, pid_t pid);
 
 // redirections
 void	create_heredoc(t_shell *shell, t_redir *redir);
-void	handle_redirection(t_shell *shell, t_command *command, pid_t pid);
+int		handle_redirection(t_shell *shell, t_command *command, pid_t pid);
 int		check_redir_type(t_command *command);
 int		check_redir_type2(t_redir *redir);
-void	change_fd_to_in(t_shell *shell, int fd, pid_t pid);
-void	change_fd_to_out(t_shell *shell, int fd, pid_t pid);
+int		change_fd_to_in(t_shell *shell, int fd, pid_t pid);
+int		change_fd_to_out(t_shell *shell, int fd, pid_t pid);
 void	perror_exit_fork(t_shell *shell, char *input);
 void	error_no_command(t_shell *shell, char *argv);
 void	error_perm_denied(t_shell *shell, char *cmd);
-void	redir_in(t_shell *shell, char *file, t_command *command, pid_t pid);
-void	redir_heredoc(t_shell *shell, t_command *command,
+int		redir_in(t_shell *shell, char *file, t_command *command, pid_t pid);
+int		redir_heredoc(t_shell *shell, t_command *command,
 			t_redir *redir, pid_t pid);
-void	redir_out(t_shell *shell, char *file, t_command *command, pid_t pid);
-void	redir_append(t_shell *shell, char *file, t_command *command, pid_t pid);
+int		redir_out(t_shell *shell, char *file, t_command *command, pid_t pid);
+int		redir_append(t_shell *shell, char *file, t_command *command, pid_t pid);
 
 // environment
 void	init_env(t_shell *shell, char **varp);
@@ -247,7 +248,7 @@ void	sigquit_handler(int signum);
 //generic list
 t_list	*list_create(t_shell *shell, size_t data_size,
 			t_func_ptr_free ft_free, t_func_ptr_comp ft_comp);
-void	list_add_new_node(t_shell *shell, t_list *list, void *data);
+int		list_add_new_node(t_shell *shell, t_list *list, void *data);
 void	list_remove_head(t_list *list);
 void	list_remove_node(t_list *list, void *data);
 int		list_get_index(t_list *list, void *data);

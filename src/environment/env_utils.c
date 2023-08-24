@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:16:23 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/24 12:31:25 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 16:53:16 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,17 @@ char	*env_get_var_value(t_shell *shell, char *name)
 
 static void	env_add_new_var(t_shell *shell, char *name, char *value)
 {
-	t_var	new_var;
+	t_var	*new_var;
 
-	new_var.name = name;
-	new_var.value = value;
-	list_add_new_node(shell, shell->environment, &new_var);
+	new_var = ft_calloc(1, sizeof(t_var));
+	if (!new_var)
+		return (shell_error(shell, malloc_error, "env_add_new_var", 1));
+	new_var->name = name;
+	new_var->value = value;
+	if (list_add_new_node(shell, shell->environment, new_var))
+		free(new_var);
+	else
+		free_var(new_var);
 }
 
 void	env_set_var_value1(t_shell *shell, char *name, char *value)

@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 16:37:50 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/23 17:19:07 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/24 14:21:57 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,38 +29,40 @@ void	wait_function(t_shell *shell, int count_childs, pid_t pid)
 		shell->status = WEXITSTATUS(status);
 }
 
-void	change_fd_to_in(t_shell *shell, int fd, pid_t pid)
+int	change_fd_to_in(t_shell *shell, int fd, pid_t pid)
 {
 	if (dup2(fd, STDIN_FILENO) == FAILED)
 	{
 		if (pid == 0)
 			perror_exit_fork(shell, "dup2");
 		else
-			return (perror_update_status(shell, "dup2"));
+			return (perror_update_status(shell, "dup2"), 0);
 	}
 	if (close (fd) == FAILED)
 	{
 		if (pid == 0)
 			perror_exit_fork(shell, "close");
 		else
-			return (perror_update_status(shell, "close"));
+			return (perror_update_status(shell, "close"), 0);
 	}
+	return (1);
 }
 
-void	change_fd_to_out(t_shell *shell, int fd, pid_t pid)
+int	change_fd_to_out(t_shell *shell, int fd, pid_t pid)
 {
 	if (dup2(fd, STDOUT_FILENO) == FAILED)
 	{
 		if (pid == 0)
 			perror_exit_fork(shell, "dup2");
 		else
-			return (perror_update_status(shell, "dup2"));
+			return (perror_update_status(shell, "dup2"), 0);
 	}
 	if (close(fd) == FAILED)
 	{
 		if (pid == 0)
 			perror_exit_fork(shell, "close");
 		else
-			return (perror_update_status(shell, "close"));
+			return (perror_update_status(shell, "close"), 0);
 	}
+	return (1);
 }
