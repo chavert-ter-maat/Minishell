@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 16:49:47 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/23 16:56:17 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/24 13:16:03 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	create_heredoc(t_shell *shell, t_redir *redir)
 	pid_t	pid;
 
 	status = 0;
-	if (redir->heredoc_read_end != 0)
-		close (redir->heredoc_read_end);
+	if (redir->heredoc_read_end)
+		close(redir->heredoc_read_end);
 	if (!redir->file || redir->file[0] == '\0')
 		return (perror_update_status(shell, "close"));
 	if (pipe(pipe_fd) == FAILED)
@@ -73,8 +73,6 @@ void	create_heredoc(t_shell *shell, t_redir *redir)
 		return (perror_update_status(shell, "fork"));
 	if (pid == SUCCESS)
 	{
-		if (close (pipe_fd[READ_END] == FAILED))
-			return (perror_update_status(shell, "close"));
 		init_signals_heredoc();
 		write_to_pipe(shell, redir->file, pipe_fd[WRITE_END]);
 	}

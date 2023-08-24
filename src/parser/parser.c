@@ -6,11 +6,13 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 17:19:19 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/23 17:21:17 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/24 12:55:03 by cter-maa      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+typedef t_node  *(*t_add_cmd_func)(t_shell *, t_node *, t_command *);
 
 static t_node	*fill_command(t_shell *shell, t_node *node, t_command *new)
 {
