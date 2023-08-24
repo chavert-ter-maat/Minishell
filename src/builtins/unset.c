@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:17:18 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/22 13:19:30 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 12:17:55 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_unset(t_shell *shell, t_command *command)
 
 	if (!command->args[1])
 	{
-		shell_error(shell, too_little_args, "unset", 1);
+		shell_error(shell, print_error, "unset: insufficient arguments", 1);
 		return ;
 	}
 	index = 1;

@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:16:25 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/22 13:19:37 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 12:28:31 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	set_env(t_shell *shell)
 		var->value = ft_itoa(shlvl);
 		if (!var->value)
 		{
-			shell_error(shell, malloc_error, "list_get_node", 1);
+			shell_error(shell, print_error, "failed to initialize shell", 1);
 			clean_exit(shell);
 		}
 	}
@@ -116,7 +116,7 @@ void	init_env(t_shell *shell, char **envp)
 	{
 		if (add_var_to_environment(shell, envp[index++]) != 0)
 		{
-			shell->status = 1;
+			shell_error(shell, print_error, "failed to initialize shell", 1);
 			clean_exit(shell);
 		}
 	}

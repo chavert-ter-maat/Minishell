@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 16:36:26 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/23 16:36:43 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/24 11:55:34 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ void	cd_path(t_shell *shell, char *path, char *oldpwd)
 	pwd = NULL;
 	if (chdir(path) == FAILED)
 	{
-		perror(NULL);
+		perror("chdir");
 		shell->status = 1;
 		return (free(oldpwd));
 	}
 	pwd = getcwd(pwd, 0);
 	if (!pwd)
 	{
-		perror(NULL);
+		perror("getcwd");
 		shell->status = 1;
 		return ;
 	}

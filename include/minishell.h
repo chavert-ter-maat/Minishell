@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 18:15:28 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 13:38:19 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,8 +176,6 @@ void	print_error(const char *str1);
 void	malloc_error(const char *str1);
 void	syntax_error(const char *str1);
 void	dir_error(const char *str1);
-void	too_little_args(const char *str1);
-void	too_many_args(const char *str1);
 void	exit_numeric_arg(const char *str1);
 void	dir_unset(const char *str1);
 void	export_error(const char *str1);
@@ -195,7 +193,6 @@ void	create_heredoc(t_shell *shell, t_redir *redir);
 void	handle_redirection(t_shell *shell, t_command *command, pid_t pid);
 int		check_redir_type(t_command *command);
 int		check_redir_type2(t_redir *redir);
-void	restore_fds(int tmp_std_in, int tmp_std_out);
 void	change_fd_to_in(t_shell *shell, int fd, pid_t pid);
 void	change_fd_to_out(t_shell *shell, int fd, pid_t pid);
 void	perror_exit_fork(t_shell *shell, char *input);

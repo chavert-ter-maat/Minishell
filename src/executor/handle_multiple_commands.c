@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 16:37:28 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/23 18:12:01 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 13:35:27 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	execute_last_command(t_shell *shell, t_command *command,
 			execute_non_builtin(shell, command);
 	}
 	if (close(read_end) == FAILED)
-		perror_exit_fork(shell, "close");
+		perror_update_status(shell, "close");
 	return (pid);
 }
 
@@ -73,18 +73,18 @@ static void	execute_childs(t_shell *shell, t_command *command,
 		perror_exit_fork(shell, "close");
 }
 
-static void	create_forks(t_shell *shell, t_command *command, int read_end,
+static int_fast16_t	create_forks(t_shell *shell, t_command *command, int read_end,
 		int *fd)
 {
 	pid_t	pid;
-
 	if (pipe(fd) == FAILED)
-		return (perror_update_status(shell, "pipe"));
+		return (perror_update_status(shell, "pipe"), 1);
 	pid = fork();
 	if (pid == FAILED)
-		return (perror_update_status(shell, "fork"));
+		return (perror_update_status(shell, "fork"), 1);
 	if (pid == SUCCESS)
 		execute_childs(shell, command, read_end, fd);
+	return (0);
 }
 
 void	handle_multiple_commands(t_shell *shell, t_node *command_node)
@@ -99,7 +99,8 @@ void	handle_multiple_commands(t_shell *shell, t_node *command_node)
 	while (command_node->next)
 	{
 		count_childs++;
-		create_forks(shell, command_node->data, read_end, pipe_fd);
+		if (create_forks(shell, command_node->data, read_end, pipe_fd))
+			return ;
 		read_end = handle_fds(shell, pipe_fd, read_end);
 		if (read_end == -1)
 			return ;

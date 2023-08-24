@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:18:08 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/22 13:18:47 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 12:18:31 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static bool	numeric(char *str)
 
 void	ft_exit(t_shell *shell, t_command *command)
 {
+	ft_putendl_fd("exit", 0);
 	if (command->arg_list->count == 1)
 	{
 		shell->status = 0;
@@ -53,7 +54,7 @@ void	ft_exit(t_shell *shell, t_command *command)
 	}
 	if (command->arg_list->count > 2)
 	{
-		shell_error(shell, too_many_args, "exit", 1);
+		shell_error(shell, print_error, "exit: too many arguments", 1);
 		return ;
 	}
 	else

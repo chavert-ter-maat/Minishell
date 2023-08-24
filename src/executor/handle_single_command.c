@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:07:07 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 17:17:05 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/24 13:45:36 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,16 @@ static void	wait_function_single_command(t_shell *shell, int status, int pid)
 		shell->status = WEXITSTATUS(status);
 }
 
-void	restore_fds(int tmp_std_in, int tmp_std_out)
+static void	restore_fds(t_shell *shell, int tmp_std_in, int tmp_std_out)
 {
-	dup2(tmp_std_in, STDIN_FILENO);
-	dup2(tmp_std_out, STDOUT_FILENO);
-	close(tmp_std_in);
-	close(tmp_std_out);
+	if (dup2(tmp_std_in, STDIN_FILENO) == FAILED)
+		perror_update_status(shell, "dup2");
+	if (dup2(tmp_std_out, STDOUT_FILENO) == FAILED)
+		perror_update_status(shell, "dup2");
+	if (close(tmp_std_in) == FAILED)
+		perror_update_status(shell, "close");
+	if (close(tmp_std_out) == FAILED)
+		perror_update_status(shell, "close");
 }
 
 //execute command without pipe
@@ -55,5 +59,5 @@ void	handle_single_command(t_shell *shell, t_command *command)
 			execute_non_builtin(shell, shell->command_list->head->data);
 		wait_function_single_command(shell, status, pid);
 	}
-	restore_fds(tmp_std_in, tmp_std_out);
+	restore_fds(shell, tmp_std_in, tmp_std_out);
 }

@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 14:57:36 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 14:57:40 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 12:20:16 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,6 @@ void	dir_unset(const char *str1)
 	ft_putstr_fd("cd: ", 2);
 	ft_putstr_fd(str1, 2);
 	ft_putendl_fd(" not set", 2);
-}
-
-void	too_little_args(const char *str1)
-{
-	ft_putstr_fd(str1, 2);
-	ft_putendl_fd(": insufficient arguments", 2);
-}
-
-void	too_many_args(const char *str1)
-{
-	ft_putstr_fd(str1, 2);
-	ft_putendl_fd(": too many arguments", 2);
 }
 
 void	exit_numeric_arg(const char *str1)
