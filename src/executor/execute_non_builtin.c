@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:16:04 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/23 16:44:07 by cter-maa      ########   odam.nl         */
+/*   Updated: 2023/08/24 13:03:34 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@ static char	*get_path_executable(char **split_path, char **cmd)
 	if (split_path == NULL)
 		return (cmd[0]);
 	cmd_slash = ft_strjoin("/", cmd[0]);
+	if (!cmd_slash)
+		return (NULL);
 	index = 0;
 	while (split_path[index])
 	{
 		tmp_path = ft_strjoin(split_path[index], cmd_slash);
+		if (!tmp_path)
+			return (free(cmd_slash), NULL);
 		if (access(tmp_path, F_OK | X_OK) == SUCCESS)
 			break ;
 		free(tmp_path);
@@ -46,8 +50,10 @@ static char	**get_path_environment(t_shell *shell)
 		return (NULL);
 	split_path = ft_split(path, ':');
 	if (!split_path)
-		return (shell_error(shell, malloc_error,
-				"get_path_environment", 1), NULL);
+	{
+		shell_error(shell, malloc_error, "get_path_environment", 1);
+		_exit(1);		
+	}
 	return (split_path);
 }
 
@@ -65,6 +71,11 @@ void	execute_non_builtin(t_shell *shell, t_command *command)
 			&& ft_strncmp(command->args[0], "./", 2)))
 	{
 		command_path = get_path_executable(split_path, command->args);
+		if (!command_path)
+		{
+			shell_error(shell, print_error, "failed to get path to executable", 1);
+			_exit(1);
+		}
 		if (execve(command_path, command->args, shell->envp) == FAILED)
 			error_no_command(shell, command->args[0]);
 	}

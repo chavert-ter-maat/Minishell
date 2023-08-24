@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:20:16 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:38:13 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 11:50:16 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	ft_cd(t_shell *shell, t_command *command)
 	if (!pwd)
 	{
 		if (errno == ENOENT)
-			perror_exit_fork(shell, "malloc");
+			return (perror_update_status(shell, "malloc"));
 		else
-			perror_exit_fork(shell, "getcwd");
+			return (perror_update_status(shell, "getcwd"));
 	}
 	check_argument(shell, command->args[1], pwd);
 }

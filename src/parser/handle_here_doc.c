@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/17 13:37:09 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:58:44 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 11:13:01 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	handle_heredoc(t_shell *shell)
 	t_command	*command;
 	t_node		*redir_node;
 
+	if (!shell->command_list)
+		return ;
 	command_node = shell->command_list->head;
 	while (command_node)
 	{
