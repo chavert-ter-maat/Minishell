@@ -6,24 +6,18 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 17:07:24 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/24 12:16:19 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 17:59:39 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include <signal.h>
 
-void	f(void)
-{
-	system("leaks minishell");
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 
 	(void) argv;
-	atexit(f);
 	if (argc > 1)
 		exit(1);
 	init_shell(&shell, envp);

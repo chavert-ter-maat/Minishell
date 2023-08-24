@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 16:37:28 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/24 13:35:27 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 17:53:54 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ static int	execute_last_command(t_shell *shell, t_command *command,
 			perror_exit_fork(shell, "dup2");
 		handle_redirection(shell, command, pid);
 		if (check_if_builtin(command->args[0]))
+		{
 			execute_builtin(shell, command);
+			_exit(0);
+		}
 		else
 			execute_non_builtin(shell, command);
 	}
@@ -57,26 +60,30 @@ static int	execute_last_command(t_shell *shell, t_command *command,
 	return (pid);
 }
 
-static void	execute_childs(t_shell *shell, t_command *command, 
+static void	execute_childs(t_shell *shell, t_command *command,
 		int read_end, int *pipe_fd)
 {
 	if (dup2(read_end, STDIN_FILENO) == FAILED)
 		perror_exit_fork(shell, "dup2");
+	handle_redirection(shell, command, 0);
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
 		perror_exit_fork(shell, "dup2");
-	handle_redirection(shell, command, 0);
 	if (check_if_builtin(command->args[0]) == TRUE)
+	{
 		execute_builtin(shell, command);
+		_exit(0);
+	}
 	else
 		execute_non_builtin(shell, command);
 	if (close(pipe_fd[WRITE_END]) == FAILED)
 		perror_exit_fork(shell, "close");
 }
 
-static int_fast16_t	create_forks(t_shell *shell, t_command *command, int read_end,
+static int	create_forks(t_shell *shell, t_command *command, int read_end,
 		int *fd)
 {
 	pid_t	pid;
+
 	if (pipe(fd) == FAILED)
 		return (perror_update_status(shell, "pipe"), 1);
 	pid = fork();

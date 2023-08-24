@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 14:59:53 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:47:33 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 17:47:33 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,15 @@ static void	list_add_node(t_list *list, t_node *node)
 	list->count++;
 }
 
-void	list_add_new_node(t_shell *shell, t_list *list, void *data)
+int	list_add_new_node(t_shell *shell, t_list *list, void *data)
 {
 	t_node	*new;
 
 	if (!shell || !list || !data)
-		return ;
+		return (0);
 	new = list_new_node(shell, list, data);
+	if (!new)
+		return (0);
 	list_add_node(list, new);
+	return (1);
 }

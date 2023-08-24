@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:16:25 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/24 12:28:31 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 15:35:14 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,12 @@ void	init_env(t_shell *shell, char **envp)
 
 	shell->environment = list_create(shell, sizeof(t_var), free_var, comp_var);
 	if (!shell->environment)
+	{
+		shell_error(shell, print_error, "failed to initialize shell", 1);
 		exit(EXIT_FAILURE);
+	}
 	index = 0;
-	while (envp[index])
+	while (shell->environment && envp[index])
 	{
 		if (add_var_to_environment(shell, envp[index++]) != 0)
 		{
@@ -120,5 +123,7 @@ void	init_env(t_shell *shell, char **envp)
 			clean_exit(shell);
 		}
 	}
+	if (!shell->environment)
+		clean_exit(shell);
 	set_env(shell);
 }

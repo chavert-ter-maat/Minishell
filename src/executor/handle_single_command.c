@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:07:07 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/24 13:45:36 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 17:58:06 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void	restore_fds(t_shell *shell, int tmp_std_in, int tmp_std_out)
 		perror_update_status(shell, "close");
 }
 
-//execute command without pipe
 void	handle_single_command(t_shell *shell, t_command *command)
 {
 	pid_t	pid;
@@ -45,7 +44,8 @@ void	handle_single_command(t_shell *shell, t_command *command)
 	status = 0;
 	tmp_std_in = dup(STDIN_FILENO);
 	tmp_std_out = dup(STDOUT_FILENO);
-	handle_redirection(shell, command, 1);
+	if (!handle_redirection(shell, command, 1))
+		return ;
 	if (command->arg_list->count == 0)
 		shell->status = 0;
 	else if (check_if_builtin(command->args[0]))

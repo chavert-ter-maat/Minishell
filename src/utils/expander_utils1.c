@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   expander_utils.c                                   :+:    :+:            */
+/*   expander_utils1.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 14:56:42 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/22 13:24:26 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 17:59:22 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-/* if two censecutive tokens are of type WORD
-it concatenates the words in the first token string,
-removes the second token from the list and frees that token
-remaining the order of the rest of the list */
 
 void	list_cat_words(t_shell *shell, t_list *list)
 {
@@ -71,37 +66,57 @@ char	*expand_var(t_shell *shell, char *name)
 
 void	list_add_new_word(t_shell *shell, t_list *list, char *str, size_t *i)
 {
-	t_token	new;
+	t_token	*new;
 	size_t	save_i;
 
-	new.type = WORD;
+	new = ft_calloc(1, sizeof(t_token));
+	if (!new)
+		return (shell_error(shell, malloc_error, "list_add_expand_var", 1));
+	new->type = WORD;
 	save_i = *i;
 	while (str[*i] && str[*i] != '$')
 		(*i)++;
-	new.str = ft_strndup(&(str[save_i]), *i - save_i);
-	if (!new.str)
-		return (shell_error(shell, malloc_error, "list_add_new_word()", 1));
-	list_add_new_node(shell, list, &new);
+	new->str = ft_strndup(&(str[save_i]), *i - save_i);
+	if (!new->str)
+		return (free(new), shell_error(shell, malloc_error,
+				"list_add_new_word()", 1));
+	if (list_add_new_node(shell, list, new))
+		free(new);
+	else
+		free_token(new);
 }
 
 void	list_add_expand_var(t_shell *shell, t_list *list, char *var_name)
 {
-	t_token	new;
+	t_token	*new;
 
-	new.str = expand_var(shell, var_name);
-	new.type = WORD;
-	if (!new.str)
-		return ;
-	list_add_new_node(shell, list, &new);
+	(void) var_name;
+	new = ft_calloc(1, sizeof(t_token));
+	if (!new)
+		return (shell_error(shell, malloc_error, "list_add_expand_var", 1));
+	new->str = expand_var(shell, var_name);
+	new->type = WORD;
+	if (!new->str)
+		return (free(new));
+	if (list_add_new_node(shell, list, new))
+		free(new);
+	else
+		free_token(new);
 }
 
 void	list_add_token_copy(t_shell *shell, t_list *list, t_token *token)
 {
-	t_token	new;
+	t_token	*new;
 
-	new.type = token->type;
-	new.str = ft_strdup(token->str);
-	if (!new.str)
-		return (shell_error(shell, malloc_error, "expander()", 1));
-	list_add_new_node(shell, list, &new);
+	new = ft_calloc(1, sizeof(t_token));
+	if (!new)
+		return (shell_error(shell, malloc_error, "list_add_token_copy", 1));
+	new->type = token->type;
+	new->str = ft_strdup(token->str);
+	if (!new->str)
+		return (free(new), shell_error(shell, malloc_error, "expander()", 1));
+	if (list_add_new_node(shell, list, new))
+		free(new);
+	else
+		free_token(new);
 }

@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 17:19:19 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/24 11:07:24 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 17:43:47 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static t_node	*fill_command(t_shell *shell, t_node *node, t_command *new)
 static void	add_cmd(t_shell *shell, t_node **node)
 {
 	t_token		*token;
-	t_command	new;
+	t_command	*new;
 
 	skip_space(node);
 	if (!*node)
@@ -53,19 +53,25 @@ static void	add_cmd(t_shell *shell, t_node **node)
 	token = (t_token *)(*node)->data;
 	if (token->type == PIPE)
 		return (shell_error(shell, syntax_error, token->str, 258));
-	new.arg_list = list_create(shell, sizeof(char *), free_arg, comp_arg);
-	new.redir_list = list_create(shell, sizeof(t_redir),
+	new = ft_calloc(1, sizeof(t_command));
+	if (!new)
+		return (shell_error(shell, malloc_error, "add_cmd", 1));
+	new->arg_list = list_create(shell, sizeof(char *), free_arg, comp_arg);
+	new->redir_list = list_create(shell, sizeof(t_redir),
 			free_redir, comp_redir);
-	*node = fill_command(shell, *node, &new);
-	new.args = arg_list_to_array(&new);
-	list_add_new_node(shell, shell->command_list, &new);
+	*node = fill_command(shell, *node, new);
+	new->args = arg_list_to_array(shell, new);
+	if (!new->args || !list_add_new_node(shell, shell->command_list, new))
+		free_command(new);
+	else
+		free(new);
 }
 
 void	make_command_table(t_shell *shell)
 {
 	t_node	*node;
 
-	if (!shell->token_list)
+	if (!(shell->token_list))
 		return ;
 	shell->command_list = list_create(shell, sizeof(t_command),
 			free_command, comp_command);

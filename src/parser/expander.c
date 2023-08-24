@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 13:32:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/16 15:47:44 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/24 17:58:34 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,9 @@ static char	*list_get_expand_var(t_shell *shell, char *str, size_t *i)
 	*i += save_i++;
 	var_name = ft_strndup(&(str[save_i]), *i - save_i);
 	if (!var_name)
-	{
 		shell_error(shell, malloc_error, "exp_str()", 1);
-		free(str);
-	}
 	return (var_name);
 }
-
-/* splits the string in WORDS and VAR tokens,
-expands the VARs to their value and adds them
-to the list */
 
 static void	expand_str(t_shell *shell, t_list *list, char *str)
 {
@@ -63,7 +56,6 @@ static void	expand_quote(t_shell *shell, t_list *list, t_token *token)
 	size_t	len;
 	char	*str;
 	char	quote;
-	t_token	new;
 
 	if (token->type == QUOTE)
 		quote = '\'';
@@ -77,11 +69,7 @@ static void	expand_quote(t_shell *shell, t_list *list, t_token *token)
 	if (!str)
 		return (shell_error(shell, malloc_error, "expand_quote()", 1));
 	if (token->type == QUOTE)
-	{
-		new.str = str;
-		new.type = WORD;
-		list_add_new_node(shell, list, &new);
-	}
+		list_add_exp_quote(shell, list, str);
 	else if (token->type == DQUOTE)
 		expand_str(shell, list, str);
 }
@@ -119,6 +107,8 @@ void	expander(t_shell *shell)
 	list = list_create(shell, sizeof(t_token), free_token, comp_token);
 	list = expand_token_list(shell, list);
 	list_cat_words(shell, list);
+	if (!shell->token_list)
+		list = free_list(list);
 	free_list(shell->token_list);
 	shell->token_list = list;
 }
