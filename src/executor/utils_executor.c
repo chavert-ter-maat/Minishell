@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 16:37:50 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/24 14:21:57 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/25 11:50:12 by chavertterm   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	wait_function(t_shell *shell, int count_childs, pid_t pid)
 
 	if (waitpid(pid, &status, 0) == FAILED)
 		return (perror_update_status(shell, "waitpid"));
-	while (count_childs > 0)
+	while (count_childs >= 0)
 	{
 		wait(NULL);
 		count_childs--;

@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 16:37:28 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/24 17:53:54 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/25 12:02:43 by chavertterm   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ static int	execute_last_command(t_shell *shell, t_command *command,
 static void	execute_childs(t_shell *shell, t_command *command,
 		int read_end, int *pipe_fd)
 {
+	if (close(pipe_fd[READ_END]) == FAILED)
+		perror_exit_fork(shell, "close");
 	if (dup2(read_end, STDIN_FILENO) == FAILED)
 		perror_exit_fork(shell, "dup2");
-	handle_redirection(shell, command, 0);
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == FAILED)
 		perror_exit_fork(shell, "dup2");
+	handle_redirection(shell, command, 0);
 	if (check_if_builtin(command->args[0]) == TRUE)
 	{
 		execute_builtin(shell, command);
@@ -75,8 +77,8 @@ static void	execute_childs(t_shell *shell, t_command *command,
 	}
 	else
 		execute_non_builtin(shell, command);
-	if (close(pipe_fd[WRITE_END]) == FAILED)
-		perror_exit_fork(shell, "close");
+	// if (close(pipe_fd[WRITE_END]) == FAILED) //checken op leaky pipes
+	// 	perror_exit_fork(shell, "close");
 }
 
 static int	create_forks(t_shell *shell, t_command *command, int read_end,
@@ -102,7 +104,7 @@ void	handle_multiple_commands(t_shell *shell, t_node *command_node)
 	int		count_childs;
 
 	read_end = 0;
-	count_childs = 1;
+	count_childs = 0;
 	while (command_node->next)
 	{
 		count_childs++;
