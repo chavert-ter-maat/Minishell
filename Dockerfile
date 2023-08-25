@@ -37,7 +37,7 @@ RUN apt-get -y update \
 #
 #	to run valgrind:
 #	valgrind --leak-check=full --show-leak-kinds=all --suppressions=[SUPPRESSIONFILE.supp] ./[EXE]
-#	--trace-fds=yes
+#	--track-fds=yes
 #   --trace-childs=yes
 #	leaks shown at exit (or ctrl-D)
 #
