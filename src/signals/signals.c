@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 14:58:02 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/25 14:59:28 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/28 14:30:13 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static void	sig_handler_prompt(int signum)
 {
 	if (signum == SIGINT)
 	{
+		rl_replace_line("", 0);
 		ft_putchar_fd('\n', 1);
 		rl_on_new_line();
-		rl_replace_line("", 0);
 		rl_redisplay();
 		g_status = 1;
 	}

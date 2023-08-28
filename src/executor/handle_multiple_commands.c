@@ -6,7 +6,7 @@
 /*   By: cter-maa <cter-maa@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 16:37:28 by cter-maa      #+#    #+#                 */
-/*   Updated: 2023/08/25 12:02:43 by chavertterm   ########   odam.nl         */
+/*   Updated: 2023/08/28 11:27:32 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ static void	execute_childs(t_shell *shell, t_command *command,
 	}
 	else
 		execute_non_builtin(shell, command);
-	// if (close(pipe_fd[WRITE_END]) == FAILED) //checken op leaky pipes
-	// 	perror_exit_fork(shell, "close");
+	if (close(pipe_fd[WRITE_END]) == FAILED)
+		perror_exit_fork(shell, "close");
 }
 
 static int	create_forks(t_shell *shell, t_command *command, int read_end,

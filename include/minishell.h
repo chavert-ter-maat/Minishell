@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/16 15:40:00 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/24 17:11:38 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/28 11:37:59 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,8 +242,6 @@ void	clean_exit(t_shell *shell);
 //signals
 void	init_signals(int mode);
 void	eof_handler(t_shell *shell);
-void	sigint_handler(int signum);
-void	sigquit_handler(int signum);
 
 //generic list
 t_list	*list_create(t_shell *shell, size_t data_size,
