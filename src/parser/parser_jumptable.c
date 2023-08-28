@@ -6,7 +6,7 @@
 /*   By: fhuisman <fhuisman@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 13:50:31 by fhuisman      #+#    #+#                 */
-/*   Updated: 2023/08/24 17:07:51 by fhuisman      ########   odam.nl         */
+/*   Updated: 2023/08/28 14:18:11 by fhuisman      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ t_node	*add_cmd_redir(t_shell *shell, t_node *node, t_command *new_cmd)
 				"newline", 1), NULL);
 	token = (t_token *) node->data;
 	if (token->type != WORD)
-		return (shell_error(shell, syntax_error, token->str, 1), NULL);
+		return (free(new_redir), shell_error(shell, syntax_error,
+				token->str, 1), NULL);
 	new_redir->file = ft_strdup(token->str);
 	if (!(new_redir->file))
 		return (free_redir(new_redir), shell_error(shell, malloc_error,

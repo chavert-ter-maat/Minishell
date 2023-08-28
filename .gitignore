@@ -2,3 +2,5 @@
 .DS_Store
 *.o
 *.d
+Dockerfile
+readline.supp
